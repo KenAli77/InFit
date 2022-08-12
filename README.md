@@ -1,6 +1,6 @@
 ![](https://github.com/KenAli77/InFit/blob/master/inFit_banner_1.png)
 
-# inFit App
+# 👷🚧 inFit App 🚧👷
 
 An app to log your workouts in the gym and keep track of your progress.
 Built entirely in Kotlin using following latest architecture components.
