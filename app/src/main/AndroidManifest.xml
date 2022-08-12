@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="ken.projects.infit">
+
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_infit_logo_full"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_infit_logo_full_round"
+        android:supportsRtl="true"
+        android:name=".InfitApp"
+        android:theme="@style/Theme.InFit">
+        <service android:name=".data.service.WorkoutTimerService"
+            android:enabled="true"/>
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.InFit">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

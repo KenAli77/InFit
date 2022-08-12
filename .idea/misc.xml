@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/kened/AndroidStudioProjects/InFit/app/src/main/res/drawable/ic_delete.xml" value="0.124" />
+        <entry key="..\:/Users/kened/AndroidStudioProjects/InFit/app/src/main/res/drawable/ic_dot.xml" value="0.124" />
+        <entry key="..\:/Users/kened/AndroidStudioProjects/InFit/app/src/main/res/drawable/ic_level.xml" value="0.1675" />
+        <entry key="..\:/Users/kened/AndroidStudioProjects/InFit/app/src/main/res/drawable/ic_list.xml" value="0.1015" />
+        <entry key="..\:/Users/kened/AndroidStudioProjects/InFit/app/src/main/res/drawable/ic_remove.xml" value="0.124" />
+        <entry key="..\:/Users/kened/AndroidStudioProjects/InFit/app/src/main/res/drawable/ic_skill_level_advanced_icon.xml" value="0.1225" />
+        <entry key="..\:/Users/kened/AndroidStudioProjects/InFit/app/src/main/res/drawable/ic_skill_level_basic_icon.xml" value="0.1225" />
+        <entry key="..\:/Users/kened/AndroidStudioProjects/InFit/app/src/main/res/drawable/ic_skill_level_intermediate_icon.xml" value="0.1225" />
+        <entry key="..\:/Users/kened/AndroidStudioProjects/InFit/app/src/main/res/drawable/ic_timer.xml" value="0.124" />
+        <entry key="..\:/Users/kened/AndroidStudioProjects/InFit/app/src/main/res/layout/youtube_player.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/kened/AndroidStudioProjects/InFit/app/src/main/res/mipmap-anydpi-v26/ic_infit_logo.xml" value="0.1145" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
