@@ -24,4 +24,3 @@ InFit is built following MVVM design pattern guidelines and using the following 
 
 
 
-And of course, a lot of heart :)
