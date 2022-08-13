@@ -1,5 +1,6 @@
+![](https://github.com/KenAli77/InFit/blob/master/inFit_banner_1.png)
 
-# inFit App
+# 👷🚧 inFit App 🚧👷
 
 An app to log your workouts in the gym and keep track of your progress.
 Built entirely in Kotlin using following latest architecture components.
@@ -22,5 +23,4 @@ InFit is built following MVVM design pattern guidelines and using the following 
 - [Cloud Firestore](https://firebase.google.com/docs/firestore) - Cloud Firestore is a cloud-hosted, NoSQL database that your Apple, Android, and web apps can access directly via native SDKs.
 - [Firebase Authentication](https://firebase.google.com/products/auth) -  Firebase Authentication provides backend services and SDKs to authenticate users to your app.
 
-
-
+![](https://github.com/KenAli77/InFit/blob/master/inFit_banner_2.png)
