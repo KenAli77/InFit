@@ -46,6 +46,7 @@ class UserViewModel @Inject constructor(
                 signUpState = signUpState.copy(
                     loading = true,
                     error = null,
+
                     success = false
                 )
 
