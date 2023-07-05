@@ -1,4 +1,4 @@
-package ken.projects.infit.data.repository
+package ken.projects.infit.feature_auth.data.repositories
 
 import android.app.Application
 import android.util.Log
@@ -7,15 +7,15 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import ken.projects.infit.data.models.User
-import ken.projects.infit.domain.UserRepository
+import ken.projects.infit.feature_auth.domain.repostitories.AuthRepository
 import ken.projects.infit.util.Resource
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-class UserRepositoryImpl @Inject constructor(
+class AuthRepositoryImpl @Inject constructor(
     private val app: Application,
     private val auth: FirebaseAuth
-) : UserRepository {
+) : AuthRepository {
 
     private val fireStoreUserCollection = Firebase.firestore.collection("users")
 

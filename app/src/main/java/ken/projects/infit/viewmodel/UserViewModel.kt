@@ -1,7 +1,6 @@
 package ken.projects.infit.viewmodel
 
 import android.app.Application
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -10,7 +9,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ken.projects.infit.data.models.User
 import ken.projects.infit.data.models.states.AuthState
-import ken.projects.infit.domain.UserRepository
+import ken.projects.infit.feature_auth.domain.repostitories.AuthRepository
 import ken.projects.infit.util.Resource
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -19,7 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class UserViewModel @Inject constructor(
     private val app: Application,
-    private val repository: UserRepository
+    private val repository: AuthRepository
 ) : ViewModel() {
 
     var signUpState by mutableStateOf(AuthState())

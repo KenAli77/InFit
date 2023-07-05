@@ -1,9 +1,9 @@
-package ken.projects.infit.domain
+package ken.projects.infit.feature_auth.domain.repostitories
 
 import com.google.firebase.auth.AuthResult
 import ken.projects.infit.util.Resource
 
-interface UserRepository {
+interface AuthRepository {
 
     suspend fun createNewUser(
         userName: String,
