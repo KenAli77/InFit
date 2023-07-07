@@ -1,14 +1,9 @@
 package ken.projects.infit.ui.composables.home
 
 import android.annotation.SuppressLint
-import android.util.Log
-import android.widget.Toast
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Delete
@@ -24,7 +19,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -36,9 +30,8 @@ import ken.projects.infit.R
 import ken.projects.infit.ui.composables.*
 import ken.projects.infit.ui.navigation.Screens
 import ken.projects.infit.ui.theme.*
-import ken.projects.infit.viewmodel.UserViewModel
+import ken.projects.infit.features.feature_auth.presentation.login.viewmodel.LoginViewModel
 import ken.projects.infit.viewmodel.WorkoutViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 
@@ -47,13 +40,13 @@ import java.time.LocalDateTime
 @Composable
 fun HomeScreen(
     navController: NavHostController = rememberNavController(),
-    userViewModel: UserViewModel,
+    loginViewModel: LoginViewModel,
     workoutViewModel: WorkoutViewModel = viewModel(),
     scaffoldState: ScaffoldState
 ) = with(workoutViewModel) {
 
 
-    getUser(userViewModel.signInState.uid.toString())
+    getUser(loginViewModel.signInState.uid.toString())
     getWorkoutPlan()
     getExercises()
 
@@ -186,7 +179,7 @@ fun HomeScreen(
                         ) {
 
                             RegularButton(text = stringResource(R.string.confirm), onClick = {
-                                userViewModel.logOut()
+                                loginViewModel.logOut()
                                 openLogoutDialog = false
                                 navController.navigateUp()
 
@@ -222,7 +215,7 @@ fun HomeScreen(
         }
 
 
-        userViewModel.signInState.uid?.let {
+        loginViewModel.signInState.uid?.let {
 
             state.workoutPlan?.let { workoutPlan ->
 

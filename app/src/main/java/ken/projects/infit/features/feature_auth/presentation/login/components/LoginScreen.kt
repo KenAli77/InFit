@@ -1,10 +1,8 @@
-package ken.projects.infit.ui.composables.login
+package ken.projects.infit.features.feature_auth.presentation.login.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
-import androidx.compose.material.TextFieldDefaults.textFieldColors
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Email
 import androidx.compose.material.icons.rounded.Lock
@@ -13,19 +11,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import ken.projects.infit.R
+import ken.projects.infit.features.feature_auth.presentation.login.events.button_click.LoginButtonEvent
 import ken.projects.infit.ui.composables.RegularButton
 import ken.projects.infit.ui.composables.home.Heading
 import ken.projects.infit.ui.navigation.MAIN_ROUTE
@@ -41,9 +35,6 @@ fun LoginScreen(
 ) {
 
     val state = loginViewModel.signInState
-
-    var eMail by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
 
     LaunchedEffect(key1 = state.error) {
         state.error?.let {
@@ -104,7 +95,7 @@ fun LoginScreen(
                         .fillMaxWidth()
                 )
                 InputField(
-                    eMail,
+                    loginViewModel.eMail,
                     onValueChange = { eMail = it },
                     placeholder = stringResource(R.string.email),
                     icon = Icons.Rounded.Email,
@@ -113,7 +104,7 @@ fun LoginScreen(
                 Spacer(modifier = Modifier.height(10.dp))
 
                 InputField(
-                    input = password,
+                    input = loginViewModel.password,
                     onValueChange = { password = it },
                     placeholder = stringResource(R.string.password),
                     icon = Icons.Rounded.Lock,
@@ -132,15 +123,7 @@ fun LoginScreen(
                         .align(CenterHorizontally),
                     stringResource(R.string.login).lowercase(),
                     onClick = {
-                        loginViewModel.signInUser(
-                            userEmail = eMail,
-                            userPassword = password
-                        )
-
-                        eMail = ""
-                        password = ""
-
-
+                        loginViewModel.onButtonClickEvent(LoginButtonEvent.SignInButtonClick)
                     }
                 )
 
@@ -152,42 +135,6 @@ fun LoginScreen(
 }
 
 
-@Composable
-fun InputField(
-    input: String = "",
-    onValueChange: (String) -> Unit,
-    placeholder: String = "email",
-    icon: ImageVector = Icons.Rounded.Email,
-    type: KeyboardType = KeyboardType.Email,
-    password: Boolean = false
-) {
-
-    TextField(
-        value = input,
-        onValueChange = onValueChange,
-        leadingIcon = {
-            Icon(
-                imageVector = icon,
-                contentDescription = null,
-
-                )
-
-        },
-        colors = textFieldColors(backgroundColor = white, textColor = Color.Black),
-        label = { Text(text = placeholder) },
-        modifier = Modifier.fillMaxWidth(),
-        maxLines = 1,
-        keyboardOptions = KeyboardOptions(
-            keyboardType = type,
-            imeAction = ImeAction.Done
-        ),
-        visualTransformation = if (password) PasswordVisualTransformation() else {
-            VisualTransformation.None
-        }
-
-    )
-
-}
 
 @Composable
 fun SignUpRow(modifier: Modifier = Modifier) {

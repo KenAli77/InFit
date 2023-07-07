@@ -8,23 +8,23 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import ken.projects.infit.ui.composables.login.LoginScreen
 import ken.projects.infit.ui.composables.signup.SignUpScreen
-import ken.projects.infit.viewmodel.UserViewModel
+import ken.projects.infit.features.feature_auth.presentation.login.viewmodel.LoginViewModel
 
 fun NavGraphBuilder.loginNavGraph(
     navController: NavHostController,
     bottomBarState: MutableState<Boolean>,
-    userViewModel: UserViewModel,
+    loginViewModel: LoginViewModel,
     scaffoldState: ScaffoldState
 ) {
 
     navigation(startDestination = Screens.Login.route, route = LOGIN_ROUTE)
     {
         composable(route = Screens.Login.route){
-            LoginScreen(navController,userViewModel,scaffoldState)
+            LoginScreen(navController,loginViewModel,scaffoldState)
             bottomBarState.value = false
         }
         composable(route = Screens.Signup.route){
-            SignUpScreen(navController,userViewModel,scaffoldState)
+            SignUpScreen(navController,loginViewModel,scaffoldState)
             bottomBarState.value = false
         }
     }

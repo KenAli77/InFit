@@ -34,13 +34,13 @@ import ken.projects.infit.ui.composables.workout.WorkoutPlanSetUpScreen
 import ken.projects.infit.ui.composables.workout.WorkoutScreen
 import ken.projects.infit.ui.theme.holoGreen
 import ken.projects.infit.ui.theme.veryDarkBlue
-import ken.projects.infit.viewmodel.UserViewModel
+import ken.projects.infit.features.feature_auth.presentation.login.viewmodel.LoginViewModel
 import ken.projects.infit.viewmodel.WorkoutViewModel
 
 fun NavGraphBuilder.mainNavGraph(
     navController: NavHostController,
     bottomBarState: MutableState<Boolean>,
-    userViewModel: UserViewModel,
+    loginViewModel: LoginViewModel,
     workoutViewModel: WorkoutViewModel,
     scaffoldState: ScaffoldState
 ) {
@@ -51,7 +51,7 @@ fun NavGraphBuilder.mainNavGraph(
         composable(
             route = Screens.Home.route
         ) {
-            HomeScreen(navController, userViewModel, workoutViewModel, scaffoldState)
+            HomeScreen(navController, loginViewModel, workoutViewModel, scaffoldState)
             bottomBarState.value = true
         }
 

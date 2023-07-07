@@ -25,16 +25,16 @@ import ken.projects.infit.ui.composables.login.InputField
 import ken.projects.infit.ui.navigation.Screens
 import ken.projects.infit.ui.theme.holoGreen
 import ken.projects.infit.ui.theme.veryDarkBlue
-import ken.projects.infit.viewmodel.UserViewModel
+import ken.projects.infit.features.feature_auth.presentation.login.viewmodel.LoginViewModel
 
 @Composable
 fun SignUpScreen(
     navController: NavHostController = rememberNavController(),
-    userViewModel: UserViewModel = viewModel(),
+    loginViewModel: LoginViewModel = viewModel(),
     scaffoldState: ScaffoldState
 ) {
 
-    val state = userViewModel.signUpState
+    val state = loginViewModel.signUpState
 
     var userName by remember { mutableStateOf("") }
     var eMail by remember { mutableStateOf("") }
@@ -132,7 +132,7 @@ fun SignUpScreen(
                     .padding(top = 20.dp),
                     text = stringResource(R.string.continue_text)
                 ) {
-                    userViewModel.signUpUser(
+                    loginViewModel.signUpUser(
                         userName = userName,
                         userEmail = eMail,
                         userPassword = password,
