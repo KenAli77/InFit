@@ -39,7 +39,8 @@ object AuthModule {
             arePasswordMatching = ArePasswordMatching(),
             createNewUser = CreateNewUser(authRepository),
             loginUserWithEmailAndPassword = LoginUserWithEmailAndPassword(authRepository),
-            validateEmail = ValidateEmail(emailPatternValidator)
+            validateEmail = ValidateEmail(emailPatternValidator),
+            validateUserName = ValidateUserName()
         )
     }
 

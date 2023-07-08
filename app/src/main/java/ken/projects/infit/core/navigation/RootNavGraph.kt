@@ -1,4 +1,4 @@
-package ken.projects.infit.ui.navigation
+package ken.projects.infit.core.navigation
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -31,7 +31,7 @@ fun RootNavGraph(
     val navBackStackEntry by navController.currentBackStackEntryAsState()
 
     when (navBackStackEntry?.destination?.route) {
-        LOGIN_ROUTE -> bottomBarState.value = false
+        AUTH_ROUTE -> bottomBarState.value = false
         MAIN_ROUTE -> bottomBarState.value = true
     }
 
@@ -50,16 +50,14 @@ fun RootNavGraph(
 
         NavHost(
             navController = navController,
-            startDestination = LOGIN_ROUTE,
+            startDestination = AUTH_ROUTE,
             route = ROOT_ROUTE,
             modifier = Modifier.padding(it)
         )
         {
 
-            loginNavGraph(
+            authNavGraph(
                 navController = navController,
-                bottomBarState,
-                loginViewModel,
                 scaffoldState
             )
 

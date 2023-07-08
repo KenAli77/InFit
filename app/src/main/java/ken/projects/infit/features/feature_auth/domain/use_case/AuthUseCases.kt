@@ -4,5 +4,6 @@ data class AuthUseCases(
     val arePasswordMatching: ArePasswordMatching,
     val createNewUser: CreateNewUser,
     val loginUserWithEmailAndPassword: LoginUserWithEmailAndPassword,
-    val validateEmail: ValidateEmail
+    val validateEmail: ValidateEmail,
+    val validateUserName:ValidateUserName
 )

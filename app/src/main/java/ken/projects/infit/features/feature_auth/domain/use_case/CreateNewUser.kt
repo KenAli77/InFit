@@ -2,7 +2,6 @@ package ken.projects.infit.features.feature_auth.domain.use_case
 
 import ken.projects.infit.features.feature_auth.data.models.InvalidUserException
 import ken.projects.infit.features.feature_auth.data.models.NewUser
-import ken.projects.infit.features.feature_auth.data.models.User
 import ken.projects.infit.features.feature_auth.domain.repostitories.AuthRepository
 
 class CreateNewUser(private val repository: AuthRepository) {
@@ -19,7 +18,7 @@ class CreateNewUser(private val repository: AuthRepository) {
             throw InvalidUserException("You must enter a email")
         }
 
-        if(user.password.isBlank() || user.repeatPassword.isBlank()){
+        if(user.password.isBlank() || user.confirmPassword.isBlank()){
             throw InvalidUserException("You must enter all required passwords")
         }
 

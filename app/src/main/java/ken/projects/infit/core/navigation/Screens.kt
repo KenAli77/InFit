@@ -1,4 +1,4 @@
-package ken.projects.infit.ui.navigation
+package ken.projects.infit.core.navigation
 
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
@@ -7,7 +7,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import ken.projects.infit.R
 
 const val ROOT_ROUTE = "root_route"
-const val LOGIN_ROUTE = "login_route"
+const val AUTH_ROUTE = "auth_route"
 const val MAIN_ROUTE = "main_route"
 
 sealed class Screens(

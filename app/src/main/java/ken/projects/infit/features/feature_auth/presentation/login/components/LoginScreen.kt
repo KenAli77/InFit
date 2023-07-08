@@ -14,7 +14,6 @@ import androidx.compose.ui.draw.paint
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -23,7 +22,6 @@ import ken.projects.infit.features.feature_auth.presentation.login.events.button
 import ken.projects.infit.features.feature_auth.presentation.login.events.user_input.LoginUserInputEvent
 import ken.projects.infit.ui.composables.RegularButton
 import ken.projects.infit.ui.composables.home.Heading
-import ken.projects.infit.ui.navigation.MAIN_ROUTE
 import ken.projects.infit.ui.theme.*
 import ken.projects.infit.features.feature_auth.presentation.login.viewmodel.LoginViewModel
 
@@ -44,14 +42,11 @@ fun LoginScreen(
                 SnackbarDuration.Short
             )
         }
-
     }
     LaunchedEffect(key1 = state.navigateTo) {
         state.navigateTo?.let { destination ->
             navController.navigate(destination)
-
         }
-
     }
 
 
@@ -66,20 +61,8 @@ fun LoginScreen(
     )
     {
 
-
         if (state.loading) {
-
-            Column(
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = CenterHorizontally,
-
-                ) {
-                CircularProgressIndicator(
-                    color = holoGreen,
-                    strokeWidth = 5.dp,
-                )
-            }
-
+            LoadingView(color = holoGreen)
         } else
             Column(
                 modifier = Modifier
@@ -101,17 +84,19 @@ fun LoginScreen(
                     onValueChange = { onUserInputEvent(LoginUserInputEvent.EnteredEmail(it)) },
                     placeholder = stringResource(R.string.email),
                     icon = Icons.Rounded.Email,
-                    type = KeyboardType.Email
+                    type = KeyboardType.Email,
+                    onFocusChanged = {}
                 )
                 Spacer(modifier = Modifier.height(10.dp))
 
                 InputField(
-                    input = loginViewModel.password,
+                    input = password,
                     onValueChange = { onUserInputEvent(LoginUserInputEvent.EnteredPassword(it)) },
                     placeholder = stringResource(R.string.password),
                     icon = Icons.Rounded.Lock,
                     type = KeyboardType.Password,
-                    true
+                    true,
+                    onFocusChanged = {}
                 )
                 SignUpSection(
                     modifier = Modifier

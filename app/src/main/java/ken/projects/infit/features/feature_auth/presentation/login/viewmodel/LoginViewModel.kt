@@ -11,6 +11,7 @@ import ken.projects.infit.features.feature_auth.data.models.EmailLogin
 import ken.projects.infit.features.feature_auth.domain.use_case.AuthUseCases
 import ken.projects.infit.features.feature_auth.presentation.login.events.button_click.LoginButtonEvent
 import ken.projects.infit.features.feature_auth.presentation.login.events.error.LoginErrorEvent
+import ken.projects.infit.features.feature_auth.presentation.login.events.navigation.LoginNavigationEvent
 import ken.projects.infit.features.feature_auth.presentation.login.events.user_input.LoginUserInputEvent
 import ken.projects.infit.features.feature_auth.presentation.login.state.LoginState
 import ken.projects.infit.ui.navigation.MAIN_ROUTE
@@ -31,9 +32,6 @@ class LoginViewModel @Inject constructor(
 
     var state by mutableStateOf(LoginState())
 
-//    fun onValidationEvent(event: LoginValidationEvent) {}
-
-
     fun onUserInputEvent(event: LoginUserInputEvent) {
         when (event) {
             is LoginUserInputEvent.EnteredEmail -> {
@@ -43,6 +41,10 @@ class LoginViewModel @Inject constructor(
                 password = event.password
             }
         }
+    }
+
+    fun onNavigationEvent(event: LoginNavigationEvent) {
+        state = state.copy(navigateTo = event.route)
     }
 
     fun onErrorEvent(event: LoginErrorEvent) {
@@ -88,9 +90,7 @@ class LoginViewModel @Inject constructor(
                     }
                 }
                 is LoginButtonEvent.SignUpButtonClick -> {
-                    state = state.copy(
-                        navigateTo = Screens.Signup.route
-                    )
+                    onNavigationEvent(LoginNavigationEvent.NavigateToSignup)
                 }
             }
         }
@@ -105,7 +105,6 @@ class LoginViewModel @Inject constructor(
                     onErrorEvent(LoginErrorEvent.FailedLogin(it))
                 } ?: onErrorEvent(LoginErrorEvent.FailedLogin("Unknown error"))
 
-
             }
             is Resource.Loading -> {
                 state = state.copy(
@@ -117,13 +116,9 @@ class LoginViewModel @Inject constructor(
                 )
             }
             is Resource.Success -> {
-                state = state.copy(
-                    data = response.data,
-                    loading = false,
-                    success = true,
-                    error = null,
-                    navigateTo = MAIN_ROUTE
-                )
+                state =
+                    state.copy(data = response.data, loading = false, success = true, error = null)
+                onNavigationEvent(LoginNavigationEvent.NavigateToMain)
             }
         }
 

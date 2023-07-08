@@ -1,4 +1,4 @@
-package ken.projects.infit.ui.navigation
+package ken.projects.infit.core.navigation
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically

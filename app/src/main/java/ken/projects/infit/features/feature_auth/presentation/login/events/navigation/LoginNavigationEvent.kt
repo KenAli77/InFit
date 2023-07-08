@@ -1,7 +1,11 @@
 package ken.projects.infit.features.feature_auth.presentation.login.events.navigation
 
-sealed class LoginNavigationEvent {
+import ken.projects.infit.ui.navigation.MAIN_ROUTE
+import ken.projects.infit.ui.navigation.Screens
 
-    object NavigateToSignup: LoginNavigationEvent()
-    object NavigateToForgotPassword: LoginNavigationEvent()
+sealed class LoginNavigationEvent(val route: String) {
+
+    object NavigateToSignup: LoginNavigationEvent(route = Screens.Signup.route)
+    object NavigateToForgotPassword: LoginNavigationEvent(route = "")
+    object NavigateToMain : LoginNavigationEvent(route = MAIN_ROUTE)
 }

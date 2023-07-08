@@ -13,7 +13,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import ken.projects.infit.data.service.WorkoutTimerService
-import ken.projects.infit.ui.navigation.RootNavGraph
+import ken.projects.infit.core.navigation.RootNavGraph
 import ken.projects.infit.ui.theme.InFitTheme
 import ken.projects.infit.util.getTimeStringFromDouble
 import ken.projects.infit.features.feature_auth.presentation.login.viewmodel.LoginViewModel

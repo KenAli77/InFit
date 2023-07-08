@@ -6,7 +6,7 @@ class ArePasswordMatching() {
 
 
     suspend operator fun invoke(user: NewUser):Boolean {
-        return user.password == user.repeatPassword
+        return user.password == user.confirmPassword
     }
 
 }

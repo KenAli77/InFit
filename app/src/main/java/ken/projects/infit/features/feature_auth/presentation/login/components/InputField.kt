@@ -10,6 +10,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Email
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusState
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.input.ImeAction
@@ -25,8 +27,10 @@ fun InputField(
     placeholder: String = "email",
     icon: ImageVector = Icons.Rounded.Email,
     type: KeyboardType = KeyboardType.Email,
-    password: Boolean = false
-) {
+    password: Boolean = false,
+    onFocusChanged: (FocusState) -> Unit,
+    isInvalid:Boolean = false
+    ) {
 
     TextField(
         value = input,
@@ -41,7 +45,7 @@ fun InputField(
         },
         colors = TextFieldDefaults.textFieldColors(backgroundColor = white, textColor = Color.Black),
         label = { Text(text = placeholder) },
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().onFocusChanged { onFocusChanged(it) },
         maxLines = 1,
         keyboardOptions = KeyboardOptions(
             keyboardType = type,
@@ -49,7 +53,8 @@ fun InputField(
         ),
         visualTransformation = if (password) PasswordVisualTransformation() else {
             VisualTransformation.None
-        }
+        },
+        isError = isInvalid
 
     )
 
