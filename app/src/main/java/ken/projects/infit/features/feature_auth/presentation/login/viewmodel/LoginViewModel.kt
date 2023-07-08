@@ -1,22 +1,20 @@
 package ken.projects.infit.features.feature_auth.presentation.login.viewmodel
 
-import android.app.Application
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.auth.AuthResult
 import dagger.hilt.android.lifecycle.HiltViewModel
-import ken.projects.infit.data.models.User
-import ken.projects.infit.data.models.states.AuthState
 import ken.projects.infit.features.feature_auth.data.models.EmailLogin
-import ken.projects.infit.features.feature_auth.domain.repostitories.AuthRepository
 import ken.projects.infit.features.feature_auth.domain.use_case.AuthUseCases
 import ken.projects.infit.features.feature_auth.presentation.login.events.button_click.LoginButtonEvent
 import ken.projects.infit.features.feature_auth.presentation.login.events.error.LoginErrorEvent
 import ken.projects.infit.features.feature_auth.presentation.login.events.user_input.LoginUserInputEvent
-import ken.projects.infit.features.feature_auth.presentation.login.events.validation.LoginValidationEvent
+import ken.projects.infit.features.feature_auth.presentation.login.state.LoginState
+import ken.projects.infit.ui.navigation.MAIN_ROUTE
+import ken.projects.infit.ui.navigation.Screens
 import ken.projects.infit.util.Resource
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -27,157 +25,108 @@ class LoginViewModel @Inject constructor(
     private val useCases: AuthUseCases
 ) : ViewModel() {
 
-    var signUpState by mutableStateOf(AuthState())
-        private set
-
-    var signInState by mutableStateOf(AuthState())
-        private set
-
-    var user by mutableStateOf(User())
-        private set
-
-    var eMail by mutableStateOf("")
+    var email by mutableStateOf("")
 
     var password by mutableStateOf("")
 
+    var state by mutableStateOf(LoginState())
 
-    //    fun onButtonClickEvent(event:LoginButtonEvent){}
-    fun onUserInputEvent(event: LoginUserInputEvent) {}
-    fun onErrorEvent(event: LoginErrorEvent) {}
-    fun onValidationEvent(event: LoginValidationEvent) {}
+//    fun onValidationEvent(event: LoginValidationEvent) {}
+
+
+    fun onUserInputEvent(event: LoginUserInputEvent) {
+        when (event) {
+            is LoginUserInputEvent.EnteredEmail -> {
+                email = event.email
+            }
+            is LoginUserInputEvent.EnteredPassword -> {
+                password = event.password
+            }
+        }
+    }
+
+    fun onErrorEvent(event: LoginErrorEvent) {
+
+        state = when (event) {
+            is LoginErrorEvent.FailedLogin -> {
+                state.copy(
+                    data = null,
+                    loading = false,
+                    success = false,
+                    error = event.message
+                )
+            }
+            is LoginErrorEvent.InvalidField -> {
+                state.copy(
+                    error = "please enter valid " + event.field
+                )
+            }
+        }
+
+    }
 
 
     fun onButtonClickEvent(event: LoginButtonEvent) {
         viewModelScope.launch {
             when (event) {
-                LoginButtonEvent.ForgotPasswordButtonClick -> TODO()
-                LoginButtonEvent.SignInButtonClick -> {
-                    if (!useCases.validateEmail.invoke(email = eMail)) {
-                        onErrorEvent(event = LoginErrorEvent())
+                is LoginButtonEvent.ForgotPasswordButtonClick -> {
+                }
+                is LoginButtonEvent.LoginButtonClick -> {
+                    if (!useCases.validateEmail.invoke(email = email)) {
+                        onErrorEvent(event = LoginErrorEvent.InvalidField("email"))
+                    } else if (password.isBlank()) {
+                        onErrorEvent(event = LoginErrorEvent.InvalidField("password"))
                     } else {
-                        useCases.loginUserWithEmailAndPassword.invoke(
+                        val result = useCases.loginUserWithEmailAndPassword.invoke(
                             EmailLogin(
-                                email = eMail,
+                                email = email,
                                 password = password
                             )
                         )
+
+                        authenticateUser(result)
                     }
                 }
-                LoginButtonEvent.SignUpButtonClick -> {
-
+                is LoginButtonEvent.SignUpButtonClick -> {
+                    state = state.copy(
+                        navigateTo = Screens.Signup.route
+                    )
                 }
             }
         }
 
     }
 
+    private fun authenticateUser(response: Resource<AuthResult>) {
 
-    fun signUpUser(
-        userName: String,
-        userEmail: String,
-        userPassword: String,
-        confirmPassword: String
-    ) =
-        viewModelScope.launch {
+        when (response) {
+            is Resource.Error -> {
+                response.message?.let {
+                    onErrorEvent(LoginErrorEvent.FailedLogin(it))
+                } ?: onErrorEvent(LoginErrorEvent.FailedLogin("Unknown error"))
 
-            val arePasswordMatching = userPassword == confirmPassword
 
-            if (arePasswordMatching) {
-
-                signUpState = signUpState.copy(
+            }
+            is Resource.Loading -> {
+                state = state.copy(
+                    data = null,
                     loading = true,
+                    success = false,
                     error = null,
-
-                    success = false
-                )
-
-                val result = repository.createNewUser(
-                    userName = userName,
-                    userEmailAddress = userEmail,
-                    userLoginPassword = userPassword
-                )
-
-                when (result) {
-                    is Resource.Success -> {
-                        signUpState = signUpState.copy(
-                            data = result.data,
-                            loading = false,
-                            success = true,
-                            error = null
-                        )
-                    }
-
-                    is Resource.Error -> {
-                        signUpState = signUpState.copy(
-                            data = null,
-                            loading = false,
-                            success = false,
-                            error = result.message.toString()
-                        )
-                    }
-
-                    is Resource.Loading -> {
-                        signUpState = signUpState.copy(
-                            data = null,
-                            loading = true,
-                            success = false,
-                            error = null
-                        )
-                    }
-                }
-            } else {
-                signUpState = signUpState.copy(
-                    error = "passwords are not matching"
+                    navigateTo = null
                 )
             }
-
-        }
-
-    fun signInUser(userEmail: String, userPassword: String) =
-
-        viewModelScope.launch {
-
-            signInState = signInState.copy(
-                loading = true
-            )
-
-            val result = repository.loginUser(email = userEmail, password = userPassword)
-
-            signInState = when (result) {
-                is Resource.Success -> {
-                    signInState.copy(
-                        loading = false,
-                        success = true,
-                        uid = result.data?.user?.uid
-                    )
-
-                }
-
-                is Resource.Loading -> {
-                    signInState.copy(
-                        loading = true,
-                        success = false,
-                    )
-                }
-
-                is Resource.Error -> {
-                    signInState.copy(
-                        loading = false,
-                        success = false,
-                        error = result.message
-                    )
-                }
+            is Resource.Success -> {
+                state = state.copy(
+                    data = response.data,
+                    loading = false,
+                    success = true,
+                    error = null,
+                    navigateTo = MAIN_ROUTE
+                )
             }
         }
-
-    fun logOut() = viewModelScope.launch {
-
-        repository.logOutUser()
-
-        signInState = AuthState()
-        signUpState = AuthState()
 
     }
-
 
 }

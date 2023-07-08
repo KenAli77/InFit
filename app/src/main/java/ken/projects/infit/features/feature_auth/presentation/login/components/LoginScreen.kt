@@ -20,10 +20,10 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import ken.projects.infit.R
 import ken.projects.infit.features.feature_auth.presentation.login.events.button_click.LoginButtonEvent
+import ken.projects.infit.features.feature_auth.presentation.login.events.user_input.LoginUserInputEvent
 import ken.projects.infit.ui.composables.RegularButton
 import ken.projects.infit.ui.composables.home.Heading
 import ken.projects.infit.ui.navigation.MAIN_ROUTE
-import ken.projects.infit.ui.navigation.Screens
 import ken.projects.infit.ui.theme.*
 import ken.projects.infit.features.feature_auth.presentation.login.viewmodel.LoginViewModel
 
@@ -32,24 +32,26 @@ fun LoginScreen(
     navController: NavHostController,
     loginViewModel: LoginViewModel,
     scaffoldState: ScaffoldState
-) {
+) = with(loginViewModel) {
 
-    val state = loginViewModel.signInState
+
 
     LaunchedEffect(key1 = state.error) {
-        state.error?.let {
+        state.error?.let { message ->
             scaffoldState.snackbarHostState.showSnackbar(
-                it,
+                message,
                 null,
                 SnackbarDuration.Short
             )
         }
 
     }
-    LaunchedEffect(key1 = state.success) {
-        if (state.success) {
-            navController.navigate(MAIN_ROUTE)
+    LaunchedEffect(key1 = state.navigateTo) {
+        state.navigateTo?.let { destination ->
+            navController.navigate(destination)
+
         }
+
     }
 
 
@@ -95,8 +97,8 @@ fun LoginScreen(
                         .fillMaxWidth()
                 )
                 InputField(
-                    loginViewModel.eMail,
-                    onValueChange = { eMail = it },
+                    email,
+                    onValueChange = { onUserInputEvent(LoginUserInputEvent.EnteredEmail(it)) },
                     placeholder = stringResource(R.string.email),
                     icon = Icons.Rounded.Email,
                     type = KeyboardType.Email
@@ -105,17 +107,17 @@ fun LoginScreen(
 
                 InputField(
                     input = loginViewModel.password,
-                    onValueChange = { password = it },
+                    onValueChange = { onUserInputEvent(LoginUserInputEvent.EnteredPassword(it)) },
                     placeholder = stringResource(R.string.password),
                     icon = Icons.Rounded.Lock,
                     type = KeyboardType.Password,
                     true
                 )
-                SignUpRow(
+                SignUpSection(
                     modifier = Modifier
                         .padding(top = 10.dp)
                         .fillMaxWidth()
-                        .clickable { navController.navigate(Screens.Signup.route) }
+                        .clickable { onButtonClickEvent(LoginButtonEvent.SignUpButtonClick) }
                 )
                 RegularButton(
                     Modifier
@@ -123,39 +125,12 @@ fun LoginScreen(
                         .align(CenterHorizontally),
                     stringResource(R.string.login).lowercase(),
                     onClick = {
-                        loginViewModel.onButtonClickEvent(LoginButtonEvent.SignInButtonClick)
+                        loginViewModel.onButtonClickEvent(LoginButtonEvent.LoginButtonClick)
                     }
                 )
 
-
             }
-
-
     }
 }
 
 
-
-@Composable
-fun SignUpRow(modifier: Modifier = Modifier) {
-
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier
-    ) {
-
-        Text(
-            text = stringResource(R.string.sign_up_text),
-            fontWeight = FontWeight.Normal,
-            color = white,
-            fontFamily = outfit
-        )
-        Spacer(modifier = Modifier.width(5.dp))
-        Text(
-            text = stringResource(R.string.sign_up),
-            fontWeight = FontWeight.Bold,
-            color = holoGreen,
-            fontFamily = outfit
-        )
-    }
-}
