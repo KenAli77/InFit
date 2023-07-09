@@ -1,7 +1,7 @@
 package ken.projects.infit.features.feature_auth.data.validators
 
 import android.util.Patterns
-import ken.projects.infit.features.feature_auth.domain.validators.EmailPatternValidator
+import ken.projects.infit.features.feature_auth.domain.use_case.validation.validators.EmailPatternValidator
 
 class AndroidEmailPatternValidator: EmailPatternValidator {
 

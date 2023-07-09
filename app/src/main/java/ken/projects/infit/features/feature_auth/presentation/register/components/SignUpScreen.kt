@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
@@ -20,12 +21,13 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import ken.projects.infit.R
 import ken.projects.infit.core.navigation.Screens
-import ken.projects.infit.features.feature_auth.presentation.login.components.InputField
+import ken.projects.infit.core.components.InputField
+import ken.projects.infit.core.components.LoadingView
 import ken.projects.infit.ui.composables.RegularButton
 import ken.projects.infit.ui.composables.home.Heading
 import ken.projects.infit.ui.theme.holoGreen
 import ken.projects.infit.ui.theme.veryDarkBlue
-import ken.projects.infit.features.feature_auth.presentation.login.viewmodel.LoginViewModel
+import ken.projects.infit.features.feature_auth.presentation.register.events.authentication.SignUpAuthEvent
 import ken.projects.infit.features.feature_auth.presentation.register.events.button_click.SignUpButtonEvent
 import ken.projects.infit.features.feature_auth.presentation.register.events.user_input.SignUpUserInputEvent
 import ken.projects.infit.features.feature_auth.presentation.register.events.validation.SignUpValidationEvent
@@ -36,8 +38,9 @@ fun SignUpScreen(
     navController: NavHostController = rememberNavController(),
     signUpViewModel: SignUpViewModel = viewModel(),
     scaffoldState: ScaffoldState
-) = with(signUpViewModel){
+) = with(signUpViewModel) {
 
+    val context = LocalContext.current
     LaunchedEffect(key1 = state.error) {
         state.error?.let {
             scaffoldState.snackbarHostState.showSnackbar(
@@ -56,28 +59,54 @@ fun SignUpScreen(
 
     }
 
-        Surface(
-            color = veryDarkBlue.copy(0.6f),
-            modifier = Modifier.paint(
-                painterResource(id = R.drawable.register_background),
-                contentScale = ContentScale.Crop,
-            ).fillMaxSize(),
-        ) {
+    LaunchedEffect(key1 = context) {
+        validationEvents.collect { event ->
+            when (event) {
+                is SignUpValidationEvent.Success -> {
+                    /**
+                     * TODO: handle validation success
+                     */
+                }
+            }
+        }
+    }
 
-            if (state.loading) {
+    LaunchedEffect(key1 = context) {
+        registrationEvents.collect { event ->
+            when (event) {
+                is SignUpAuthEvent.Failure -> {
+                    event.message?.let {
+                        scaffoldState.snackbarHostState.showSnackbar(
+                            it,
+                            null,
+                            SnackbarDuration.Short
+                        )
+                    }
 
-                Column(
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally,
-
-                    ) {
-                    CircularProgressIndicator(
-                        color = holoGreen.copy(0.6f),
-                        strokeWidth = 5.dp,
+                }
+                is SignUpAuthEvent.Success -> {
+                    scaffoldState.snackbarHostState.showSnackbar(
+                        "Your account has been created!",
+                        null,
+                        SnackbarDuration.Short
                     )
                 }
+            }
+        }
+    }
 
-            } else
+    Surface(
+        color = veryDarkBlue.copy(0.6f),
+        modifier = Modifier
+            .paint(
+                painterResource(id = R.drawable.register_background),
+                contentScale = ContentScale.Crop,
+            )
+            .fillMaxSize(),
+    ) {
+        if (state.loading) {
+            LoadingView(color = holoGreen)
+        } else
 
             Column(
                 verticalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterVertically),
@@ -90,59 +119,60 @@ fun SignUpScreen(
                         .padding(bottom = 20.dp)
                         .fillMaxWidth()
                 )
-
                 InputField(
-                    userName,
-                    { onUserInputEvent(SignUpUserInputEvent.EnteredUserName(it)) },
-                    stringResource(R.string.enter_name_hint),
-                    Icons.Rounded.Person,
+                    input = state.userName,
+                    onValueChange = { onUserInputEvent(SignUpUserInputEvent.EnteredUserName(it)) },
+                    placeholder = stringResource(R.string.enter_name_hint),
+                    icon = Icons.Rounded.Person,
                     type = KeyboardType.Text,
-                    onFocusChanged = {onValidationEvent(SignUpValidationEvent.UserNameValidation)},
-                    isInvalid = userNameInvalid
+                    onFocusChanged = { },
+                    isInvalid = state.userNameError != null,
+                    errorMessage = state.userNameError
                 )
                 InputField(
-                    email,
-                    { onUserInputEvent(SignUpUserInputEvent.EnteredEmail(it))},
-                    stringResource(R.string.enter_email_hint),
-                    Icons.Rounded.Email,
+                    input = state.email,
+                    onValueChange = { onUserInputEvent(SignUpUserInputEvent.EnteredEmail(it)) },
+                    placeholder = stringResource(R.string.enter_email_hint),
+                    icon = Icons.Rounded.Email,
                     type = KeyboardType.Email,
-                    onFocusChanged = {onValidationEvent(SignUpValidationEvent.EmailValidation)},
-                    isInvalid = emailInvalid
-                )
-
-                InputField(
-                    password,
-                    { onUserInputEvent(SignUpUserInputEvent.EnteredPassword(it)) },
-                    stringResource(R.string.enter_password_hint),
-                    Icons.Rounded.Lock,
-                    type = KeyboardType.Password,
-                    true,
-                    onFocusChanged = {onValidationEvent(SignUpValidationEvent.PasswordValidation)},
-                    isInvalid = passwordInvalid
+                    onFocusChanged = { },
+                    isInvalid = state.emailError != null,
+                    errorMessage = state.emailError
                 )
                 InputField(
-                    confirmPassword,
-                    { onUserInputEvent(SignUpUserInputEvent.EnteredConfirmPassword(it)) },
-                    stringResource(R.string.confirm_password_hint),
-                    Icons.Rounded.Lock,
+                    input = state.password,
+                    onValueChange = { onUserInputEvent(SignUpUserInputEvent.EnteredPassword(it)) },
+                    placeholder = stringResource(R.string.enter_password_hint),
+                    icon = Icons.Rounded.Lock,
                     type = KeyboardType.Password,
-                    true,
-                    onFocusChanged = {onValidationEvent(SignUpValidationEvent.ConfirmPasswordValidation)},
-                    isInvalid = confirmPasswordInvalid
+                    password = true,
+                    onFocusChanged = { },
+                    isInvalid = state.passwordError != null,
+                    errorMessage = state.passwordError,
                 )
-
+                InputField(
+                    input = state.confirmPassword,
+                    onValueChange = {
+                        onUserInputEvent(
+                            SignUpUserInputEvent.EnteredConfirmPassword(
+                                it
+                            )
+                        )
+                    },
+                    placeholder = stringResource(R.string.confirm_password_hint),
+                    icon = Icons.Rounded.Lock,
+                    type = KeyboardType.Password,
+                    password = true,
+                    onFocusChanged = { },
+                    isInvalid = state.confirmPasswordError != null,
+                    errorMessage = state.confirmPasswordError,
+                )
                 RegularButton(modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .padding(top = 20.dp),
                     text = stringResource(R.string.continue_text),
-                    onClick = {onButtonClickEvent(SignUpButtonEvent.SubmitButtonClick)}
+                    onClick = { onButtonClickEvent(SignUpButtonEvent.SubmitButtonClick) }
                 )
-
-
             }
-
-
-        }
-
-
+    }
 }

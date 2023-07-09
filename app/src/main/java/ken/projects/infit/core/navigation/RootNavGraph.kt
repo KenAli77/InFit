@@ -57,7 +57,7 @@ fun RootNavGraph(
         {
 
             authNavGraph(
-                navController = navController,
+                navController,
                 scaffoldState
             )
 

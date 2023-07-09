@@ -3,6 +3,6 @@ package ken.projects.infit.features.feature_auth.presentation.register.events.au
 sealed class SignUpAuthEvent {
 
     object Success: SignUpAuthEvent()
-    object Failure : SignUpAuthEvent()
+    data class Failure(val message:String?=null) : SignUpAuthEvent()
 
 }

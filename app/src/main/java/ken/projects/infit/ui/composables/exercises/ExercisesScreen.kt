@@ -21,10 +21,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import ken.projects.infit.R
+import ken.projects.infit.core.navigation.Screens
 import ken.projects.infit.data.models.Muscle
 import ken.projects.infit.ui.composables.home.Heading
 import ken.projects.infit.ui.composables.home.Title
-import ken.projects.infit.ui.navigation.Screens
 import ken.projects.infit.ui.theme.darkBlue
 import ken.projects.infit.ui.theme.lightBlue
 import ken.projects.infit.viewmodel.WorkoutViewModel

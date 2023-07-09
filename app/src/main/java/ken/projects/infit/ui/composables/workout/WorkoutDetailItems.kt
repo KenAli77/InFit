@@ -34,13 +34,13 @@ fun ExerciseItemsDisplay(
 
             itemsIndexed(
                 items = exercises,
-                key = {index,item -> item.hashCode()+index+exercises.indexOf(item)}
-               ) { index, data ->
+                key = { index, item -> item.hashCode() + index + exercises.indexOf(item) }
+            ) { index, data ->
                 val dismissState = rememberDismissState()
 
                 if (dismissState.targetValue == DismissValue.DismissedToEnd)
                     workoutViewModel.removeExercise(data)
-                    workoutViewModel.getWorkouts()
+                workoutViewModel.getWorkouts()
 
                 SwipeToDismiss(
                     state = dismissState,

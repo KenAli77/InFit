@@ -33,7 +33,7 @@ import ken.projects.infit.ui.composables.CommandsDisplay
 import ken.projects.infit.ui.composables.RegularButton
 import ken.projects.infit.ui.composables.home.SubHeading
 import ken.projects.infit.ui.composables.home.Title
-import ken.projects.infit.ui.navigation.Screens
+import ken.projects.infit.core.navigation.Screens
 import ken.projects.infit.ui.theme.darkBlue
 import ken.projects.infit.ui.theme.white
 import ken.projects.infit.viewmodel.WorkoutViewModel

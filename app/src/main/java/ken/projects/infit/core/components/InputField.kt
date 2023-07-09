@@ -1,5 +1,6 @@
-package ken.projects.infit.features.feature_auth.presentation.login.components
+package ken.projects.infit.core.components
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Icon
@@ -22,6 +23,7 @@ import ken.projects.infit.ui.theme.white
 
 @Composable
 fun InputField(
+    modifier: Modifier = Modifier,
     input: String = "",
     onValueChange: (String) -> Unit,
     placeholder: String = "email",
@@ -29,33 +31,42 @@ fun InputField(
     type: KeyboardType = KeyboardType.Email,
     password: Boolean = false,
     onFocusChanged: (FocusState) -> Unit,
-    isInvalid:Boolean = false
+    isInvalid:Boolean = false,
+    errorMessage:String? = null,
     ) {
 
-    TextField(
-        value = input,
-        onValueChange = onValueChange,
-        leadingIcon = {
-            Icon(
-                imageVector = icon,
-                contentDescription = null,
+    Column(modifier = modifier) {
 
-                )
+        TextField(
+            value = input,
+            onValueChange = onValueChange,
+            leadingIcon = {
+                Icon(
+                    imageVector = icon,
+                    contentDescription = null,
 
-        },
-        colors = TextFieldDefaults.textFieldColors(backgroundColor = white, textColor = Color.Black),
-        label = { Text(text = placeholder) },
-        modifier = Modifier.fillMaxWidth().onFocusChanged { onFocusChanged(it) },
-        maxLines = 1,
-        keyboardOptions = KeyboardOptions(
-            keyboardType = type,
-            imeAction = ImeAction.Done
-        ),
-        visualTransformation = if (password) PasswordVisualTransformation() else {
-            VisualTransformation.None
-        },
-        isError = isInvalid
+                    )
 
-    )
+            },
+            colors = TextFieldDefaults.textFieldColors(backgroundColor = white, textColor = Color.Black),
+            label = { Text(text = placeholder) },
+            modifier = Modifier
+                .fillMaxWidth()
+                .onFocusChanged { onFocusChanged(it) },
+            maxLines = 1,
+            keyboardOptions = KeyboardOptions(
+                keyboardType = type,
+                imeAction = ImeAction.Done
+            ),
+            visualTransformation = if (password) PasswordVisualTransformation() else {
+                VisualTransformation.None
+            },
+            isError = isInvalid,
+        )
+
+        errorMessage?.let {
+            Text(text = it, color = Color.Red)
+        }
+    }
 
 }

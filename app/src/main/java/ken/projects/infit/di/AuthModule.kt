@@ -1,14 +1,23 @@
 package ken.projects.infit.di
 
 import com.google.firebase.auth.FirebaseAuth
+import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import ken.projects.infit.features.feature_auth.data.repositories.AuthRepositoryImpl
 import ken.projects.infit.features.feature_auth.data.validators.AndroidEmailPatternValidator
 import ken.projects.infit.features.feature_auth.domain.repostitories.AuthRepository
 import ken.projects.infit.features.feature_auth.domain.use_case.*
-import ken.projects.infit.features.feature_auth.domain.validators.EmailPatternValidator
+import ken.projects.infit.features.feature_auth.domain.use_case.AuthUseCases
+import ken.projects.infit.features.feature_auth.domain.use_case.auth.CreateNewUser
+import ken.projects.infit.features.feature_auth.domain.use_case.auth.LoginUserWithEmailAndPassword
+import ken.projects.infit.features.feature_auth.domain.use_case.validation.*
+import ken.projects.infit.features.feature_auth.domain.use_case.validation.validators.EmailPatternValidator
 import javax.inject.Singleton
 
+@Module
+@InstallIn(SingletonComponent::class)
 object AuthModule {
 
     @Provides
@@ -25,7 +34,7 @@ object AuthModule {
 
     @Provides
     @Singleton
-    fun provideEmailValidator(): EmailPatternValidator {
+    fun provideEmailValidator(): AndroidEmailPatternValidator {
         return AndroidEmailPatternValidator()
     }
 
@@ -40,7 +49,9 @@ object AuthModule {
             createNewUser = CreateNewUser(authRepository),
             loginUserWithEmailAndPassword = LoginUserWithEmailAndPassword(authRepository),
             validateEmail = ValidateEmail(emailPatternValidator),
-            validateUserName = ValidateUserName()
+            validateUserName = ValidateUserName(),
+            validateTerms = ValidateTerms(),
+            validatePassword = ValidatePassword(),
         )
     }
 

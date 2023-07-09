@@ -18,6 +18,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import ken.projects.infit.R
+import ken.projects.infit.core.components.InputField
+import ken.projects.infit.core.components.LoadingView
 import ken.projects.infit.features.feature_auth.presentation.login.events.button_click.LoginButtonEvent
 import ken.projects.infit.features.feature_auth.presentation.login.events.user_input.LoginUserInputEvent
 import ken.projects.infit.ui.composables.RegularButton
@@ -80,7 +82,7 @@ fun LoginScreen(
                         .fillMaxWidth()
                 )
                 InputField(
-                    email,
+                    input = email,
                     onValueChange = { onUserInputEvent(LoginUserInputEvent.EnteredEmail(it)) },
                     placeholder = stringResource(R.string.email),
                     icon = Icons.Rounded.Email,
@@ -95,7 +97,7 @@ fun LoginScreen(
                     placeholder = stringResource(R.string.password),
                     icon = Icons.Rounded.Lock,
                     type = KeyboardType.Password,
-                    true,
+                    password = true,
                     onFocusChanged = {}
                 )
                 SignUpSection(

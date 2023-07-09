@@ -1,4 +1,4 @@
-package ken.projects.infit.features.feature_auth.presentation.login.components
+package ken.projects.infit.core.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

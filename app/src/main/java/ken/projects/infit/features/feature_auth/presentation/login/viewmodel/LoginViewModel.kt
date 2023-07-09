@@ -14,8 +14,6 @@ import ken.projects.infit.features.feature_auth.presentation.login.events.error.
 import ken.projects.infit.features.feature_auth.presentation.login.events.navigation.LoginNavigationEvent
 import ken.projects.infit.features.feature_auth.presentation.login.events.user_input.LoginUserInputEvent
 import ken.projects.infit.features.feature_auth.presentation.login.state.LoginState
-import ken.projects.infit.ui.navigation.MAIN_ROUTE
-import ken.projects.infit.ui.navigation.Screens
 import ken.projects.infit.util.Resource
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -74,7 +72,7 @@ class LoginViewModel @Inject constructor(
                 is LoginButtonEvent.ForgotPasswordButtonClick -> {
                 }
                 is LoginButtonEvent.LoginButtonClick -> {
-                    if (!useCases.validateEmail.invoke(email = email)) {
+                    if (!useCases.validateEmail.invoke(email = email).successful) {
                         onErrorEvent(event = LoginErrorEvent.InvalidField("email"))
                     } else if (password.isBlank()) {
                         onErrorEvent(event = LoginErrorEvent.InvalidField("password"))

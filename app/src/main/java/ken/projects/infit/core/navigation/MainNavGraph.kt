@@ -45,12 +45,13 @@ fun NavGraphBuilder.mainNavGraph(
     scaffoldState: ScaffoldState
 ) {
 
+
     navigation(startDestination = Screens.Home.route, route = MAIN_ROUTE)
     {
-
         composable(
             route = Screens.Home.route
         ) {
+
             HomeScreen(navController, loginViewModel, workoutViewModel, scaffoldState)
             bottomBarState.value = true
         }

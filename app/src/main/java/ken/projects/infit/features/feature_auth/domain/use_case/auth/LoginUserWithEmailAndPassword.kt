@@ -1,4 +1,4 @@
-package ken.projects.infit.features.feature_auth.domain.use_case
+package ken.projects.infit.features.feature_auth.domain.use_case.auth
 
 import com.google.firebase.auth.AuthResult
 import ken.projects.infit.features.feature_auth.data.models.EmailLogin
