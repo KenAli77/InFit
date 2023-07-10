@@ -9,12 +9,17 @@ import com.google.firebase.auth.AuthResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ken.projects.infit.features.feature_auth.data.models.EmailLogin
 import ken.projects.infit.features.feature_auth.domain.use_case.AuthUseCases
+import ken.projects.infit.features.feature_auth.presentation.login.events.authentication.LoginAuthEvent
 import ken.projects.infit.features.feature_auth.presentation.login.events.button_click.LoginButtonEvent
 import ken.projects.infit.features.feature_auth.presentation.login.events.error.LoginErrorEvent
 import ken.projects.infit.features.feature_auth.presentation.login.events.navigation.LoginNavigationEvent
 import ken.projects.infit.features.feature_auth.presentation.login.events.user_input.LoginUserInputEvent
 import ken.projects.infit.features.feature_auth.presentation.login.state.LoginState
+import ken.projects.infit.features.feature_auth.presentation.register.events.authentication.SignUpAuthEvent
+import ken.projects.infit.features.feature_auth.presentation.register.events.validation.SignUpValidationEvent
 import ken.projects.infit.util.Resource
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,19 +29,23 @@ class LoginViewModel @Inject constructor(
     private val useCases: AuthUseCases
 ) : ViewModel() {
 
-    var email by mutableStateOf("")
-
-    var password by mutableStateOf("")
 
     var state by mutableStateOf(LoginState())
+
+    private val validationEventChannel = Channel<SignUpValidationEvent>()
+    val validationEvents = validationEventChannel.receiveAsFlow()
+
+    private val loginEventChannel = Channel<LoginAuthEvent>()
+    val loginEvents = loginEventChannel.receiveAsFlow()
+
 
     fun onUserInputEvent(event: LoginUserInputEvent) {
         when (event) {
             is LoginUserInputEvent.EnteredEmail -> {
-                email = event.email
+                state = state.copy(email = event.email)
             }
             is LoginUserInputEvent.EnteredPassword -> {
-                password = event.password
+                state = state.copy(password = event.password)
             }
         }
     }
@@ -72,15 +81,16 @@ class LoginViewModel @Inject constructor(
                 is LoginButtonEvent.ForgotPasswordButtonClick -> {
                 }
                 is LoginButtonEvent.LoginButtonClick -> {
-                    if (!useCases.validateEmail.invoke(email = email).successful) {
+                    submitData()
+                    if (!useCases.validateEmail.invoke(email = state.email).successful) {
                         onErrorEvent(event = LoginErrorEvent.InvalidField("email"))
-                    } else if (password.isBlank()) {
+                    } else if (state.password.isNullOrBlank()) {
                         onErrorEvent(event = LoginErrorEvent.InvalidField("password"))
                     } else {
                         val result = useCases.loginUserWithEmailAndPassword.invoke(
                             EmailLogin(
-                                email = email,
-                                password = password
+                                email = state.email!!,
+                                password = state.password!!
                             )
                         )
 
@@ -95,31 +105,55 @@ class LoginViewModel @Inject constructor(
 
     }
 
-    private fun authenticateUser(response: Resource<AuthResult>) {
+    private fun submitData() {
 
-        when (response) {
-            is Resource.Error -> {
-                response.message?.let {
-                    onErrorEvent(LoginErrorEvent.FailedLogin(it))
-                } ?: onErrorEvent(LoginErrorEvent.FailedLogin("Unknown error"))
+        val emailValidationResult = useCases.validateEmail.invoke(state.email).successful
+        val passwordValidationResult = password.isNotBlank()
+        val hasError = listOf(
+            emailValidationResult,
+            passwordValidationResult
+        ).any { false }
 
-            }
-            is Resource.Loading -> {
-                state = state.copy(
-                    data = null,
-                    loading = true,
-                    success = false,
-                    error = null,
-                    navigateTo = null
-                )
-            }
-            is Resource.Success -> {
-                state =
-                    state.copy(data = response.data, loading = false, success = true, error = null)
-                onNavigationEvent(LoginNavigationEvent.NavigateToMain)
-            }
+        state = state.copy(
+            emailError = emailValidationResult.errorMessage,
+        )
+
+        if (hasError) {
+            return
         }
 
+        viewModelScope.launch {
+            validationEventChannel.send(SignUpValidationEvent.Success)
+        }
+
+        loginUser()
+
+
     }
+
+    private fun loginUser() {
+        viewModelScope.launch {
+            state = state.copy(loading = true)
+
+            val result = useCases.loginUserWithEmailAndPassword.invoke(
+                EmailLogin(
+                    state.email,
+                    state.password
+                )
+            )
+
+            when (result.success) {
+                true -> {
+                    loginEventChannel.send(LoginAuthEvent.Success)
+                    state = state.copy(loading = false)
+                }
+                false -> {
+                    loginEventChannel.send(LoginAuthEvent.Failure(result.errorMessage))
+                    state = state.copy(loading = false)
+                }
+            }
+        }
+    }
+
 
 }

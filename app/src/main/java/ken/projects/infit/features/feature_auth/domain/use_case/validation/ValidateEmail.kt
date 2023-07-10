@@ -4,11 +4,11 @@ import ken.projects.infit.features.feature_auth.domain.use_case.validation.valid
 
 class ValidateEmail(private val validator: EmailPatternValidator) {
 
-    operator fun invoke(email: String): ValidationResult {
-        if (email.isBlank()) {
+    operator fun invoke(email: String?): ValidationResult {
+        if (email.isNullOrBlank()) {
             return ValidationResult(
                 successful = false,
-                errorMessage = "Email can't be blank"
+                errorMessage = "Email can't be empty"
             )
         }
         if (!validator.isValidEmail(email)) {

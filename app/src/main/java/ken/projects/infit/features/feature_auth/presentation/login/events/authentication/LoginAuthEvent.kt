@@ -3,7 +3,7 @@ package ken.projects.infit.features.feature_auth.presentation.login.events.authe
 sealed class LoginAuthEvent {
 
     object Success: LoginAuthEvent()
-    data class Failure(val reason: LoginFailure) : LoginAuthEvent()
+    data class Failure(val reason: String?=null) : LoginAuthEvent()
 
 }
 
