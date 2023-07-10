@@ -22,38 +22,37 @@ import ken.projects.infit.viewmodel.WorkoutViewModel
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    lateinit var navController:NavHostController
-
-    private val loginViewModel: LoginViewModel by viewModels()
-    private val workoutViewModel: WorkoutViewModel by viewModels()
-    private var timeElapsed = 0.0
-    private lateinit var serviceIntent: Intent
+//    private val loginViewModel: LoginViewModel by viewModels()
+//    private val workoutViewModel: WorkoutViewModel by viewModels()
+//    private var timeElapsed = 0.0
+//    private lateinit var serviceIntent: Intent
 
 
-    private val updateTime: BroadcastReceiver = object : BroadcastReceiver() {
-
-        override fun onReceive(context: Context, intent: Intent) {
-            timeElapsed = intent.getDoubleExtra(WorkoutTimerService.TIME_ELAPSED, 0.0)
-            workoutViewModel.timerText = getTimeStringFromDouble(timeElapsed)
-        }
-
-    }
+//    private val updateTime: BroadcastReceiver = object : BroadcastReceiver() {
+//
+//        override fun onReceive(context: Context, intent: Intent) {
+//            timeElapsed = intent.getDoubleExtra(WorkoutTimerService.TIME_ELAPSED, 0.0)
+//            workoutViewModel.timerText = getTimeStringFromDouble(timeElapsed)
+//        }
+//
+//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        serviceIntent = Intent(this, WorkoutTimerService::class.java)
-        registerReceiver(
-            updateTime,
-            IntentFilter(WorkoutTimerService.TIMER_UPDATED)
-        )
+//
+//        serviceIntent = Intent(this, WorkoutTimerService::class.java)
+//        registerReceiver(
+//            updateTime,
+//            IntentFilter(WorkoutTimerService.TIMER_UPDATED)
+//        )
         setContent {
 
             InFitTheme {
 
                 val workoutViewModel = hiltViewModel<WorkoutViewModel>()
                 val loginViewModel = hiltViewModel<LoginViewModel>()
-                navController = rememberNavController()
+
+                val navController = rememberNavController()
                 RootNavGraph(navController,loginViewModel,workoutViewModel)
 
             }
@@ -62,7 +61,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        stopService(serviceIntent)
+//        stopService(serviceIntent)
     }
 }
 

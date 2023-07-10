@@ -1,5 +1,7 @@
 package ken.projects.infit.features.feature_auth.presentation.register.components
 
+import android.util.Log
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -40,6 +42,12 @@ fun SignUpScreen(
     scaffoldState: ScaffoldState
 ) = with(signUpViewModel) {
 
+    BackHandler() {
+        Log.e("navigating back","signup screen")
+        navController.navigateUp()
+        navController.popBackStack()
+    }
+
     val context = LocalContext.current
     LaunchedEffect(key1 = state.error) {
         state.error?.let {
@@ -49,14 +57,6 @@ fun SignUpScreen(
                 SnackbarDuration.Short
             )
         }
-    }
-
-    LaunchedEffect(key1 = state.success) {
-
-        if (state.success) {
-            navController.navigate(Screens.Login.route)
-        }
-
     }
 
     LaunchedEffect(key1 = context) {

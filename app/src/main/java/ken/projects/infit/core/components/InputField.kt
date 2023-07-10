@@ -30,7 +30,7 @@ fun InputField(
     icon: ImageVector = Icons.Rounded.Email,
     type: KeyboardType = KeyboardType.Email,
     password: Boolean = false,
-    onFocusChanged: (FocusState) -> Unit,
+    onFocusChanged: (FocusState) -> Unit = {},
     isInvalid:Boolean = false,
     errorMessage:String? = null,
     ) {

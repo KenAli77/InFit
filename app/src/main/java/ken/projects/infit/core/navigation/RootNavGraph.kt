@@ -61,13 +61,13 @@ fun RootNavGraph(
                 scaffoldState
             )
 
-            mainNavGraph(
-                navController = navController,
-                bottomBarState,
-                loginViewModel,
-                workoutViewModel,
-                scaffoldState
-            )
+//            mainNavGraph(
+//                navController = navController,
+//                bottomBarState,
+//                loginViewModel,
+//                workoutViewModel,
+//                scaffoldState
+//            )
 
         }
     }
