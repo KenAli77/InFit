@@ -8,4 +8,4 @@ data class User(
     val userName:String? = null
 )
 
-class InvalidUserException(message:String): Exception(message)
+class InvalidUserException(message:String): Exception()
