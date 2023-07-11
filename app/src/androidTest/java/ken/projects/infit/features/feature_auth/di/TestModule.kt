@@ -1,4 +1,4 @@
-package ken.projects.infit.di
+package ken.projects.infit.features.feature_auth.di
 
 import com.google.firebase.auth.FirebaseAuth
 import dagger.Module
@@ -8,29 +8,27 @@ import dagger.hilt.components.SingletonComponent
 import ken.projects.infit.features.feature_auth.data.repositories.AuthRepositoryImpl
 import ken.projects.infit.features.feature_auth.data.validators.AndroidEmailPatternValidator
 import ken.projects.infit.features.feature_auth.domain.repostitories.AuthRepository
-import ken.projects.infit.features.feature_auth.domain.use_case.*
 import ken.projects.infit.features.feature_auth.domain.use_case.AuthUseCases
 import ken.projects.infit.features.feature_auth.domain.use_case.auth.CreateNewUser
 import ken.projects.infit.features.feature_auth.domain.use_case.auth.LoginUserWithEmailAndPassword
 import ken.projects.infit.features.feature_auth.domain.use_case.validation.*
-import ken.projects.infit.features.feature_auth.domain.use_case.validation.validators.EmailPatternValidator
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object AuthModule {
+object TestModule {
 
-    @Provides
-    @Singleton
-    fun provideFirebaseAuth(): FirebaseAuth {
-        return FirebaseAuth.getInstance()
-    }
+//    @Provides
+//    @Singleton
+//    fun provideFirebaseAuth(): FirebaseAuth {
+//        return FirebaseAuth.getInstance()
+//    }
 
-    @Provides
-    @Singleton
-    fun provideAuthRepository(auth: FirebaseAuth): AuthRepository {
-        return AuthRepositoryImpl(auth)
-    }
+//    @Provides
+//    @Singleton
+//    fun provideAuthRepository(auth: FirebaseAuth): AuthRepository {
+//        return AuthRepositoryImpl(auth)
+//    }
 
     @Provides
     @Singleton
@@ -54,5 +52,4 @@ object AuthModule {
             validatePassword = ValidatePassword(),
         )
     }
-
 }

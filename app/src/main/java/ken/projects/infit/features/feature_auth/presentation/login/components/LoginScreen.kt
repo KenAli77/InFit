@@ -13,14 +13,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import ken.projects.infit.R
 import ken.projects.infit.core.components.InputField
 import ken.projects.infit.core.components.LoadingView
+import ken.projects.infit.core.utils.TestTags.LOGIN_BUTTON
+import ken.projects.infit.core.utils.TestTags.LOGIN_EMAIL_INPUT
+import ken.projects.infit.core.utils.TestTags.LOGIN_PASSWORD_INPUT
 import ken.projects.infit.features.feature_auth.presentation.login.events.authentication.LoginAuthEvent
 import ken.projects.infit.features.feature_auth.presentation.login.events.button_click.LoginButtonEvent
 import ken.projects.infit.features.feature_auth.presentation.login.events.user_input.LoginUserInputEvent
@@ -34,8 +39,8 @@ import kotlinx.coroutines.flow.collect
 @Composable
 fun LoginScreen(
     navController: NavHostController,
-    loginViewModel: LoginViewModel,
-    scaffoldState: ScaffoldState
+    loginViewModel: LoginViewModel = hiltViewModel(),
+    scaffoldState: ScaffoldState = rememberScaffoldState()
 ) = with(loginViewModel) {
 
     val context = LocalContext.current
@@ -128,6 +133,7 @@ fun LoginScreen(
                         .fillMaxWidth()
                 )
                 InputField(
+                    modifier = Modifier.testTag(LOGIN_EMAIL_INPUT),
                     input = state.email,
                     onValueChange = { onUserInputEvent(LoginUserInputEvent.EnteredEmail(it)) },
                     placeholder = stringResource(R.string.email),
@@ -137,6 +143,7 @@ fun LoginScreen(
                 Spacer(modifier = Modifier.height(10.dp))
 
                 InputField(
+                    modifier = Modifier.testTag(LOGIN_PASSWORD_INPUT),
                     input = state.password,
                     onValueChange = { onUserInputEvent(LoginUserInputEvent.EnteredPassword(it)) },
                     placeholder = stringResource(R.string.password),
@@ -153,7 +160,8 @@ fun LoginScreen(
                 RegularButton(
                     Modifier
                         .padding(top = 20.dp)
-                        .align(CenterHorizontally),
+                        .align(CenterHorizontally)
+                        .testTag(LOGIN_BUTTON),
                     stringResource(R.string.login).lowercase(),
                     onClick = {
                         onButtonClickEvent(LoginButtonEvent.LoginButtonClick)
