@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
@@ -20,12 +21,15 @@ import androidx.navigation.NavHostController
 import ken.projects.infit.R
 import ken.projects.infit.core.components.InputField
 import ken.projects.infit.core.components.LoadingView
+import ken.projects.infit.features.feature_auth.presentation.login.events.authentication.LoginAuthEvent
 import ken.projects.infit.features.feature_auth.presentation.login.events.button_click.LoginButtonEvent
 import ken.projects.infit.features.feature_auth.presentation.login.events.user_input.LoginUserInputEvent
+import ken.projects.infit.features.feature_auth.presentation.login.events.validation.LoginValidationEvent
 import ken.projects.infit.ui.composables.RegularButton
 import ken.projects.infit.ui.composables.home.Heading
 import ken.projects.infit.ui.theme.*
 import ken.projects.infit.features.feature_auth.presentation.login.viewmodel.LoginViewModel
+import kotlinx.coroutines.flow.collect
 
 @Composable
 fun LoginScreen(
@@ -34,21 +38,63 @@ fun LoginScreen(
     scaffoldState: ScaffoldState
 ) = with(loginViewModel) {
 
-
+    val context = LocalContext.current
 
     LaunchedEffect(key1 = state.error) {
         state.error?.let { message ->
             scaffoldState.snackbarHostState.showSnackbar(
-                message,
+                message.getString(context),
                 null,
                 SnackbarDuration.Short
             )
         }
     }
-    LaunchedEffect(key1 = state.navigateTo) {
-        state.navigateTo?.let { destination ->
-            navController.navigate(destination)
+    LaunchedEffect(key1 = context) {
+        navigationEvents.collect { route ->
+            navController.navigate(route)
         }
+
+    }
+
+    LaunchedEffect(key1 = context) {
+        loginEvents.collect { event ->
+
+            when (event) {
+                is LoginAuthEvent.Failure -> {
+                    event.reason?.let {
+                        scaffoldState.snackbarHostState.showSnackbar(
+                            it.getString(context),
+                            null,
+                            SnackbarDuration.Short
+                        )
+                    }
+
+                }
+                is LoginAuthEvent.Success -> {
+                    scaffoldState.snackbarHostState.showSnackbar(
+                        "Success",
+                        null,
+                        SnackbarDuration.Short
+                    )
+                }
+            }
+        }
+
+    }
+
+    LaunchedEffect(key1 = context) {
+        validationEvents.collect { event ->
+            when (event) {
+                LoginValidationEvent.Success -> {
+                    scaffoldState.snackbarHostState.showSnackbar(
+                        "success",
+                        null,
+                        SnackbarDuration.Short
+                    )
+                }
+            }
+        }
+
     }
 
 
@@ -82,23 +128,21 @@ fun LoginScreen(
                         .fillMaxWidth()
                 )
                 InputField(
-                    input = email,
+                    input = state.email,
                     onValueChange = { onUserInputEvent(LoginUserInputEvent.EnteredEmail(it)) },
                     placeholder = stringResource(R.string.email),
                     icon = Icons.Rounded.Email,
                     type = KeyboardType.Email,
-                    onFocusChanged = {}
                 )
                 Spacer(modifier = Modifier.height(10.dp))
 
                 InputField(
-                    input = password,
+                    input = state.password,
                     onValueChange = { onUserInputEvent(LoginUserInputEvent.EnteredPassword(it)) },
                     placeholder = stringResource(R.string.password),
                     icon = Icons.Rounded.Lock,
                     type = KeyboardType.Password,
                     password = true,
-                    onFocusChanged = {}
                 )
                 SignUpSection(
                     modifier = Modifier
@@ -112,7 +156,7 @@ fun LoginScreen(
                         .align(CenterHorizontally),
                     stringResource(R.string.login).lowercase(),
                     onClick = {
-                        loginViewModel.onButtonClickEvent(LoginButtonEvent.LoginButtonClick)
+                        onButtonClickEvent(LoginButtonEvent.LoginButtonClick)
                     }
                 )
 

@@ -1,20 +1,21 @@
 package ken.projects.infit.features.feature_auth.presentation.register.state
 
 import com.google.firebase.auth.AuthResult
+import ken.projects.infit.core.utils.UiText
 
 data class SignupState(
     val data: AuthResult? = null,
     val loading: Boolean = false,
     val success: Boolean = false,
-    val error: String? = null,
+    val error: UiText? = null,
     val userName:String = "",
-    val userNameError:String? = null,
+    val userNameError:UiText? = null,
     val email:String = "",
-    val emailError:String? = null,
+    val emailError:UiText? = null,
     val password:String = "",
-    val passwordError:String? = null,
+    val passwordError:UiText? = null,
     val confirmPassword:String = "",
-    val confirmPasswordError:String? = null,
+    val confirmPasswordError:UiText? = null,
     val acceptedTerms:Boolean = false,
-    val termsError:String? = null,
+    val termsError:UiText? = null,
 )

@@ -1,5 +1,8 @@
 package ken.projects.infit.features.feature_auth.domain.use_case.validation
 
+import ken.projects.infit.R
+import ken.projects.infit.core.utils.UiText
+
 class ValidatePassword {
 
     companion object {
@@ -10,7 +13,7 @@ class ValidatePassword {
         if (password.length < PASSWORD_MIN_LENGTH) {
             return ValidationResult(
                 successful = false,
-                errorMessage = "The password must have at least 8 characters"
+                errorMessage = UiText.StringResource(R.string.error_password_characters_limit)
             )
         }
 
@@ -20,7 +23,7 @@ class ValidatePassword {
         if (!containLettersAndDigits) {
             return ValidationResult(
                 successful = false,
-                errorMessage = "Password must contain at least one letter and one digit"
+                errorMessage = UiText.StringResource(R.string.error_password_digit_letter)
             )
         }
 

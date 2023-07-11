@@ -81,4 +81,11 @@
     <string name="equipment">equipment</string>
     <string name="logout">Logout</string>
     <string name="logout_alert_text">are you sure you want to logout?</string>
+    <string name="password_not_matching">Passwords are not matching</string>
+    <string name="error_empty_email">Email can\'t be empty</string>
+    <string name="error_email_not_valid">Email is not valid</string>
+    <string name="error_password_characters_limit">The password must have at least 8 characters</string>
+    <string name="error_password_digit_letter">Password must contain at least one letter and one digit</string>
+    <string name="error_terms_conditions">Please accept terms and conditions</string>
+    <string name="error_empty_user_name">User name cannot be empty</string>
 </resources>

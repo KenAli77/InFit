@@ -2,7 +2,6 @@ package ken.projects.infit.features.feature_auth.presentation.login.events.valid
 
 sealed class LoginValidationEvent {
 
-   object InputValidation: LoginValidationEvent()
-   object FormValidation: LoginValidationEvent()
+   object Success: LoginValidationEvent()
 
 }

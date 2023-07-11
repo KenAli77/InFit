@@ -1,5 +1,7 @@
 package ken.projects.infit.features.feature_auth.domain.use_case.validation
 
+import ken.projects.infit.R
+import ken.projects.infit.core.utils.UiText
 import ken.projects.infit.features.feature_auth.domain.use_case.validation.validators.EmailPatternValidator
 
 class ValidateEmail(private val validator: EmailPatternValidator) {
@@ -8,13 +10,13 @@ class ValidateEmail(private val validator: EmailPatternValidator) {
         if (email.isNullOrBlank()) {
             return ValidationResult(
                 successful = false,
-                errorMessage = "Email can't be empty"
+                errorMessage = UiText.StringResource(R.string.error_empty_email),
             )
         }
         if (!validator.isValidEmail(email)) {
             return ValidationResult(
                 successful = false,
-                errorMessage = "Email is not valid",
+                errorMessage = UiText.StringResource(R.string.error_email_not_valid),
             )
         }
         return ValidationResult(

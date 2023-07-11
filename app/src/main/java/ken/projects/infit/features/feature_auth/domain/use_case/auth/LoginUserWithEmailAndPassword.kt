@@ -1,5 +1,6 @@
 package ken.projects.infit.features.feature_auth.domain.use_case.auth
 
+import ken.projects.infit.core.utils.UiText
 import ken.projects.infit.features.feature_auth.data.models.EmailLogin
 import ken.projects.infit.features.feature_auth.domain.repostitories.AuthRepository
 import ken.projects.infit.util.Resource
@@ -15,7 +16,11 @@ class LoginUserWithEmailAndPassword(private val repository: AuthRepository) {
 
         when (result){
             is Resource.Error -> {
-                return AuthResult(success = false, errorMessage = result.message)
+                return AuthResult(success = false, errorMessage = result.message?.let {
+                    UiText.DynamicString(
+                        it
+                    )
+                })
             }
             is Resource.Loading -> {
                 return AuthResult()

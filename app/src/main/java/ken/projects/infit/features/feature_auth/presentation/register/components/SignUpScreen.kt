@@ -43,7 +43,7 @@ fun SignUpScreen(
 ) = with(signUpViewModel) {
 
     BackHandler() {
-        Log.e("navigating back","signup screen")
+        Log.e("navigating back", "signup screen")
         navController.navigateUp()
         navController.popBackStack()
     }
@@ -52,7 +52,7 @@ fun SignUpScreen(
     LaunchedEffect(key1 = state.error) {
         state.error?.let {
             scaffoldState.snackbarHostState.showSnackbar(
-                it,
+                it.getString(context),
                 null,
                 SnackbarDuration.Short
             )
@@ -77,7 +77,7 @@ fun SignUpScreen(
                 is SignUpAuthEvent.Failure -> {
                     event.message?.let {
                         scaffoldState.snackbarHostState.showSnackbar(
-                            it,
+                            it.getString(context),
                             null,
                             SnackbarDuration.Short
                         )
@@ -127,7 +127,7 @@ fun SignUpScreen(
                     type = KeyboardType.Text,
                     onFocusChanged = { },
                     isInvalid = state.userNameError != null,
-                    errorMessage = state.userNameError
+                    errorMessage = state.userNameError?.getString()
                 )
                 InputField(
                     input = state.email,
@@ -137,7 +137,7 @@ fun SignUpScreen(
                     type = KeyboardType.Email,
                     onFocusChanged = { },
                     isInvalid = state.emailError != null,
-                    errorMessage = state.emailError
+                    errorMessage = state.emailError?.getString()
                 )
                 InputField(
                     input = state.password,
@@ -148,7 +148,7 @@ fun SignUpScreen(
                     password = true,
                     onFocusChanged = { },
                     isInvalid = state.passwordError != null,
-                    errorMessage = state.passwordError,
+                    errorMessage = state.passwordError?.getString(),
                 )
                 InputField(
                     input = state.confirmPassword,
@@ -165,7 +165,7 @@ fun SignUpScreen(
                     password = true,
                     onFocusChanged = { },
                     isInvalid = state.confirmPasswordError != null,
-                    errorMessage = state.confirmPasswordError,
+                    errorMessage = state.confirmPasswordError?.getString(),
                 )
                 RegularButton(modifier = Modifier
                     .align(Alignment.CenterHorizontally)
