@@ -9,7 +9,7 @@ interface WorkoutPlanRepository {
     suspend fun getWorkoutPlan (uid:String): Resource<QuerySnapshot>
     suspend fun deleteWorkoutPlan (workoutPlanId: String,uid:String)
     suspend fun editWorkoutPlan (workoutPlanId: String,uid:String)
-
+    suspend fun createWorkoutPlan (workoutPlanId: String,uid:String)
     suspend fun addWorkoutToPlan(workoutPlanId: String,workout:Workout)
 
 }
