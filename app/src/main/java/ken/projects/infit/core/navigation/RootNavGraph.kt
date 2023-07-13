@@ -20,8 +20,6 @@ import ken.projects.infit.viewmodel.WorkoutViewModel
 @Composable
 fun RootNavGraph(
     navController: NavHostController,
-    loginViewModel: LoginViewModel = viewModel(),
-    workoutViewModel: WorkoutViewModel = viewModel(),
 ) {
 
     val bottomBarState = rememberSaveable { (mutableStateOf(false)) }

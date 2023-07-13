@@ -49,11 +49,8 @@ class MainActivity : ComponentActivity() {
 
             InFitTheme {
 
-                val workoutViewModel = hiltViewModel<WorkoutViewModel>()
-                val loginViewModel = hiltViewModel<LoginViewModel>()
-
                 val navController = rememberNavController()
-                RootNavGraph(navController,loginViewModel,workoutViewModel)
+                RootNavGraph(navController)
 
             }
         }

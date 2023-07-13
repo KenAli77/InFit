@@ -15,10 +15,12 @@ import androidx.compose.ui.focus.FocusState
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import ken.projects.infit.core.utils.TestTags
 import ken.projects.infit.ui.theme.white
 
 @Composable
@@ -33,6 +35,7 @@ fun InputField(
     onFocusChanged: (FocusState) -> Unit = {},
     isInvalid:Boolean = false,
     errorMessage:String? = null,
+    tag:String = ""
     ) {
 
     Column(modifier = modifier) {
@@ -52,7 +55,8 @@ fun InputField(
             label = { Text(text = placeholder) },
             modifier = Modifier
                 .fillMaxWidth()
-                .onFocusChanged { onFocusChanged(it) },
+                .onFocusChanged { onFocusChanged(it) }
+                .testTag(tag),
             maxLines = 1,
             keyboardOptions = KeyboardOptions(
                 keyboardType = type,

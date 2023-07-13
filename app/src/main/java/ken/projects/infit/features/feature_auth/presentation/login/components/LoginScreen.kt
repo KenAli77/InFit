@@ -133,23 +133,23 @@ fun LoginScreen(
                         .fillMaxWidth()
                 )
                 InputField(
-                    modifier = Modifier.testTag(LOGIN_EMAIL_INPUT),
                     input = state.email,
                     onValueChange = { onUserInputEvent(LoginUserInputEvent.EnteredEmail(it)) },
                     placeholder = stringResource(R.string.email),
                     icon = Icons.Rounded.Email,
                     type = KeyboardType.Email,
+                    tag = LOGIN_EMAIL_INPUT
                 )
                 Spacer(modifier = Modifier.height(10.dp))
 
                 InputField(
-                    modifier = Modifier.testTag(LOGIN_PASSWORD_INPUT),
                     input = state.password,
                     onValueChange = { onUserInputEvent(LoginUserInputEvent.EnteredPassword(it)) },
                     placeholder = stringResource(R.string.password),
                     icon = Icons.Rounded.Lock,
                     type = KeyboardType.Password,
                     password = true,
+                    tag = LOGIN_PASSWORD_INPUT
                 )
                 SignUpSection(
                     modifier = Modifier
