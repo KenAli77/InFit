@@ -1,39 +1,22 @@
 package ken.projects.infit.ui.composables.home
 
 import android.annotation.SuppressLint
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Delete
-import androidx.compose.material.icons.rounded.List
-import androidx.compose.material.icons.rounded.PlayArrow
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import ken.projects.infit.R
 import ken.projects.infit.ui.composables.*
-import ken.projects.infit.core.navigation.Screens
 import ken.projects.infit.ui.theme.*
-import ken.projects.infit.features.feature_auth.presentation.login.viewmodel.LoginViewModel
+import ken.projects.infit.features.auth.presentation.login.viewmodel.LoginViewModel
 import ken.projects.infit.viewmodel.WorkoutViewModel
-import kotlinx.coroutines.launch
-import java.time.LocalDateTime
 
 @OptIn(ExperimentalComposeUiApi::class)
 @SuppressLint("CoroutineCreationDuringComposition")

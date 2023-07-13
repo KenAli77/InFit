@@ -34,7 +34,7 @@ import ken.projects.infit.ui.composables.workout.WorkoutPlanSetUpScreen
 import ken.projects.infit.ui.composables.workout.WorkoutScreen
 import ken.projects.infit.ui.theme.holoGreen
 import ken.projects.infit.ui.theme.veryDarkBlue
-import ken.projects.infit.features.feature_auth.presentation.login.viewmodel.LoginViewModel
+import ken.projects.infit.features.auth.presentation.login.viewmodel.LoginViewModel
 import ken.projects.infit.viewmodel.WorkoutViewModel
 
 fun NavGraphBuilder.mainNavGraph(

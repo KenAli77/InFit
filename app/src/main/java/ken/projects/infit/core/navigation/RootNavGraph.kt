@@ -9,13 +9,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import ken.projects.infit.ui.theme.darkBlue
-import ken.projects.infit.features.feature_auth.presentation.login.viewmodel.LoginViewModel
-import ken.projects.infit.viewmodel.WorkoutViewModel
 
 @Composable
 fun RootNavGraph(

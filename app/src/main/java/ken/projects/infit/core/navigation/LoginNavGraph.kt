@@ -5,12 +5,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
-import ken.projects.infit.features.feature_auth.presentation.login.components.LoginScreen
-import ken.projects.infit.features.feature_auth.presentation.login.viewmodel.LoginViewModel
-import ken.projects.infit.features.feature_auth.presentation.register.components.SignUpScreen
-import ken.projects.infit.features.feature_auth.presentation.register.viewmodel.SignUpViewModel
+import ken.projects.infit.features.auth.presentation.login.components.LoginScreen
+import ken.projects.infit.features.auth.presentation.login.viewmodel.LoginViewModel
+import ken.projects.infit.features.auth.presentation.register.components.SignUpScreen
+import ken.projects.infit.features.auth.presentation.register.viewmodel.SignUpViewModel
 
 fun NavGraphBuilder.authNavGraph(
     navController: NavHostController,
