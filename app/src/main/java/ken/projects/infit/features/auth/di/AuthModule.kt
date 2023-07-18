@@ -5,7 +5,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import ken.projects.infit.features.auth.data.repositories.AuthRepositoryImpl
+import ken.projects.infit.features.auth.data.remote.api.AuthApi
+import ken.projects.infit.features.auth.data.remote.repositories.AuthRepositoryImpl
 import ken.projects.infit.features.auth.data.validators.AndroidEmailPatternValidator
 import ken.projects.infit.features.auth.domain.repostitories.AuthRepository
 import ken.projects.infit.features.auth.domain.use_case.*
@@ -13,6 +14,9 @@ import ken.projects.infit.features.auth.domain.use_case.AuthUseCases
 import ken.projects.infit.features.auth.domain.use_case.auth.CreateNewUser
 import ken.projects.infit.features.auth.domain.use_case.auth.LoginUserWithEmailAndPassword
 import ken.projects.infit.features.auth.domain.use_case.validation.*
+import retrofit2.Retrofit
+import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.create
 import javax.inject.Singleton
 
 @Module
@@ -23,6 +27,18 @@ object AuthModule {
     @Singleton
     fun provideFirebaseAuth(): FirebaseAuth {
         return FirebaseAuth.getInstance()
+    }
+
+
+
+    @Provides
+    @Singleton
+    fun provideAuthApi(): AuthApi {
+        return Retrofit.Builder()
+            .addConverterFactory(MoshiConverterFactory.create())
+            .baseUrl("http://localhost:8080/")
+            .build()
+            .create()
     }
 
     @Provides

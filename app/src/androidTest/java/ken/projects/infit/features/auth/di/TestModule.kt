@@ -5,7 +5,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import ken.projects.infit.features.auth.data.repositories.AuthRepositoryImpl
+import ken.projects.infit.features.auth.data.remote.repositories.AuthRepositoryImpl
 import ken.projects.infit.features.auth.data.validators.AndroidEmailPatternValidator
 import ken.projects.infit.features.auth.domain.repostitories.AuthRepository
 import ken.projects.infit.features.auth.domain.use_case.AuthUseCases

@@ -6,7 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import ken.projects.infit.features.auth.data.models.EmailLogin
+import ken.projects.infit.features.auth.data.remote.models.EmailLogin
 import ken.projects.infit.features.auth.domain.use_case.AuthUseCases
 import ken.projects.infit.features.auth.presentation.login.events.authentication.LoginAuthEvent
 import ken.projects.infit.features.auth.presentation.login.events.button_click.LoginButtonEvent

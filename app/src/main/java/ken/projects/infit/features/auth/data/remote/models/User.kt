@@ -1,7 +1,6 @@
-package ken.projects.infit.features.auth.data.models
+package ken.projects.infit.features.auth.data.remote.models
 
 import java.lang.Exception
-
 
 data class User(
     val userEmail:String? = null,

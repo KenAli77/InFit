@@ -1,6 +1,5 @@
 package ken.projects.infit.features.workout_plan.data.models
 
-
 import java.time.DayOfWeek
 
 data class Workout(

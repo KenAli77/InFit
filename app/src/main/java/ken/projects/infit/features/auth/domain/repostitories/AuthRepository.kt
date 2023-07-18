@@ -1,6 +1,7 @@
 package ken.projects.infit.features.auth.domain.repostitories
 
 import com.google.firebase.auth.AuthResult
+import ken.projects.infit.features.auth.data.remote.models.AuthResponse
 import ken.projects.infit.util.Resource
 
 interface AuthRepository {
@@ -9,10 +10,10 @@ interface AuthRepository {
         userName: String,
         userEmailAddress: String,
         userLoginPassword: String
-    ): Resource<AuthResult>
+    ): Resource<AuthResponse>
 
 
-    suspend fun loginUser(email: String, password: String): Resource<AuthResult>
+    suspend fun loginUser(email: String, password: String): Resource<AuthResponse>
 
     suspend fun logOutUser()
 }
