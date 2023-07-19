@@ -1,9 +1,10 @@
 package ken.projects.infit.features.auth.data.remote.repositories
 
+import android.content.SharedPreferences
 import ken.projects.infit.features.auth.data.remote.api.AuthApi
-import ken.projects.infit.features.auth.data.remote.models.AuthResponse
-import ken.projects.infit.features.auth.data.remote.models.EmailLogin
-import ken.projects.infit.features.auth.data.remote.models.UserRegistration
+import ken.projects.infit.features.auth.data.remote.response.AuthResponse
+import ken.projects.infit.features.auth.data.remote.request.LoginRequest
+import ken.projects.infit.features.auth.data.remote.request.NewAccountRequest
 import ken.projects.infit.features.auth.domain.repostitories.AuthRepository
 import ken.projects.infit.util.Resource
 import kotlinx.coroutines.Dispatchers
@@ -11,7 +12,8 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
-    private val api: AuthApi
+    private val api: AuthApi,
+    private val sharedPref:SharedPreferences
 ) : AuthRepository {
 
 
@@ -25,12 +27,16 @@ class AuthRepositoryImpl @Inject constructor(
             try {
 
                 val response = api.registerUser(
-                    UserRegistration(
-                        userName = userName,
+                    NewAccountRequest(
+                        username = userName,
                         email = userEmailAddress,
                         password = userLoginPassword
                     )
                 )
+
+                if(response.success){
+
+                }
 
                 Resource.Success(response)
             } catch (e: Exception) {
@@ -43,7 +49,7 @@ class AuthRepositoryImpl @Inject constructor(
     override suspend fun loginUser(email: String, password: String): Resource<AuthResponse> {
         return withContext(Dispatchers.IO) {
             try {
-                val response = api.loginUserWithEmail(EmailLogin(email = email,password = password))
+                val response = api.loginUserWithEmail(LoginRequest(email = email,password = password))
                 Resource.Success(response)
             } catch (e: Exception) {
                 e.printStackTrace()

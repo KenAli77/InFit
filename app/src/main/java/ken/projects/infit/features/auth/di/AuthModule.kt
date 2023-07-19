@@ -1,5 +1,6 @@
 package ken.projects.infit.features.auth.di
 
+import android.content.SharedPreferences
 import com.google.firebase.auth.FirebaseAuth
 import dagger.Module
 import dagger.Provides
@@ -30,7 +31,6 @@ object AuthModule {
     }
 
 
-
     @Provides
     @Singleton
     fun provideAuthApi(): AuthApi {
@@ -43,8 +43,8 @@ object AuthModule {
 
     @Provides
     @Singleton
-    fun provideAuthRepository(auth: FirebaseAuth): AuthRepository {
-        return AuthRepositoryImpl(auth)
+    fun provideAuthRepository(auth: AuthApi, sharedPreferences: SharedPreferences): AuthRepository {
+        return AuthRepositoryImpl(auth, sharedPreferences)
     }
 
     @Provides

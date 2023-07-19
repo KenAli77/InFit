@@ -2,7 +2,7 @@ package ken.projects.infit.features.auth.domain.use_case.auth
 
 import ken.projects.infit.core.domain.Response
 import ken.projects.infit.core.utils.UiText
-import ken.projects.infit.features.auth.data.remote.models.InvalidUserException
+import ken.projects.infit.features.auth.data.remote.InvalidUserException
 import ken.projects.infit.features.auth.domain.repostitories.AuthRepository
 import ken.projects.infit.util.Resource
 

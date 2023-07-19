@@ -1,4 +1,4 @@
-package ken.projects.infit.features.auth.data.remote.models
+package ken.projects.infit.features.auth.data.remote
 
 import java.lang.Exception
 

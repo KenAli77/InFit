@@ -6,7 +6,6 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import ken.projects.infit.features.auth.data.remote.models.EmailLogin
 import ken.projects.infit.features.auth.domain.use_case.AuthUseCases
 import ken.projects.infit.features.auth.presentation.login.events.authentication.LoginAuthEvent
 import ken.projects.infit.features.auth.presentation.login.events.button_click.LoginButtonEvent
@@ -52,7 +51,6 @@ class LoginViewModel @Inject constructor(
     fun onNavigationEvent(event: LoginNavigationEvent) {
         viewModelScope.launch {
             navigationEvent.send(event.route)
-
         }
     }
 
@@ -124,10 +122,8 @@ class LoginViewModel @Inject constructor(
             state = state.copy(loading = true)
 
             val result = useCases.loginUserWithEmailAndPassword.invoke(
-                EmailLogin(
                     state.email,
                     state.password
-                )
             )
 
             state = when (result.success) {

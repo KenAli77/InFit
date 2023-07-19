@@ -1,8 +1,8 @@
 package ken.projects.infit.features.auth.data.remote.api
 
-import ken.projects.infit.features.auth.data.remote.models.AuthResponse
-import ken.projects.infit.features.auth.data.remote.models.EmailLogin
-import ken.projects.infit.features.auth.data.remote.models.UserRegistration
+import ken.projects.infit.features.auth.data.remote.response.AuthResponse
+import ken.projects.infit.features.auth.data.remote.request.LoginRequest
+import ken.projects.infit.features.auth.data.remote.request.NewAccountRequest
 import retrofit2.http.Body
 import retrofit2.http.POST
 
@@ -14,9 +14,9 @@ interface AuthApi {
     }
 
     @POST(LOGIN_API)
-    suspend fun loginUserWithEmail(@Body data:EmailLogin):AuthResponse
+    suspend fun loginUserWithEmail(@Body data: LoginRequest): AuthResponse
 
     @POST(REGISTER_API)
-    suspend fun registerUser(@Body data:UserRegistration):AuthResponse
+    suspend fun registerUser(@Body data: NewAccountRequest): AuthResponse
 
 }
