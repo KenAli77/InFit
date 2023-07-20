@@ -22,8 +22,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import ken.projects.infit.R
-import ken.projects.infit.core.components.InputField
-import ken.projects.infit.core.components.LoadingView
+import ken.projects.infit.core.presentation.components.InputField
+import ken.projects.infit.core.presentation.components.LoadingView
 import ken.projects.infit.ui.composables.RegularButton
 import ken.projects.infit.ui.composables.home.Heading
 import ken.projects.infit.ui.theme.holoGreen
@@ -44,7 +44,6 @@ fun SignUpScreen(
     BackHandler() {
         Log.e("navigating back", "signup screen")
         navController.navigateUp()
-        navController.popBackStack()
     }
 
     val context = LocalContext.current

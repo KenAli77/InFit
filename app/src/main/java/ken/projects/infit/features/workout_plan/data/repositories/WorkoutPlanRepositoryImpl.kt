@@ -4,7 +4,7 @@ import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.ktx.Firebase
 import ken.projects.infit.data.models.Workout
 import ken.projects.infit.features.workout_plan.domain.repositories.WorkoutPlanRepository
-import ken.projects.infit.util.Resource
+import ken.projects.infit.core.utils.Resource
 import javax.inject.Inject
 
 class WorkoutPlanRepositoryImpl @Inject constructor(private val firebase:Firebase):WorkoutPlanRepository {

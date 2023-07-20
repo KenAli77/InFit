@@ -36,7 +36,7 @@ object AuthModule {
     fun provideAuthApi(): AuthApi {
         return Retrofit.Builder()
             .addConverterFactory(MoshiConverterFactory.create())
-            .baseUrl("http://localhost:8080/")
+            .baseUrl("http://192.168.1.7:8080/")
             .build()
             .create()
     }

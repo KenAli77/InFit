@@ -105,7 +105,7 @@ fun NavGraphBuilder.mainNavGraph(
         }
 
         composable(route = Screens.WorkoutPlanSetUp.route) {
-            WorkoutPlanSetUpScreen(workoutViewModel = workoutViewModel, navController)
+//            WorkoutPlanSetUpScreen(workoutViewModel = workoutViewModel, navController)
             bottomBarState.value = true
         }
 

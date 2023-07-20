@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
+<!-- TODO REMOVE CLEAR TRAFFIC AND USE HTTPS !IMPORTANT!   -->
 
     <application
         android:allowBackup="true"
@@ -12,6 +13,7 @@
         android:roundIcon="@mipmap/ic_infit_logo_full_round"
         android:supportsRtl="true"
         android:name=".InfitApp"
+        android:usesCleartextTraffic="true"
         android:theme="@style/Theme.InFit">
         <service android:name=".data.service.WorkoutTimerService"
             android:enabled="true"/>

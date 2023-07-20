@@ -21,8 +21,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import ken.projects.infit.R
-import ken.projects.infit.core.components.InputField
-import ken.projects.infit.core.components.LoadingView
+import ken.projects.infit.core.presentation.components.InputField
+import ken.projects.infit.core.presentation.components.LoadingView
 import ken.projects.infit.core.navigation.MAIN_ROUTE
 import ken.projects.infit.core.utils.TestTags.LOGIN_BUTTON
 import ken.projects.infit.core.utils.TestTags.LOGIN_EMAIL_INPUT
@@ -91,12 +91,12 @@ fun LoginScreen(
         validationEvents.collect { event ->
             when (event) {
                 LoginValidationEvent.Success -> {
-                    scaffoldState.snackbarHostState.showSnackbar(
-                        "success",
-                        null,
-                        SnackbarDuration.Short
-                    )
-                     navController.navigate(MAIN_ROUTE)
+//                    scaffoldState.snackbarHostState.showSnackbar(
+//                        "validation success",
+//                        null,
+//                        SnackbarDuration.Short
+//                    )
+//                     navController.navigate(MAIN_ROUTE)
                 }
             }
         }

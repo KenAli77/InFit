@@ -4,7 +4,7 @@ import ken.projects.infit.core.domain.Response
 import ken.projects.infit.core.utils.UiText
 import ken.projects.infit.features.auth.data.remote.InvalidUserException
 import ken.projects.infit.features.auth.domain.repostitories.AuthRepository
-import ken.projects.infit.util.Resource
+import ken.projects.infit.core.utils.Resource
 
 class CreateNewUser(private val repository: AuthRepository) {
 
@@ -33,9 +33,6 @@ class CreateNewUser(private val repository: AuthRepository) {
                         it
                     )
                 })
-            }
-            is Resource.Loading -> {
-                return Response()
             }
             is Resource.Success -> {
                 return Response(success = true, data = result.data)

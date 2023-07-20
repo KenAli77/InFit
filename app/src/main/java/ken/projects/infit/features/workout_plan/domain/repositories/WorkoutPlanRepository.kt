@@ -2,7 +2,7 @@ package ken.projects.infit.features.workout_plan.domain.repositories
 
 import com.google.firebase.firestore.QuerySnapshot
 import ken.projects.infit.data.models.Workout
-import ken.projects.infit.util.Resource
+import ken.projects.infit.core.utils.Resource
 
 interface WorkoutPlanRepository {
 

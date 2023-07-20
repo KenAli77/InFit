@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QuerySnapshot
 import ken.projects.infit.data.models.*
-import ken.projects.infit.util.Resource
+import ken.projects.infit.core.utils.Resource
 
 interface WorkoutRepository {
 
@@ -33,11 +33,11 @@ interface WorkoutRepository {
                               uid:String
     ): Resource<Void>
 
-    suspend fun addNewExercise(exercise: Exercise,uid:String):Resource<Void>
+    suspend fun addNewExercise(exercise: Exercise,uid:String): Resource<Void>
 
     suspend fun addExerciseHistory(exercise:ExerciseHistoryItem,uid:String)
 
-    suspend fun getHistoryData(uid:String):Resource<QuerySnapshot>
+    suspend fun getHistoryData(uid:String): Resource<QuerySnapshot>
 
     suspend fun getHistoryDataDetails(exerciseId: String,uid:String): Resource<QuerySnapshot>
     suspend fun deleteWorkoutPlan(workoutPlanId: String,uid:String)

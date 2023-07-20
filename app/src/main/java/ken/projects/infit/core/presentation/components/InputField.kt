@@ -1,4 +1,4 @@
-package ken.projects.infit.core.components
+package ken.projects.infit.core.presentation.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth

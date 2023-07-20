@@ -1,12 +1,13 @@
 package ken.projects.infit.features.auth.data.remote.repositories
 
 import android.content.SharedPreferences
+import ken.projects.infit.core.utils.Constants
 import ken.projects.infit.features.auth.data.remote.api.AuthApi
 import ken.projects.infit.features.auth.data.remote.response.AuthResponse
 import ken.projects.infit.features.auth.data.remote.request.LoginRequest
 import ken.projects.infit.features.auth.data.remote.request.NewAccountRequest
 import ken.projects.infit.features.auth.domain.repostitories.AuthRepository
-import ken.projects.infit.util.Resource
+import ken.projects.infit.core.utils.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -49,7 +50,23 @@ class AuthRepositoryImpl @Inject constructor(
     override suspend fun loginUser(email: String, password: String): Resource<AuthResponse> {
         return withContext(Dispatchers.IO) {
             try {
-                val response = api.loginUserWithEmail(LoginRequest(email = email,password = password))
+                val request = LoginRequest(email = email,password = password)
+                val response = api.loginUserWithEmail(request)
+                response.token?.let { token->
+                    println("overriding token with ${token}")
+
+                    sharedPref.edit()
+                        .putString(Constants.KEY_JWT_TOKEN, token)
+                        .apply()
+                }
+
+                response.id?.let { id ->
+                    println("overriding id with ${id}")
+                    sharedPref.edit()
+                        .putString(Constants.KEY_USER_ID, id)
+                        .apply()
+
+                }
                 Resource.Success(response)
             } catch (e: Exception) {
                 e.printStackTrace()

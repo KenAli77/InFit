@@ -1,7 +1,7 @@
 package ken.projects.infit.features.auth.domain.repostitories
 
 import ken.projects.infit.features.auth.data.remote.response.AuthResponse
-import ken.projects.infit.util.Resource
+import ken.projects.infit.core.utils.Resource
 
 interface AuthRepository {
 

@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.ktx.toObject
 import dagger.hilt.android.lifecycle.HiltViewModel
+import ken.projects.infit.core.utils.Resource
 import ken.projects.infit.data.models.*
 import ken.projects.infit.data.models.states.WorkoutPlanState
 import ken.projects.infit.domain.WorkoutRepository
@@ -303,12 +304,6 @@ class WorkoutViewModel @Inject constructor(
                     }
 
                 }
-                is Resource.Loading -> {
-                    workoutPlanState = workoutPlanState.copy(
-                        workoutPlan = null,
-                        loading = true
-                    )
-                }
                 is Resource.Error -> {
                     workoutPlanState = workoutPlanState.copy(
                         loading = false,
@@ -343,7 +338,6 @@ class WorkoutViewModel @Inject constructor(
                 }
             }
 
-            is Resource.Loading -> {}
 
             is Resource.Error -> {}
         }
