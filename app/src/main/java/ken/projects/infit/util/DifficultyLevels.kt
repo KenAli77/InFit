@@ -20,5 +20,4 @@ sealed class DifficultyLevels() {
 
     }
 
-
 }
