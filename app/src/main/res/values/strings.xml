@@ -88,4 +88,7 @@
     <string name="error_password_digit_letter">Password must contain at least one letter and one digit</string>
     <string name="error_terms_conditions">Please accept terms and conditions</string>
     <string name="error_empty_user_name">User name cannot be empty</string>
+    <string name="error_unknown">An unknown error occured</string>
+    <string name="error_couldnt_reach_server">Could not connect to server</string>
+    <string name="oops_something_went_wrong">Oops! Something went wrong..</string>
 </resources>

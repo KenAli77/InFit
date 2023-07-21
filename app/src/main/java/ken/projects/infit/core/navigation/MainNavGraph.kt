@@ -30,7 +30,6 @@ import ken.projects.infit.ui.composables.profile.ProfileScreen
 import ken.projects.infit.ui.composables.stats.StatsDetailScreen
 import ken.projects.infit.ui.composables.stats.StatsScreen
 import ken.projects.infit.ui.composables.workout.WorkoutDetailScreen
-import ken.projects.infit.ui.composables.workout.WorkoutPlanSetUpScreen
 import ken.projects.infit.ui.composables.workout.WorkoutScreen
 import ken.projects.infit.ui.theme.holoGreen
 import ken.projects.infit.ui.theme.veryDarkBlue

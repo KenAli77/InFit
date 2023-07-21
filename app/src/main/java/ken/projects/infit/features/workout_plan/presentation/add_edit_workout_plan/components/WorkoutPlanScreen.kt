@@ -1,4 +1,5 @@
-package ken.projects.infit.ui.composables.workout
+package ken.projects.infit.features.workout_plan.presentation.add_edit_workout_plan.components
+
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -32,7 +33,7 @@ import ken.projects.infit.viewmodel.WorkoutViewModel
 import java.time.DayOfWeek
 
 @Composable
-fun WorkoutPlanSetUpScreen(workoutViewModel: WorkoutViewModel, navController: NavHostController) =
+fun WorkoutPlanScreen(workoutViewModel: WorkoutViewModel, navController: NavHostController) =
 
     with(workoutViewModel) {
 

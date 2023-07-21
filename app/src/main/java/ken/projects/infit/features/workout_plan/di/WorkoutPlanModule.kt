@@ -13,6 +13,12 @@ import ken.projects.infit.features.auth.domain.use_case.AuthUseCases
 import ken.projects.infit.features.auth.domain.use_case.auth.CreateNewUser
 import ken.projects.infit.features.auth.domain.use_case.auth.LoginUserWithEmailAndPassword
 import ken.projects.infit.features.auth.domain.use_case.validation.*
+import ken.projects.infit.features.workout_plan.data.remote.api.WorkoutPlanApi
+import ken.projects.infit.features.workout_plan.data.remote.repositories.WorkoutPlanRepositoryImpl
+import ken.projects.infit.features.workout_plan.domain.repositories.WorkoutPlanRepository
+import retrofit2.Retrofit
+import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.create
 import javax.inject.Singleton
 
 @Module
@@ -21,9 +27,18 @@ object WorkoutPlanModule {
 
     @Provides
     @Singleton
-    fun provideFirebase(): Firebase {
-        return Firebase
+    fun provideWorkoutPlanApi(): WorkoutPlanApi {
+        return Retrofit.Builder()
+            .addConverterFactory(MoshiConverterFactory.create())
+            .baseUrl("http://192.168.1.7:8080/")
+            .build()
+            .create()
     }
 
 
+    @Provides
+    @Singleton
+    fun provideWorkoutPlanRepository(api:WorkoutPlanApi):WorkoutPlanRepository {
+        return WorkoutPlanRepositoryImpl(api)
+    }
 }
