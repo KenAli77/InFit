@@ -41,8 +41,8 @@ fun RegularButton(
 
     Surface(
         color = backgroundColor,
-        shape = RoundedCornerShape(40.dp),
-        modifier = modifier.clickable { onClick() },
+        shape = RoundedCornerShape(10.dp),
+        modifier = modifier.clickable { onClick() }.fillMaxWidth(),
         elevation = 10.dp,
 
         ) {
