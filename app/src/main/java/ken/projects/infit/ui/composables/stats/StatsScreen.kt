@@ -24,6 +24,7 @@ import ken.projects.infit.R
 import ken.projects.infit.ui.composables.home.Heading
 import ken.projects.infit.ui.composables.home.SubHeading
 import ken.projects.infit.core.navigation.Screens
+import ken.projects.infit.core.utils.customClickable
 import ken.projects.infit.ui.theme.holoGreen
 import ken.projects.infit.ui.theme.white
 import ken.projects.infit.viewmodel.WorkoutViewModel
@@ -71,7 +72,7 @@ fun StatsScreen(
 fun StatsItem(exercise:String,onClick:()->Unit) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
-        modifier = Modifier.fillMaxWidth().clickable { onClick() },
+        modifier = Modifier.fillMaxWidth().customClickable { onClick() },
         verticalAlignment = Alignment.CenterVertically
     ) {
 

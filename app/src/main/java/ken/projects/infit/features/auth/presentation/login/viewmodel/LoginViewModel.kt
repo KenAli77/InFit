@@ -25,7 +25,7 @@ class LoginViewModel @Inject constructor(
 ) : ViewModel() {
 
 
-    var state by mutableStateOf(LoginState())
+    var state by mutableStateOf(LoginState(email = "kenidiidali@gmail.com", password = "password123"))
 
     private val validationEventChannel = Channel<LoginValidationEvent>()
     val validationEvents = validationEventChannel.receiveAsFlow()

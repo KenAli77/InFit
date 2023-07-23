@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavHostController
 import ken.projects.infit.R
+import ken.projects.infit.core.utils.customClickable
 import ken.projects.infit.data.models.*
 import ken.projects.infit.ui.composables.FloatingAddButton
 import ken.projects.infit.ui.composables.RegularButton
@@ -177,7 +178,7 @@ fun ExerciseDetailScreen(
 
                 items(exercises) { exercise ->
                     val context = LocalContext.current
-                    ExerciseItem(exercise = exercise, modifier = Modifier.clickable {
+                    ExerciseItem(exercise = exercise, modifier = Modifier.customClickable {
                         val intent = Intent(Intent.ACTION_SEARCH)
                         intent.setPackage("com.google.android.youtube")
                         intent.putExtra("query", "${exercise.name} tutorial gym")

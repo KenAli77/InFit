@@ -23,6 +23,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ken.projects.infit.R
+import ken.projects.infit.core.utils.customClickable
 import ken.projects.infit.data.models.ExerciseItem
 import ken.projects.infit.ui.composables.FloatingAddButton
 import ken.projects.infit.ui.composables.RoundedCheckBox
@@ -166,7 +167,7 @@ fun SetItem(
         modifier = modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp, horizontal = 15.dp)
-            .clickable { onClick() },
+            .customClickable { onClick() },
         color = darkBlue,
         elevation = 20.dp,
 

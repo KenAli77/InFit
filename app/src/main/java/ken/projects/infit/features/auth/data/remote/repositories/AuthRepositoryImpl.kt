@@ -8,6 +8,7 @@ import ken.projects.infit.features.auth.data.remote.request.LoginRequest
 import ken.projects.infit.features.auth.data.remote.request.NewAccountRequest
 import ken.projects.infit.features.auth.domain.repostitories.AuthRepository
 import ken.projects.infit.core.utils.Resource
+import ken.projects.infit.core.utils.UiText
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -42,7 +43,7 @@ class AuthRepositoryImpl @Inject constructor(
                 Resource.Success(response)
             } catch (e: Exception) {
                 e.printStackTrace()
-                Resource.Error(e.message.toString())
+                Resource.Error(UiText.DynamicString(e.message.toString()))
             }
         }
     }
@@ -70,7 +71,7 @@ class AuthRepositoryImpl @Inject constructor(
                 Resource.Success(response)
             } catch (e: Exception) {
                 e.printStackTrace()
-                Resource.Error(e.message.toString())
+                Resource.Error(UiText.DynamicString(e.message.toString()))
             }
         }
     }

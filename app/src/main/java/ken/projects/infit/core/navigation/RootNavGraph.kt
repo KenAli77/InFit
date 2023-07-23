@@ -9,10 +9,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import ken.projects.infit.ui.theme.darkBlue
+import ken.projects.infit.ui.theme.lightBlue
 
 @Composable
 fun RootNavGraph(
@@ -22,8 +25,26 @@ fun RootNavGraph(
     val bottomBarState = rememberSaveable { (mutableStateOf(false)) }
     val scaffoldState = rememberScaffoldState()
 
+    val systemUiController = rememberSystemUiController()
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
+
+    when (navBackStackEntry?.destination?.parent?.route) {
+        AUTH_ROUTE -> {
+            systemUiController.setStatusBarColor(
+                color = lightBlue,
+            )
+        }
+        MAIN_ROUTE-> {
+            systemUiController.setStatusBarColor(
+                color = darkBlue,
+            )
+            systemUiController.setSystemBarsColor(
+                color = darkBlue
+            )
+        }
+    }
+
 
     when (navBackStackEntry?.destination?.route) {
         AUTH_ROUTE -> bottomBarState.value = false
@@ -56,13 +77,10 @@ fun RootNavGraph(
                 scaffoldState
             )
 
-//            mainNavGraph(
-//                navController = navController,
-//                bottomBarState,
-//                loginViewModel,
-//                workoutViewModel,
-//                scaffoldState
-//            )
+            mainNavGraph(
+                navController = navController,
+                scaffoldState
+            )
 
         }
     }

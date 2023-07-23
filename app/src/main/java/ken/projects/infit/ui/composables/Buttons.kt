@@ -23,6 +23,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ken.projects.infit.core.utils.customClickable
 import ken.projects.infit.ui.theme.darkBlue
 import ken.projects.infit.ui.theme.holoGreen
 import ken.projects.infit.ui.theme.outfit
@@ -42,7 +43,7 @@ fun RegularButton(
     Surface(
         color = backgroundColor,
         shape = RoundedCornerShape(10.dp),
-        modifier = modifier.clickable { onClick() }.fillMaxWidth(),
+        modifier = modifier.customClickable { onClick() }.fillMaxWidth(),
         elevation = 10.dp,
 
         ) {
@@ -69,7 +70,7 @@ fun FloatingAddButton(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
             .clip(CircleShape)
             .size(70.dp)
             .background(holoGreen)
-            .clickable { onClick() },
+            .customClickable { onClick() },
         contentAlignment = Alignment.Center
     ) {
         Icon(
@@ -95,7 +96,7 @@ fun RoundedCheckBox(
         modifier = modifier
             .size(30.dp)
             .clip(CircleShape)
-            .clickable {
+            .customClickable {
                 checkedState = !checkedState
                 onCheckedChange(checkedState)
 

@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import ken.projects.infit.core.utils.customClickable
 import ken.projects.infit.ui.theme.darkBlue
 import ken.projects.infit.ui.theme.holoGreen
 
@@ -43,7 +44,7 @@ fun CommandsDisplay(
                 .width(60.dp)
                 .height(60.dp)
                 .align(Alignment.Top)
-                .clickable { iconStartClick() },
+                .customClickable { iconStartClick() },
             elevation = 4.dp,
             color = holoGreen
         ) {
@@ -62,7 +63,7 @@ fun CommandsDisplay(
                 modifier = Modifier
                     .width(95.dp)
                     .height(95.dp)
-                    .clickable { iconCenterClick() },
+                    .customClickable { iconCenterClick() },
                 elevation = 4.dp,
                 color = holoGreen
             ) {
@@ -88,7 +89,7 @@ fun CommandsDisplay(
                 .width(60.dp)
                 .height(60.dp)
                 .align(Alignment.Top)
-                .clickable { iconEndClick() },
+                .customClickable { iconEndClick() },
             elevation = 4.dp,
             color = holoGreen
         ) {

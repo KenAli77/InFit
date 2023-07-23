@@ -11,6 +11,7 @@ import com.google.firebase.ktx.Firebase
 import ken.projects.infit.data.models.*
 import ken.projects.infit.domain.WorkoutRepository
 import ken.projects.infit.core.utils.Resource
+import ken.projects.infit.core.utils.UiText
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
@@ -94,7 +95,7 @@ class WorkoutRepositoryImpl @Inject constructor(
                 Resource.Success(result)
             } catch (e: Exception) {
                 e.printStackTrace()
-                Resource.Error(e.message.toString())
+                Resource.Error(UiText.DynamicString(e.message.toString()))
             }
 
         }
@@ -112,7 +113,7 @@ class WorkoutRepositoryImpl @Inject constructor(
                 Resource.Success(result)
             } catch (e: Exception) {
                 e.printStackTrace()
-                Resource.Error(e.message.toString())
+                Resource.Error(UiText.DynamicString(e.message.toString()))
 
             }
 
@@ -146,7 +147,7 @@ class WorkoutRepositoryImpl @Inject constructor(
             } catch (e: Exception) {
 
                 e.printStackTrace()
-                Resource.Error(e.message.toString())
+                Resource.Error(UiText.DynamicString(e.message.toString()))
             }
 
         }
@@ -167,7 +168,7 @@ class WorkoutRepositoryImpl @Inject constructor(
 
             } catch (e: Exception) {
                 e.printStackTrace()
-                Resource.Error(e.message.toString())
+                Resource.Error(UiText.DynamicString(e.message.toString()))
             }
         }
     }
@@ -184,7 +185,7 @@ class WorkoutRepositoryImpl @Inject constructor(
 
             } catch (e: Exception) {
                 e.printStackTrace()
-                Resource.Error(e.message!!)
+                Resource.Error(UiText.DynamicString(e.message.toString()))
             }
         }
 
@@ -207,7 +208,7 @@ class WorkoutRepositoryImpl @Inject constructor(
 
             } catch (e: Exception) {
                 e.printStackTrace()
-                Resource.Error(e.message.toString())
+                Resource.Error(UiText.DynamicString(e.message.toString()))
             }
 
         }
@@ -231,7 +232,7 @@ class WorkoutRepositoryImpl @Inject constructor(
 
             } catch (e: Exception) {
                 e.printStackTrace()
-                Resource.Error(e.message.toString())
+                Resource.Error(UiText.DynamicString(e.message.toString()))
             }
         }
     }
@@ -249,7 +250,7 @@ class WorkoutRepositoryImpl @Inject constructor(
 
             } catch (e: Exception) {
                 e.printStackTrace()
-                Resource.Error(e.message.toString())
+                Resource.Error(UiText.DynamicString(e.message.toString()))
             }
         }
     }
@@ -290,7 +291,7 @@ class WorkoutRepositoryImpl @Inject constructor(
             } catch (e: Exception) {
                 e.printStackTrace()
                 Log.e("failed to get history data", e.message.toString())
-                Resource.Error(e.message.toString())
+                Resource.Error(UiText.DynamicString(e.message.toString()))
             }
         }
 
@@ -309,7 +310,7 @@ class WorkoutRepositoryImpl @Inject constructor(
                     }
 
                     error?.let {
-                        data.value = Resource.Error(it.message.toString())
+                        data.value = Resource.Error(UiText.DynamicString(it.message.toString()))
                         Log.e("Error", data.value?.message.toString())
                         return@addSnapshotListener
                     }

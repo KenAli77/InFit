@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import ken.projects.infit.R
+import ken.projects.infit.core.utils.customClickable
 import ken.projects.infit.ui.theme.*
 import ken.projects.infit.viewmodel.WorkoutViewModel
 import java.time.DayOfWeek
@@ -105,7 +106,7 @@ fun CalendarDisplayItem(
         modifier = modifier
             .height(90.dp)
             .width(50.dp)
-            .clickable {
+            .customClickable {
                 workoutViewModel.selectDay(date)
                 workoutViewModel.getDayString(date)
             },

@@ -91,4 +91,15 @@
     <string name="error_unknown">An unknown error occured</string>
     <string name="error_couldnt_reach_server">Could not connect to server</string>
     <string name="oops_something_went_wrong">Oops! Something went wrong..</string>
+    <string name="description_mass">Gain muscle</string>
+    <string name="title_mass">Mass</string>
+    <string name="description_fat_loss">Loose body fat</string>
+    <string name="title_fat_loss">Fat loss</string>
+    <string name="description_maintain">Maintain your physique</string>
+    <string name="title_maintain">Maintain</string>
+    <string name="goal">Goal</string>
+    <string name="select_goal">Select a goal</string>
+    <string name="next">Next</string>
+    <string name="finish">Finish</string>
+    <string name="back">Back</string>
 </resources>

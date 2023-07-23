@@ -24,6 +24,7 @@ import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.rememberLottieComposition
 import ken.projects.infit.R
+import ken.projects.infit.core.utils.customClickable
 import ken.projects.infit.data.models.WorkoutPlan
 import ken.projects.infit.ui.composables.home.Heading
 import ken.projects.infit.ui.composables.home.Title
@@ -51,7 +52,7 @@ fun TrainingCard(
             color = veryDarkBlue.copy(0.5f),
             modifier = Modifier
                 .fillMaxSize()
-                .clickable { onClick() }
+                .customClickable { onClick() }
                 .paint(
                     painter = painterResource(id = R.drawable.stockimagebarbell),
                     contentScale = ContentScale.Crop

@@ -301,7 +301,7 @@ fun SubHeading(text: String, modifier: Modifier = Modifier, color: Color = white
     Text(
         text = text,
         fontWeight = FontWeight.Normal,
-        fontSize = 30.sp,
+        fontSize = 28.sp,
         fontFamily = outfit,
         modifier = modifier.paddingFromBaseline(top = 16.dp),
         color = color
@@ -309,10 +309,10 @@ fun SubHeading(text: String, modifier: Modifier = Modifier, color: Color = white
 }
 
 @Composable
-fun Title(text: String, modifier: Modifier = Modifier, color: Color = white) {
+fun Title(text: String, modifier: Modifier = Modifier, color: Color = white,fontWeight: FontWeight = FontWeight.Light) {
     Text(
         text = text,
-        fontWeight = FontWeight.Light,
+        fontWeight = fontWeight,
         fontFamily = outfit,
         fontSize = 25.sp,
         color = color,

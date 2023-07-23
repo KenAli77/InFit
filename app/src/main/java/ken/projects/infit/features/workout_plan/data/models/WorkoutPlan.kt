@@ -9,7 +9,7 @@ data class WorkoutPlan (
     val name:String? = null,
     val frequency:List<DayOfWeek>? = null,
     val difficulty: DifficultyLevels.Difficulty?  = null,
-    val goal:String?=null
+    val goal:String?=null,
     val duration:Long? = null,
 ) {
     fun toWorkoutRequest():CreateWorkoutRequest?{

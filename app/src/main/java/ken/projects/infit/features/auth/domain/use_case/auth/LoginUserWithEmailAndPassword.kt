@@ -16,11 +16,8 @@ class LoginUserWithEmailAndPassword(private val repository: AuthRepository) {
 
         when (result){
             is Resource.Error -> {
-                return GenericResponse(success = false, errorMessage = result.message?.let {
-                    UiText.DynamicString(
-                        it
-                    )
-                })
+                return GenericResponse(success = false, errorMessage = result.message)
+
             }
             is Resource.Success -> {
                 return GenericResponse(success = true, data = result.data)

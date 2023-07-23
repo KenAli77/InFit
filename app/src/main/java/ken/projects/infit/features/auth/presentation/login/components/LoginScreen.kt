@@ -27,6 +27,7 @@ import ken.projects.infit.core.navigation.MAIN_ROUTE
 import ken.projects.infit.core.utils.TestTags.LOGIN_BUTTON
 import ken.projects.infit.core.utils.TestTags.LOGIN_EMAIL_INPUT
 import ken.projects.infit.core.utils.TestTags.LOGIN_PASSWORD_INPUT
+import ken.projects.infit.core.utils.customClickable
 import ken.projects.infit.features.auth.presentation.login.events.authentication.LoginAuthEvent
 import ken.projects.infit.features.auth.presentation.login.events.button_click.LoginButtonEvent
 import ken.projects.infit.features.auth.presentation.login.events.user_input.LoginUserInputEvent
@@ -58,12 +59,10 @@ fun LoginScreen(
         navigationEvents.collect { route ->
             navController.navigate(route)
         }
-
     }
 
     LaunchedEffect(key1 = context) {
         loginEvents.collect { event ->
-
             when (event) {
                 is LoginAuthEvent.Failure -> {
                     event.reason?.let {
@@ -73,9 +72,9 @@ fun LoginScreen(
                             SnackbarDuration.Short
                         )
                     }
-
                 }
                 is LoginAuthEvent.Success -> {
+                    navController.navigate(MAIN_ROUTE)
                     scaffoldState.snackbarHostState.showSnackbar(
                         "Success",
                         null,
@@ -156,7 +155,7 @@ fun LoginScreen(
                     modifier = Modifier
                         .padding(top = 10.dp)
                         .fillMaxWidth()
-                        .clickable { onButtonClickEvent(LoginButtonEvent.SignUpButtonClick) }
+                        .customClickable { onButtonClickEvent(LoginButtonEvent.SignUpButtonClick) }
                 )
                 RegularButton(
                     Modifier

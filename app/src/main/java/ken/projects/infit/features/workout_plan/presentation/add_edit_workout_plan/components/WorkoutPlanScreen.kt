@@ -1,9 +1,11 @@
 package ken.projects.infit.features.workout_plan.presentation.add_edit_workout_plan.components
 
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -11,234 +13,116 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
-import com.chargemap.compose.numberpicker.NumberPicker
 import ken.projects.infit.R
-import ken.projects.infit.data.models.WorkoutPlan
-import ken.projects.infit.ui.composables.RegularButton
+import ken.projects.infit.core.utils.customClickable
 import ken.projects.infit.ui.composables.home.Heading
-import ken.projects.infit.ui.composables.home.SubHeading
+import ken.projects.infit.features.workout_plan.data.enums.Difficulty
+import ken.projects.infit.features.workout_plan.presentation.add_edit_workout_plan.events.button_click.WorkoutPlanClickEvent
+import ken.projects.infit.features.workout_plan.presentation.add_edit_workout_plan.events.pager.WorkoutPlanPagerEvent
+import ken.projects.infit.features.workout_plan.presentation.add_edit_workout_plan.events.user_input.WorkoutPlanUserInputEvent
+import ken.projects.infit.features.workout_plan.presentation.add_edit_workout_plan.viewmodel.WorkoutPlanViewModel
 import ken.projects.infit.ui.composables.home.Title
-import ken.projects.infit.core.navigation.Screens
 import ken.projects.infit.ui.theme.*
-import ken.projects.infit.util.DifficultyLevels
-import ken.projects.infit.util.DifficultyLevels.Companion.Advanced
-import ken.projects.infit.util.DifficultyLevels.Companion.Beginner
-import ken.projects.infit.util.DifficultyLevels.Companion.Intermediate
-import ken.projects.infit.viewmodel.WorkoutViewModel
 import java.time.DayOfWeek
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun WorkoutPlanScreen(workoutViewModel: WorkoutViewModel, navController: NavHostController) =
+fun WorkoutPlanScreen(viewmodel: WorkoutPlanViewModel, navController: NavHostController) =
+    with(viewmodel) {
+        val pagerState = rememberPagerState(pageCount = {2})
 
-    with(workoutViewModel) {
+        val context = LocalContext.current
 
-        var workoutPlanName by remember { mutableStateOf("") }
-
+        LaunchedEffect(key1 = context) {
+            pagerEvents.collect { event ->
+                when (event) {
+                    WorkoutPlanPagerEvent.NavigateBack -> pagerState.animateScrollToPage(
+                        pagerState.currentPage - 1
+                    )
+                    WorkoutPlanPagerEvent.NavigateForward -> pagerState.animateScrollToPage(
+                        pagerState.currentPage + 1
+                    )
+                }
+            }
+        }
+        LaunchedEffect(key1 = pagerState.currentPage) {
+            onPageChange(pagerState.currentPage)
+        }
         Surface(modifier = Modifier.fillMaxSize(), color = darkBlue) {
 
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(horizontal = 5.dp),
-                verticalArrangement = Arrangement.SpaceAround,
-                horizontalAlignment = Alignment.Start
-            ) {
+            ConstraintLayout(modifier = Modifier
+                .fillMaxSize()
+                .padding(10.dp)) {
+                val (header, pager, nav) = createRefs()
 
                 Heading(
                     text = stringResource(R.string.set_up_workout_plan_heading),
-                    modifier = Modifier.padding(start = 5.dp, top = 10.dp)
+                    modifier = Modifier
+                        .padding(start = 5.dp)
+                        .constrainAs(header) {
+                            top.linkTo(parent.top)
+                            start.linkTo(parent.start)
+                        }
                 )
-
-                SubHeading(
-                    text = stringResource(R.string.choose_a_name), modifier = Modifier
-                        .padding(horizontal = 5.dp)
-                )
-                TextField(
-                    value = workoutPlanName,
-                    onValueChange = { workoutPlanName = it },
-                    modifier = Modifier.padding(horizontal = 5.dp),
-                    textStyle = TextStyle(fontSize = 18.sp)
-                )
-
-                SubHeading(
-                    text = stringResource(R.string.select_training_days),
-                    modifier = Modifier.padding(horizontal = 5.dp)
-                )
-
-                LazyRow() {
-                    DayOfWeek.values().forEach {
-
-                        item {
-
-                            WeekdaysChipItem(day = it, onCheck = { day, checked ->
-
-                                if (checked) addDay(day) else removeDay(
-                                    day
+                HorizontalPager(
+                    userScrollEnabled = false,
+                    state = pagerState,
+                    modifier = Modifier
+                        .constrainAs(pager) {
+                            top.linkTo(header.bottom, 20.dp)
+                        }
+                        .padding(vertical = 10.dp, horizontal = 5.dp)
+                ) { index ->
+                    if (index == 0) {
+                        WorkoutPlanSetUpPager1(
+                            state = state,
+                            onUserInputEvent = { onUserInputEvent(it) })
+                    }
+                    if (index == 1) {
+                        WorkoutPlanSetUpPager2(
+                            goal = state.goal,
+                            onSelected = {
+                                onUserInputEvent(
+                                    WorkoutPlanUserInputEvent.EnteredWorkoutGoal(it)
                                 )
-
-
                             })
-                        }
-
                     }
                 }
 
-                SubHeading(
-                    text = stringResource(R.string.difficulty_level),
-                    modifier = Modifier.padding(horizontal = 5.dp)
-                )
-
-                LazyRow() {
-                    val levels = listOf(Beginner, Intermediate, Advanced)
-
-                    levels.forEach {
-
-                        item {
-
-                            DifficultyLevelItems(
-                                difficulty = it,
-                                onCheck = { selectDifficulty(it) },
-                                checked = selectedDifficulty == it
-                            )
-                        }
-
-                    }
-                }
-
-                SubHeading(text = stringResource(R.string.duration), modifier = Modifier.padding(horizontal = 5.dp))
-
-                var duration by remember { mutableStateOf(0) }
-
-                Row(
-                    modifier = Modifier.padding(horizontal = 10.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(10.dp)
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(10.dp)
+                        .constrainAs(nav) {
+                            bottom.linkTo(parent.bottom)
+                        },
                 ) {
-                    NumberPicker(
-                        value = duration,
-                        onValueChange = { duration = it },
-                        range = 10..120,
-                        textStyle = TextStyle(color = white),
-                        dividersColor = holoGreen,
-                        modifier = Modifier.width(100.dp)
-                    )
-                    Title(text = stringResource(R.string.minutes))
+                    if (state.pagerBackNavVisible) {
+                        Title(text = stringResource(R.string.back).lowercase(), modifier = Modifier
+                            .customClickable {
+                                onClickEvent(WorkoutPlanClickEvent.PagerNavClickEvent(R.string.back))
+                            }
+                            .align(Alignment.BottomStart),
+                        fontWeight = FontWeight.Bold,
+                        color = holoGreen)
+                    }
+                    Title(text = stringResource(state.pagerNavText).lowercase(), modifier = Modifier
+                        .customClickable {
+                            onClickEvent(WorkoutPlanClickEvent.PagerNavClickEvent(state.pagerNavText))
+                        }
+                        .align(Alignment.BottomEnd), fontWeight = FontWeight.Bold, color = holoGreen)
                 }
 
-                RegularButton(
-                    text = stringResource(R.string.save),
-                    modifier = Modifier.align(Alignment.CenterHorizontally)
-                ) {
-                    if (workoutPlanName.isNotEmpty() && selectedDays.isNotEmpty()) {
-                        val workoutPlan = WorkoutPlan(
-                            name = workoutPlanName,
-                            workouts = selectedDays.toList() as ArrayList<DayOfWeek>,
-                            difficulty = selectedDifficulty,
-                            duration = duration
-                        )
-                        addWorkoutPlan(workoutPlan)
-                        navController.navigate(Screens.Home.route)
-                    }
-                }
             }
-
-
         }
-
-
     }
 
-@Composable
-fun WeekdaysChipItem(
-    modifier: Modifier = Modifier,
-    onCheck: (DayOfWeek, Boolean) -> Unit,
-    day: DayOfWeek
-) {
-
-    val text = day.name.substring(0..1).uppercase()
-
-
-    var checked by remember {
-        mutableStateOf(false)
-    }
-    var backgroundColor by remember { mutableStateOf(lightBlue) }
-
-    backgroundColor = if (checked) holoGreen else veryDarkBlue.copy(0.6f)
-
-    var textColor by remember {
-        mutableStateOf(Color.Black)
-    }
-
-
-    textColor = if (checked) Color.Black else white
-
-    Surface(color = backgroundColor, shape = CircleShape, modifier = modifier
-        .clickable {
-            checked = !checked
-            onCheck(day, checked)
-        }
-        .size(50.dp)
-        .padding(5.dp),
-        elevation = 10.dp) {
-
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceAround,
-            modifier = Modifier.fillMaxSize()
-        ) {
-
-            Text(text = text, color = textColor)
-
-        }
-
-
-    }
-}
-
-
-@Composable
-fun DifficultyLevelItems(
-    difficulty: DifficultyLevels.Difficulty,
-    onCheck: (DifficultyLevels.Difficulty) -> Unit,
-    checked: Boolean
-) {
-
-    var backgroundColor by remember { mutableStateOf(holoGreen) }
-
-    backgroundColor =
-        if (checked) holoGreen else veryDarkBlue
-
-    var textColor by remember {
-        mutableStateOf(Color.Black)
-    }
-
-    textColor = if (checked) Color.Black else white
-
-    Surface(color = backgroundColor, shape = RoundedCornerShape(40.dp), modifier = Modifier
-        .clickable {
-            onCheck(difficulty)
-        }
-        .padding(5.dp),
-        elevation = 10.dp) {
-
-        Row(
-            modifier = Modifier.padding(10.dp),
-            horizontalArrangement = Arrangement.SpaceAround,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-
-            Text(text = stringResource(id = difficulty.difficulty!!), color = textColor)
-
-        }
-
-    }
-
-}
 
 
 
