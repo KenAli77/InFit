@@ -16,11 +16,15 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.sp
 import ken.projects.infit.core.utils.TestTags
+import ken.projects.infit.features.workout_plan.presentation.add_edit_workout_plan.events.user_input.WorkoutPlanUserInputEvent
+import ken.projects.infit.ui.theme.holoGreen
 import ken.projects.infit.ui.theme.white
 
 @Composable
@@ -33,10 +37,10 @@ fun InputField(
     type: KeyboardType = KeyboardType.Email,
     password: Boolean = false,
     onFocusChanged: (FocusState) -> Unit = {},
-    isInvalid:Boolean = false,
-    errorMessage:String? = null,
-    tag:String = ""
-    ) {
+    isInvalid: Boolean = false,
+    errorMessage: String? = null,
+    tag: String = ""
+) {
 
     Column(modifier = modifier) {
 
@@ -51,7 +55,10 @@ fun InputField(
                     )
 
             },
-            colors = TextFieldDefaults.textFieldColors(backgroundColor = white, textColor = Color.Black),
+            colors = TextFieldDefaults.textFieldColors(
+                backgroundColor = white,
+                textColor = Color.Black
+            ),
             label = { Text(text = placeholder) },
             modifier = Modifier
                 .fillMaxWidth()
@@ -72,5 +79,21 @@ fun InputField(
             Text(text = it, color = Color.Red)
         }
     }
+}
 
+@Composable
+fun InputText(
+    value: String = "",
+    onValueChange: (String) -> Unit = {},
+    modifier: Modifier = Modifier
+) {
+    TextField(
+        modifier = modifier,
+        value = value,
+        onValueChange = {
+            onValueChange(it)
+        },
+        textStyle = TextStyle(fontSize = 18.sp),
+        colors = TextFieldDefaults.textFieldColors(cursorColor = holoGreen)
+    )
 }

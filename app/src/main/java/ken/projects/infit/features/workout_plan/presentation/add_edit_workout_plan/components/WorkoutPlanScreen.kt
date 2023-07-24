@@ -68,7 +68,8 @@ fun WorkoutPlanScreen(viewmodel: WorkoutPlanViewModel, navController: NavHostCon
                         .constrainAs(header) {
                             top.linkTo(parent.top)
                             start.linkTo(parent.start)
-                        }
+                        },
+                    color = holoGreen
                 )
                 HorizontalPager(
                     userScrollEnabled = false,

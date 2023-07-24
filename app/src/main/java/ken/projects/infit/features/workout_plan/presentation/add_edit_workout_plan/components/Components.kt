@@ -6,9 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,6 +18,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.chargemap.compose.numberpicker.NumberPicker
 import ken.projects.infit.R
+import ken.projects.infit.core.presentation.components.InputText
+import ken.projects.infit.core.presentation.components.Paragraph
 import ken.projects.infit.core.utils.customClickable
 import ken.projects.infit.features.workout_plan.data.enums.Difficulty
 import ken.projects.infit.features.workout_plan.data.enums.Goal
@@ -43,7 +43,7 @@ fun WorkoutPlanSetUpPager1(
             text = stringResource(R.string.choose_a_name), modifier = Modifier
                 .padding(horizontal = 5.dp)
         )
-        TextField(
+        InputText(
             value = state.name,
             onValueChange = {
                 onUserInputEvent(
@@ -52,7 +52,6 @@ fun WorkoutPlanSetUpPager1(
                     )
                 )
             },
-            textStyle = TextStyle(fontSize = 18.sp)
         )
         Spacer(modifier = Modifier.height(10.dp))
         SubHeading(
@@ -151,6 +150,9 @@ fun WorkoutPlanSetUpPager2(modifier: Modifier = Modifier, goal: Goal,onSelected:
 @Composable
 fun WorkoutPlanSetUpPager3(modifier: Modifier = Modifier, state: WorkoutPlanState) {
 
+
+
+
 }
 
 
@@ -170,9 +172,9 @@ fun GoalCard(modifier: Modifier = Modifier, goal: Goal, onSelected: () -> Unit, 
         color = darkBlue,
         border = border,
     elevation = 10.dp) {
-        Column(modifier = Modifier.padding(8.dp)) {
+        Column(modifier = Modifier.padding(8.dp), verticalArrangement = Arrangement.spacedBy(10.dp), horizontalAlignment = Alignment.Start) {
           Title(text = stringResource(id =goal.title), fontWeight = FontWeight.SemiBold)
-          Text(text = stringResource(id = goal.description))
+          Paragraph(text = stringResource(id = goal.description))
         }
     }
 }
