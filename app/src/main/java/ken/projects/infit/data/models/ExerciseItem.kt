@@ -4,7 +4,7 @@ import androidx.annotation.StringRes
 import ken.projects.infit.R
 
 data class ExerciseItem(
-    val exercise: Exercise? = null,
+    val exercise: ken.projects.infit.features.workout_plan.data.enums.Exercise? = null,
     val name: String? = null,
     val targetMuscles: ArrayList<Muscle>? = null,
     val equipments: Equipment? = null,

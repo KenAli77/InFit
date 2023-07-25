@@ -102,4 +102,7 @@
     <string name="next">Next</string>
     <string name="finish">Finish</string>
     <string name="back">Back</string>
+    <string name="squat">Squat</string>
+    <string name="squat_description">"Squat "</string>
+    <string name="bench_press">Bench Press</string>
 </resources>

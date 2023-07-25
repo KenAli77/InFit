@@ -1,16 +1,19 @@
 package ken.projects.infit.features.workout_plan.presentation.add_edit_workout_plan.components
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.AddCircle
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -27,12 +30,13 @@ import ken.projects.infit.core.presentation.components.RegularButton
 import ken.projects.infit.core.utils.customClickable
 import ken.projects.infit.features.workout_plan.data.enums.Difficulty
 import ken.projects.infit.features.workout_plan.data.enums.Equipment
+import ken.projects.infit.features.workout_plan.data.enums.Exercise
 import ken.projects.infit.features.workout_plan.data.enums.Goal
 import ken.projects.infit.features.workout_plan.presentation.add_edit_workout_plan.events.user_input.WorkoutPlanUserInputEvent
 import ken.projects.infit.features.workout_plan.presentation.add_edit_workout_plan.state.WorkoutPlanState
-import ken.projects.infit.features.workout_plan.presentation.add_edit_workout_plan.viewmodel.WorkoutPlanViewModel
 import ken.projects.infit.ui.composables.home.SubHeading
 import ken.projects.infit.ui.composables.home.Title
+import ken.projects.infit.ui.composables.workout.ExerciseItemsDisplay
 import ken.projects.infit.ui.theme.*
 import java.time.DayOfWeek
 
@@ -152,17 +156,16 @@ fun WorkoutPlanSetUpPager2(modifier: Modifier = Modifier, goal: Goal,onSelected:
 
 }
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterialApi::class, ExperimentalComposeUiApi::class)
 @Composable
 fun WorkoutPlanSetUpPager3(modifier: Modifier = Modifier, state: WorkoutPlanState) {
 
-        val workoutPlan = workoutPlanState.workoutPlan
         var openDialog by remember { mutableStateOf(false) }
         var exBoxExpanded by remember { mutableStateOf(false) }
-        var selectedExercise by remember { mutableStateOf(userExercisesList[0]) }
+        var selectedExercise by remember { mutableStateOf(Exercise.BenchPress) }
         val equipments = Equipment.values()
         var eqBoxExpanded by remember { mutableStateOf(false) }
-        var selectedEquipment by remember { mutableStateOf(equipments[0]) }
+        var selectedEquipment by remember { mutableStateOf(Equipment.Barbell) }
         var setAmount by remember { mutableStateOf(1) }
 
         if (openDialog) {
@@ -195,9 +198,9 @@ fun WorkoutPlanSetUpPager3(modifier: Modifier = Modifier, state: WorkoutPlanStat
                         ) {
                             TextField(
                                 readOnly = true,
-                                value = selectedExercise.name.toString(),
+                                value = stringResource(id = selectedExercise.exerciseName),
                                 onValueChange = { value ->
-                                    selectedExercise = userExercisesList.first { it.name == value }
+                                    selectedExercise = Exercise.values().first { it.name == value }
                                 },
                                 label = { Text(stringResource(id = R.string.exercise), color = holoGreen) },
                                 trailingIcon = {
@@ -220,14 +223,14 @@ fun WorkoutPlanSetUpPager3(modifier: Modifier = Modifier, state: WorkoutPlanStat
                                     exBoxExpanded = false
                                 }
                             ) {
-                                userExercisesList.forEach { selectionOption ->
+                                Exercise.values().forEach { selectionOption ->
                                     DropdownMenuItem(
                                         onClick = {
                                             selectedExercise = selectionOption
                                             exBoxExpanded = false
                                         }
                                     ) {
-                                        Text(text = selectionOption.name!!)
+                                        Text(text = stringResource(selectionOption.exerciseName))
                                     }
                                 }
                             }
@@ -241,7 +244,7 @@ fun WorkoutPlanSetUpPager3(modifier: Modifier = Modifier, state: WorkoutPlanStat
                         ) {
                             TextField(
                                 readOnly = true,
-                                value = stringResource(selectedEquipment.name!!),
+                                value = selectedEquipment.name,
                                 onValueChange = { },
                                 label = { Text(stringResource(id = R.string.equipment), color = holoGreen) },
                                 trailingIcon = {
@@ -270,7 +273,7 @@ fun WorkoutPlanSetUpPager3(modifier: Modifier = Modifier, state: WorkoutPlanStat
                                             eqBoxExpanded = false
                                         }
                                     ) {
-                                        Text(text = stringResource(selectionOption.name!!))
+                                        Text(text = selectionOption.name)
                                     }
                                 }
                             }
@@ -328,11 +331,7 @@ fun WorkoutPlanSetUpPager3(modifier: Modifier = Modifier, state: WorkoutPlanStat
                             modifier = Modifier.align(Alignment.CenterHorizontally),
                             onClick = {
                                 openDialog = false
-                                addExerciseToWorkout(
-                                    exerciseName = selectedExercise.name.toString(),
-                                    equipments = selectedEquipment, sets = setAmount
-                                )
-                                getWorkouts()
+
                             }
                         )
                     }
@@ -355,18 +354,19 @@ fun WorkoutPlanSetUpPager3(modifier: Modifier = Modifier, state: WorkoutPlanStat
                 verticalArrangement = Arrangement.spacedBy(30.dp),
                 horizontalAlignment = Alignment.Start
             ) {
-                Heading(
-                    text = workoutPlan?.name?.replaceFirstChar { it.uppercase() }.toString(),
-                    modifier = Modifier.padding(horizontal = 10.dp)
-                )
-                WorkoutInfo(
-                    duration = workoutPlan?.duration.toString(),
-                    difficulty = Intermediate,
-                    modifier = Modifier.padding(horizontal = 15.dp)
-                )
+//                Heading(
+//                    text = workoutPlan?.name?.replaceFirstChar { it.uppercase() }.toString(),
+//                    modifier = Modifier.padding(horizontal = 10.dp)
+//                )
+//                WorkoutInfo(
+//                    duration = workoutPlan?.duration.toString(),
+//                    difficulty = Intermediate,
+//                    modifier = Modifier.padding(horizontal = 15.dp)
+//                )
                 ExerciseItemsDisplay(
                     modifier = Modifier.height(500.dp),
-                    workoutViewModel = workoutViewModel
+                    exercises = Exercise.values().toList(),
+                    onRemoveExercise = {}
                 )
 
                 FloatingAddButton(Modifier.align(Alignment.CenterHorizontally), onClick = {

@@ -93,10 +93,10 @@ class WorkoutPlanViewModel @Inject constructor() : ViewModel() {
     fun onPageChange(page:Int){
         var text = R.string.next
         var backNavVisible = false
-        if(page == 0){
+        if(page >= 0){
             text = R.string.next
         }
-        if(page >0){
+        if(page >=2){
             text = R.string.finish
             backNavVisible = true
         }

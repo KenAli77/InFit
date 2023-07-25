@@ -94,7 +94,7 @@ fun NavGraphBuilder.mainNavGraph(
 //            bottomBarState.value = true
 //        }
 //
-//        composable(route = Screens.Exercises.route) {
+//        composable(route = Screens.Exercise.route) {
 //            ExercisesScreen(navController, workoutViewModel)
 //            bottomBarState.value = true
 //        }

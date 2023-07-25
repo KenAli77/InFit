@@ -115,14 +115,14 @@ class WorkoutViewModel @Inject constructor(
         isWorkoutStarted = false
 
         ongoingWorkout.exerciseItems?.forEach {
-            val historyItem = ExerciseHistoryItem(
-                exercise = it.exercise,
-                exerciseVolume = it.volume,
-            )
+//            val historyItem = ExerciseHistoryItem(
+//                exercise = it.exercise,
+//                exerciseVolume = it.volume,
+//            )
 
-            viewModelScope.launch {
-                repository.addExerciseHistory(historyItem,userId)
-            }
+//            viewModelScope.launch {
+//                repository.addExerciseHistory(historyItem,userId)
+//            }
         }
     }
 
@@ -414,21 +414,21 @@ class WorkoutViewModel @Inject constructor(
             for (i in 1..sets) {
                 volume.add(ExerciseVolume(set = i))
             }
-
-            val exerciseItem = ExerciseItem(
-                exercise = userExercisesList.first { it.name == exerciseName },
-                name = exerciseName,
-                equipments = equipments,
-                sets = sets,
-                volume = volume
-            )
+//
+//            val exerciseItem = ExerciseItem(
+//                exercise = userExercisesList.first { it.name == exerciseName },
+//                name = exerciseName,
+//                equipments = equipments,
+//                sets = sets,
+//                volume = volume
+//            )
 
             workoutState.exerciseItems?.let {
                 exerciseItems.addAll(it)
 
             }
 
-            exerciseItems.add(exerciseItem)
+//            exerciseItems.add(exerciseItem)
 
             val workout = Workout(
                 name = workoutState.name,

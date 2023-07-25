@@ -13,24 +13,23 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ken.projects.infit.R
 import ken.projects.infit.data.models.ExerciseItem
+import ken.projects.infit.features.workout_plan.data.enums.Exercise
 import ken.projects.infit.ui.composables.home.Heading
 import ken.projects.infit.ui.composables.home.Title
 import ken.projects.infit.ui.theme.veryDarkBlue
-import ken.projects.infit.viewmodel.WorkoutViewModel
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ExerciseItemsDisplay(
     modifier: Modifier = Modifier,
-    workoutViewModel: WorkoutViewModel
+    exercises: List<Exercise>,
+    onRemoveExercise:(Exercise)->Unit
 ) {
 
-    val exerciseList =
-        workoutViewModel.workoutState.exerciseItems
 
     LazyColumn(modifier = modifier) {
 
-        exerciseList?.let { exercises ->
+        exercises.let { exercises ->
 
             itemsIndexed(
                 items = exercises,
@@ -39,8 +38,7 @@ fun ExerciseItemsDisplay(
                 val dismissState = rememberDismissState()
 
                 if (dismissState.targetValue == DismissValue.DismissedToEnd)
-                    workoutViewModel.removeExercise(data)
-                workoutViewModel.getWorkouts()
+                    onRemoveExercise(data)
 
                 SwipeToDismiss(
                     state = dismissState,

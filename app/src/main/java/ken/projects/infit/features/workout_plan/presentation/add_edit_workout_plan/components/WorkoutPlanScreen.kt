@@ -35,7 +35,7 @@ import java.time.DayOfWeek
 @Composable
 fun WorkoutPlanScreen(viewmodel: WorkoutPlanViewModel, navController: NavHostController) =
     with(viewmodel) {
-        val pagerState = rememberPagerState(pageCount = {2})
+        val pagerState = rememberPagerState(pageCount = {3})
 
         val context = LocalContext.current
 
@@ -56,9 +56,11 @@ fun WorkoutPlanScreen(viewmodel: WorkoutPlanViewModel, navController: NavHostCon
         }
         Surface(modifier = Modifier.fillMaxSize(), color = darkBlue) {
 
-            ConstraintLayout(modifier = Modifier
-                .fillMaxSize()
-                .padding(10.dp)) {
+            ConstraintLayout(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(10.dp)
+            ) {
                 val (header, pager, nav) = createRefs()
 
                 Heading(
@@ -94,6 +96,10 @@ fun WorkoutPlanScreen(viewmodel: WorkoutPlanViewModel, navController: NavHostCon
                                 )
                             })
                     }
+
+                    if (index == 2) {
+                        WorkoutPlanSetUpPager3(modifier = Modifier, state = state)
+                    }
                 }
 
                 Box(
@@ -110,19 +116,24 @@ fun WorkoutPlanScreen(viewmodel: WorkoutPlanViewModel, navController: NavHostCon
                                 onClickEvent(WorkoutPlanClickEvent.PagerNavClickEvent(R.string.back))
                             }
                             .align(Alignment.BottomStart),
+                            fontWeight = FontWeight.Bold,
+                            color = holoGreen)
+                    }
+                    Title(text = stringResource(state.pagerNavText).lowercase(),
+                        modifier = Modifier
+                            .customClickable {
+                                onClickEvent(WorkoutPlanClickEvent.PagerNavClickEvent(state.pagerNavText))
+                            }
+                            .align(Alignment.BottomEnd),
                         fontWeight = FontWeight.Bold,
                         color = holoGreen)
-                    }
-                    Title(text = stringResource(state.pagerNavText).lowercase(), modifier = Modifier
-                        .customClickable {
-                            onClickEvent(WorkoutPlanClickEvent.PagerNavClickEvent(state.pagerNavText))
-                        }
-                        .align(Alignment.BottomEnd), fontWeight = FontWeight.Bold, color = holoGreen)
                 }
 
             }
         }
     }
+
+
 
 
 

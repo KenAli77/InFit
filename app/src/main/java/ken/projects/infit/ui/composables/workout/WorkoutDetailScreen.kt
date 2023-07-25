@@ -252,10 +252,10 @@ fun WorkoutDetailScreen(
                 difficulty = Intermediate,
                 modifier = Modifier.padding(horizontal = 15.dp)
             )
-            ExerciseItemsDisplay(
-                modifier = Modifier.height(500.dp),
-                workoutViewModel = workoutViewModel
-            )
+//            ExerciseItemsDisplay(
+//                modifier = Modifier.height(500.dp),
+//                workoutViewModel = workoutViewModel
+//            )
 
             FloatingAddButton(Modifier.align(Alignment.CenterHorizontally), onClick = {
                 openDialog = true
