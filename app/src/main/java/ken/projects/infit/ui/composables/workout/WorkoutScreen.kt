@@ -30,7 +30,7 @@ import ken.projects.infit.R
 import ken.projects.infit.data.service.WorkoutTimerService
 import ken.projects.infit.data.service.WorkoutTimerService.Companion.TIMER_RUNNING
 import ken.projects.infit.ui.composables.CommandsDisplay
-import ken.projects.infit.ui.composables.RegularButton
+import ken.projects.infit.core.presentation.components.RegularButton
 import ken.projects.infit.ui.composables.home.SubHeading
 import ken.projects.infit.ui.composables.home.Title
 import ken.projects.infit.core.navigation.Screens

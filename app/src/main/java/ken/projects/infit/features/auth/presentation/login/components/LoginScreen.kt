@@ -1,6 +1,5 @@
 package ken.projects.infit.features.auth.presentation.login.components
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -32,7 +31,7 @@ import ken.projects.infit.features.auth.presentation.login.events.authentication
 import ken.projects.infit.features.auth.presentation.login.events.button_click.LoginButtonEvent
 import ken.projects.infit.features.auth.presentation.login.events.user_input.LoginUserInputEvent
 import ken.projects.infit.features.auth.presentation.login.events.validation.LoginValidationEvent
-import ken.projects.infit.ui.composables.RegularButton
+import ken.projects.infit.core.presentation.components.RegularButton
 import ken.projects.infit.ui.composables.home.Heading
 import ken.projects.infit.ui.theme.*
 import ken.projects.infit.features.auth.presentation.login.viewmodel.LoginViewModel

@@ -24,7 +24,7 @@ import androidx.navigation.compose.rememberNavController
 import ken.projects.infit.R
 import ken.projects.infit.core.presentation.components.InputField
 import ken.projects.infit.core.presentation.components.LoadingView
-import ken.projects.infit.ui.composables.RegularButton
+import ken.projects.infit.core.presentation.components.RegularButton
 import ken.projects.infit.ui.composables.home.Heading
 import ken.projects.infit.ui.theme.holoGreen
 import ken.projects.infit.ui.theme.veryDarkBlue

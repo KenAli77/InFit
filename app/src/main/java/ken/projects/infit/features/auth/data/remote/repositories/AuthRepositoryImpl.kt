@@ -2,6 +2,7 @@ package ken.projects.infit.features.auth.data.remote.repositories
 
 import android.content.SharedPreferences
 import android.util.Log
+import ken.projects.infit.R
 import ken.projects.infit.core.utils.Constants
 import ken.projects.infit.features.auth.data.remote.api.AuthApi
 import ken.projects.infit.features.auth.data.remote.response.AuthResponse
@@ -54,22 +55,23 @@ class AuthRepositoryImpl @Inject constructor(
             try {
                 val request = LoginRequest(email = email,password = password)
                 val response = api.loginUserWithEmail(request)
+                if(!response.success){
+                    Resource.Error(UiText.StringResource(R.string.error_unknown),null)
+                }
                 Log.e("RESPONSE",response.toString())
-                response.authToken?.let { token->
+                response.token?.let { token->
                     Log.e("TOKEN","overriding token with ${token}")
-
                     sharedPref.edit()
                         .putString(Constants.KEY_JWT_TOKEN, token)
                         .apply()
-                }
+                } ?: Resource.Error(UiText.StringResource(R.string.error_unknown),null)
 
                 response.id?.let { id ->
                     Log.e("AUTH ID","overriding id with ${id}")
                     sharedPref.edit()
                         .putString(Constants.KEY_USER_ID, id)
                         .apply()
-
-                }
+                } ?: Resource.Error(UiText.StringResource(R.string.error_unknown),null)
                 Resource.Success(response)
             } catch (e: Exception) {
                 e.printStackTrace()

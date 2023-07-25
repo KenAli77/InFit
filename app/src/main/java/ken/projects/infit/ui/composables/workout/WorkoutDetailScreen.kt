@@ -20,10 +20,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import ken.projects.infit.R
-import ken.projects.infit.data.models.Equipments
 import ken.projects.infit.data.models.equipments
-import ken.projects.infit.ui.composables.FloatingAddButton
-import ken.projects.infit.ui.composables.RegularButton
+import ken.projects.infit.core.presentation.components.FloatingAddButton
+import ken.projects.infit.core.presentation.components.RegularButton
 import ken.projects.infit.ui.composables.WorkoutInfo
 import ken.projects.infit.ui.composables.home.Heading
 import ken.projects.infit.ui.composables.home.SubHeading

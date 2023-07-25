@@ -25,8 +25,8 @@ import androidx.compose.ui.unit.dp
 import ken.projects.infit.R
 import ken.projects.infit.core.utils.customClickable
 import ken.projects.infit.data.models.ExerciseItem
-import ken.projects.infit.ui.composables.FloatingAddButton
-import ken.projects.infit.ui.composables.RoundedCheckBox
+import ken.projects.infit.core.presentation.components.FloatingAddButton
+import ken.projects.infit.core.presentation.components.RoundedCheckBox
 import ken.projects.infit.ui.composables.home.Heading
 import ken.projects.infit.ui.composables.home.SubHeading
 import ken.projects.infit.ui.composables.home.Title

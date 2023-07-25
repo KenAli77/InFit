@@ -12,7 +12,7 @@ import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.rememberLottieComposition
 import ken.projects.infit.R
-import ken.projects.infit.ui.composables.RegularButton
+import ken.projects.infit.core.presentation.components.RegularButton
 
 @Preview
 @Composable

@@ -18,7 +18,7 @@ package ken.projects.infit.ui.composables.workout
 //import com.chargemap.compose.numberpicker.NumberPicker
 //import ken.projects.infit.R
 //import ken.projects.infit.data.models.WorkoutPlan
-//import ken.projects.infit.ui.composables.RegularButton
+//import ken.projects.infit.core.presentation.components.RegularButton
 //import ken.projects.infit.ui.composables.home.Heading
 //import ken.projects.infit.ui.composables.home.SubHeading
 //import ken.projects.infit.ui.composables.home.Title

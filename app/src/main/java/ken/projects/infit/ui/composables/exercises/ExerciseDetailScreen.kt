@@ -2,7 +2,6 @@ package ken.projects.infit.ui.composables.exercises
 
 import android.content.Intent
 import android.widget.Toast
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -23,8 +22,8 @@ import androidx.navigation.NavHostController
 import ken.projects.infit.R
 import ken.projects.infit.core.utils.customClickable
 import ken.projects.infit.data.models.*
-import ken.projects.infit.ui.composables.FloatingAddButton
-import ken.projects.infit.ui.composables.RegularButton
+import ken.projects.infit.core.presentation.components.FloatingAddButton
+import ken.projects.infit.core.presentation.components.RegularButton
 import ken.projects.infit.ui.composables.home.Heading
 import ken.projects.infit.ui.composables.home.SubHeading
 import ken.projects.infit.ui.theme.darkBlue
