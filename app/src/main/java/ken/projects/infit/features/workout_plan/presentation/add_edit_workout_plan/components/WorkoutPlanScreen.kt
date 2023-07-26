@@ -35,7 +35,7 @@ import java.time.DayOfWeek
 @Composable
 fun WorkoutPlanScreen(viewmodel: WorkoutPlanViewModel, navController: NavHostController) =
     with(viewmodel) {
-        val pagerState = rememberPagerState(pageCount = {3})
+        val pagerState = rememberPagerState(pageCount = { 3 })
 
         val context = LocalContext.current
 
@@ -98,7 +98,24 @@ fun WorkoutPlanScreen(viewmodel: WorkoutPlanViewModel, navController: NavHostCon
                     }
 
                     if (index == 2) {
-                        WorkoutPlanSetUpPager3(modifier = Modifier, state = state)
+                        WorkoutPlanSetUpPager3(
+                            modifier = Modifier,
+                            openDialog = state.openExerciseDialog,
+                            onDialogChange = {},
+                            exerciseMenuExpanded = state.exerciseMenuExpanded,
+                            onExerciseMenuChange = {},
+                            equipmentMenuExpanded = state.equipmentMenuExpanded,
+                            onEquipmentMenuChange = {},
+                            exercises = state.exercises,
+                            exercise = state.exercise,
+                            onExerciseSelected = {},
+                            equipments = state.equipments,
+                            equipment = state.equipment,
+                            onEquipmentSelected = {},
+                            setsTotal = state.setsTotal,
+                            onSetChange = {},
+                            onSave = {}
+                        )
                     }
                 }
 

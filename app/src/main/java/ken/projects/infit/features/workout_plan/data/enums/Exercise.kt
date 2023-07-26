@@ -5,9 +5,9 @@ import ken.projects.infit.R
 
 enum class Exercise(
     @StringRes
-    val exerciseName: Int,
+    val label: Int,
     val targetGroup:List<Muscle> = listOf()
 ) {
-    Squat(exerciseName = R.string.squat, targetGroup = listOf(Muscle.Hamstrings,Muscle.Quads,Muscle.Calves)),
-    BenchPress(exerciseName = R.string.bench_press, targetGroup = listOf(Muscle.Chest,Muscle.Triceps,Muscle.AnteriorDeltoids))
+    Squat(label = R.string.squat, targetGroup = listOf(Muscle.Hamstrings,Muscle.Quads,Muscle.Calves)),
+    BenchPress(label = R.string.bench_press, targetGroup = listOf(Muscle.Chest,Muscle.Triceps,Muscle.AnteriorDeltoids))
 }

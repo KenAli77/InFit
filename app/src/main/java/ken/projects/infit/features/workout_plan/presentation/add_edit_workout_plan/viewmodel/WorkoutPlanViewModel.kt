@@ -10,6 +10,7 @@ import ken.projects.infit.R
 import ken.projects.infit.features.auth.presentation.register.events.user_input.SignUpUserInputEvent
 import ken.projects.infit.features.auth.presentation.register.events.validation.SignUpValidationEvent
 import ken.projects.infit.features.workout_plan.presentation.add_edit_workout_plan.events.button_click.WorkoutPlanClickEvent
+import ken.projects.infit.features.workout_plan.presentation.add_edit_workout_plan.events.dialog.WorkoutPlanDialogEvent
 import ken.projects.infit.features.workout_plan.presentation.add_edit_workout_plan.events.pager.WorkoutPlanPagerEvent
 import ken.projects.infit.features.workout_plan.presentation.add_edit_workout_plan.events.user_input.WorkoutPlanUserInputEvent
 import ken.projects.infit.features.workout_plan.presentation.add_edit_workout_plan.events.validation.WorkoutPlanValidationEvent
@@ -65,28 +66,36 @@ class WorkoutPlanViewModel @Inject constructor() : ViewModel() {
     fun onClickEvent(event: WorkoutPlanClickEvent) {
         viewModelScope.launch {
             when (event) {
-                WorkoutPlanClickEvent.BackButtonClickEvent -> {
-//                    pagerEvent.send(event)
-                }
-                WorkoutPlanClickEvent.FinishButtonClickEvent -> {
-//                    pagerEvent.send(event)
-                }
-                WorkoutPlanClickEvent.NextButtonClickEvent -> {
-//                    pagerEvent.send(event)
-                }
-                is WorkoutPlanClickEvent.PagerNavClickEvent -> {
-                    if(event.id == R.string.next){
-                        pagerEvent.send(WorkoutPlanPagerEvent.NavigateForward)
-                    }
-                    if(event.id == R.string.finish){
-
-                    }
-                    if(event.id == R.string.back){
-                        pagerEvent.send(WorkoutPlanPagerEvent.NavigateBack)
-                    }
-
-                }
+//                WorkoutPlanClickEvent.BackButtonClickEvent -> {
+////                    pagerEvent.send(event)
+//                }
+//                WorkoutPlanClickEvent.FinishButtonClickEvent -> {
+////                    pagerEvent.send(event)
+//                }
+//                WorkoutPlanClickEvent.NextButtonClickEvent -> {
+////                    pagerEvent.send(event)
+//                }
+//                is WorkoutPlanClickEvent.PagerNavClickEvent -> {
+//                    if(event.id == R.string.next){
+//                        pagerEvent.send(WorkoutPlanPagerEvent.NavigateForward)
+//                    }
+//                    if(event.id == R.string.finish){
+//
+//                    }
+//                    if(event.id == R.string.back){
+//                        pagerEvent.send(WorkoutPlanPagerEvent.NavigateBack)
+//                    }
+//
+//                }
+                WorkoutPlanClickEvent.AddExerciseButtonClickEvent -> TODO()
+                WorkoutPlanClickEvent.FinishButtonClickEvent -> TODO()
             }
+        }
+    }
+
+    fun onDialogEvent(event:WorkoutPlanDialogEvent){
+        when (event){
+            is WorkoutPlanDialogEvent.ExerciseDialogEvent -> TODO()
         }
     }
 

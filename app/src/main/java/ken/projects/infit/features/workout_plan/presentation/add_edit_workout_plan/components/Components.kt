@@ -44,7 +44,7 @@ import java.time.DayOfWeek
 fun WorkoutPlanSetUpPager1(
     modifier: Modifier = Modifier,
     state: WorkoutPlanState,
-    onUserInputEvent: (WorkoutPlanUserInputEvent)->Unit
+    onUserInputEvent: (WorkoutPlanUserInputEvent) -> Unit
 ) {
 
     Column(modifier = modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(20.dp)) {
@@ -105,7 +105,11 @@ fun WorkoutPlanSetUpPager1(
         }
         Spacer(modifier = Modifier.height(10.dp))
 
-        Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
 
 
             SubHeading(
@@ -136,20 +140,23 @@ fun WorkoutPlanSetUpPager1(
         }
 
 
-
-
     }
 }
 
 @Composable
-fun WorkoutPlanSetUpPager2(modifier: Modifier = Modifier, goal: Goal,onSelected: (Goal) -> Unit) {
+fun WorkoutPlanSetUpPager2(modifier: Modifier = Modifier, goal: Goal, onSelected: (Goal) -> Unit) {
 
     Column(modifier = modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(10.dp)) {
 
         SubHeading(text = stringResource(id = R.string.select_goal))
 
         Goal.values().forEach {
-            GoalCard(goal = it, onSelected = { onSelected(it) }, selected = goal == it, modifier = Modifier.padding(vertical = 20.dp))
+            GoalCard(
+                goal = it,
+                onSelected = { onSelected(it) },
+                selected = goal == it,
+                modifier = Modifier.padding(vertical = 20.dp)
+            )
         }
 
     }
@@ -158,244 +165,285 @@ fun WorkoutPlanSetUpPager2(modifier: Modifier = Modifier, goal: Goal,onSelected:
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalComposeUiApi::class)
 @Composable
-fun WorkoutPlanSetUpPager3(modifier: Modifier = Modifier, state: WorkoutPlanState) {
+fun WorkoutPlanSetUpPager3(
+    modifier: Modifier = Modifier,
+    openDialog: Boolean = false,
+    onDialogChange:(Boolean)->Unit,
+    exerciseMenuExpanded: Boolean = false,
+    onExerciseMenuChange:(Boolean)->Unit = {},
+    equipmentMenuExpanded: Boolean = false,
+    onEquipmentMenuChange:(Boolean)->Unit = {},
+    exercises: List<Exercise> = Exercise.values().toList(),
+    exercise: Exercise,
+    onExerciseSelected:(Exercise)->Unit = {},
+    equipments: List<Equipment> = Equipment.values().toList(),
+    equipment: Equipment,
+    onEquipmentSelected:(Equipment)->Unit = {},
+    setsTotal:Int,
+    onSetChange:(Int)->Unit,
+    onSave:()->Unit = {},
+) {
 
-        var openDialog by remember { mutableStateOf(false) }
-        var exBoxExpanded by remember { mutableStateOf(false) }
-        var selectedExercise by remember { mutableStateOf(Exercise.BenchPress) }
-        val equipments = Equipment.values()
-        var eqBoxExpanded by remember { mutableStateOf(false) }
-        var selectedEquipment by remember { mutableStateOf(Equipment.Barbell) }
-        var setAmount by remember { mutableStateOf(1) }
+//    var openDialog by remember { mutableStateOf(false) }
+//    var exerciseMenuExpanded by remember { mutableStateOf(false) }
+//    var exercise by remember { mutableStateOf(Exercise.BenchPress) }
+//    val equipments = Equipment.values()
+//    var equipmentMenuExpanded by remember { mutableStateOf(false) }
+//    var equipment by remember { mutableStateOf(Equipment.Barbell) }
+//    var setsTotal by remember { mutableStateOf(1) }
 
-        if (openDialog) {
-            Dialog(
-                onDismissRequest = { openDialog = false },
-                properties = DialogProperties(usePlatformDefaultWidth = false),
+    if (openDialog) {
+        Dialog(
+            onDismissRequest = { onDialogChange(false) },
+            properties = DialogProperties(usePlatformDefaultWidth = false),
 
-                )
-            {
-                Surface(
-                    modifier = Modifier.width(300.dp),
-                    color = lightBlue,
-                    shape = RoundedCornerShape(40.dp)
+            )
+        {
+            Surface(
+                modifier = Modifier.width(300.dp),
+                color = lightBlue,
+                shape = RoundedCornerShape(20.dp),
+                elevation = 10.dp
+            ) {
+
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(20.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier
+                        .padding(30.dp)
+
                 ) {
+                    SubHeading(
+                        text = stringResource(R.string.add_exercise_heading),
+                        color = holoGreen
+                    )
 
-                    Column(
-                        verticalArrangement = Arrangement.spacedBy(20.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        modifier = Modifier
-                            .padding(30.dp)
-
+                    ExposedDropdownMenuBox(
+                        expanded = exerciseMenuExpanded,
+                        onExpandedChange = {
+//                            exerciseMenuExpanded = !exerciseMenuExpanded
+                            onExerciseMenuChange(it)
+                        }
                     ) {
-                        SubHeading(text = stringResource(R.string.add_exercise_heading), color = holoGreen)
-
-                        ExposedDropdownMenuBox(
-                            expanded = exBoxExpanded,
-                            onExpandedChange = {
-                                exBoxExpanded = !exBoxExpanded
-                            }
-                        ) {
-                            TextField(
-                                readOnly = true,
-                                value = stringResource(id = selectedExercise.exerciseName),
-                                onValueChange = { value ->
-                                    selectedExercise = Exercise.values().first { it.name == value }
-                                },
-                                label = { Text(stringResource(id = R.string.exercise), color = holoGreen) },
-                                trailingIcon = {
-                                    ExposedDropdownMenuDefaults.TrailingIcon(
-                                        expanded = exBoxExpanded,
-
-                                        )
-                                },
-                                colors = ExposedDropdownMenuDefaults.textFieldColors(
-                                    trailingIconColor = holoGreen,
-                                    focusedTrailingIconColor = holoGreen,
-                                    disabledTrailingIconColor = holoGreen
-                                ),
-                                textStyle = TextStyle(fontSize = 20.sp)
-
-                            )
-                            ExposedDropdownMenu(
-                                expanded = exBoxExpanded,
-                                onDismissRequest = {
-                                    exBoxExpanded = false
-                                }
-                            ) {
-                                Exercise.values().forEach { selectionOption ->
-                                    DropdownMenuItem(
-                                        onClick = {
-                                            selectedExercise = selectionOption
-                                            exBoxExpanded = false
-                                        }
-                                    ) {
-                                        Text(text = stringResource(selectionOption.exerciseName))
-                                    }
-                                }
-                            }
-                        }
-
-                        ExposedDropdownMenuBox(
-                            expanded = eqBoxExpanded,
-                            onExpandedChange = {
-                                eqBoxExpanded = !eqBoxExpanded
-                            }
-                        ) {
-                            TextField(
-                                readOnly = true,
-                                value = selectedEquipment.name,
-                                onValueChange = { },
-                                label = { Text(stringResource(id = R.string.equipment), color = holoGreen) },
-                                trailingIcon = {
-                                    ExposedDropdownMenuDefaults.TrailingIcon(
-                                        expanded = eqBoxExpanded,
-
-                                        )
-                                },
-                                colors = ExposedDropdownMenuDefaults.textFieldColors(
-                                    trailingIconColor = holoGreen,
-                                    focusedTrailingIconColor = holoGreen,
-                                    disabledTrailingIconColor = holoGreen
-                                ),
-                                textStyle = TextStyle(fontSize = 20.sp)
-                            )
-                            ExposedDropdownMenu(
-                                expanded = eqBoxExpanded,
-                                onDismissRequest = {
-                                    eqBoxExpanded = false
-                                }
-                            ) {
-                                equipments.forEach { selectionOption ->
-                                    DropdownMenuItem(
-                                        onClick = {
-                                            selectedEquipment = selectionOption
-                                            eqBoxExpanded = false
-                                        }
-                                    ) {
-                                        Text(text = selectionOption.name)
-                                    }
-                                }
-                            }
-                        }
-
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier
-                                .padding(vertical = 10.dp),
-                            horizontalArrangement = Arrangement.spacedBy(30.dp)
-                        ) {
-                            SubHeading(text = stringResource(id = R.string.sets), modifier = Modifier)
-
-                            Row(
-                                modifier = Modifier,
-                                horizontalArrangement = Arrangement.spacedBy(
-                                    20.dp,
-                                    Alignment.CenterHorizontally
-                                ),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-
-
-                                IconButton(onClick = {
-                                    if (setAmount > 0) {
-                                        setAmount--
-                                    }
-                                }) {
-                                    Icon(
-                                        painter = painterResource(id = R.drawable.ic_remove),
-                                        contentDescription = null,
-                                        tint = holoGreen,
-                                        modifier = Modifier.size(25.dp)
-                                    )
-                                }
-
-                                Title(text = setAmount.toString())
-
-                                IconButton(
-                                    onClick = { setAmount++ },
+                        TextField(
+                            readOnly = true,
+                            value = stringResource(id = exercise.label),
+                            onValueChange = { value ->
+//                                exercise = Exercise.values().first { it.name == value }
+                            },
+                            label = {
+                                Text(
+                                    stringResource(id = R.string.exercise),
+                                    color = holoGreen
                                 )
-                                {
-                                    Icon(
-                                        imageVector = Icons.Rounded.AddCircle,
-                                        contentDescription = null,
-                                        tint = holoGreen,
-                                        modifier = Modifier.size(25.dp)
+                            },
+                            trailingIcon = {
+                                ExposedDropdownMenuDefaults.TrailingIcon(
+                                    expanded = exerciseMenuExpanded,
+
                                     )
+                            },
+                            colors = ExposedDropdownMenuDefaults.textFieldColors(
+                                trailingIconColor = holoGreen,
+                                focusedTrailingIconColor = holoGreen,
+                                disabledTrailingIconColor = holoGreen
+                            ),
+                            textStyle = TextStyle(fontSize = 20.sp)
+
+                        )
+                        ExposedDropdownMenu(
+                            expanded = exerciseMenuExpanded,
+                            onDismissRequest = {
+//                                exerciseMenuExpanded = false
+                                onExerciseMenuChange(false)
+                            }
+                        ) {
+                            Exercise.values().forEach { selectionOption ->
+                                DropdownMenuItem(
+                                    onClick = {
+//                                        exercise = selectionOption
+                                        onExerciseSelected(selectionOption)
+                                        onExerciseMenuChange(false)
+//                                        exerciseMenuExpanded = false
+                                    }
+                                ) {
+                                    Text(text = stringResource(exercise.label))
                                 }
                             }
                         }
-
-                        RegularButton(
-                            text = stringResource(id = R.string.add),
-                            modifier = Modifier.align(Alignment.CenterHorizontally),
-                            onClick = {
-                                openDialog = false
-
-                            }
-                        )
                     }
 
+                    ExposedDropdownMenuBox(
+                        expanded = equipmentMenuExpanded,
+                        onExpandedChange = {
+//                            equipmentMenuExpanded = !equipmentMenuExpanded
+                            onEquipmentMenuChange(it)
+                        }
+                    ) {
+                        TextField(
+                            readOnly = true,
+                            value = stringResource(id =equipment.label),
+                            onValueChange = {
+//                                            onEquipmentSelected()
+                            },
+                            label = {
+                                Text(
+                                    stringResource(id = R.string.equipment),
+                                    color = holoGreen
+                                )
+                            },
+                            trailingIcon = {
+                                ExposedDropdownMenuDefaults.TrailingIcon(
+                                    expanded = equipmentMenuExpanded,
+                                    )
+                            },
+                            colors = ExposedDropdownMenuDefaults.textFieldColors(
+                                trailingIconColor = holoGreen,
+                                focusedTrailingIconColor = holoGreen,
+                                disabledTrailingIconColor = holoGreen
+                            ),
+                            textStyle = TextStyle(fontSize = 20.sp)
+                        )
+                        ExposedDropdownMenu(
+                            expanded = equipmentMenuExpanded,
+                            onDismissRequest = {
+                                onEquipmentMenuChange(false)
+//                                equipmentMenuExpanded = false
+                            }
+                        ) {
+                            equipments.forEach { selectionOption ->
+                                DropdownMenuItem(
+                                    onClick = {
+//                                        equipment = selectionOption
+//                                        equipmentMenuExpanded = false
+                                        onEquipmentSelected(selectionOption)
+                                        onEquipmentMenuChange(false)
+                                    }
+                                ) {
+                                    Text(text = selectionOption.name)
+                                }
+                            }
+                        }
+                    }
+
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .padding(vertical = 10.dp),
+                        horizontalArrangement = Arrangement.spacedBy(30.dp)
+                    ) {
+                        SubHeading(text = stringResource(id = R.string.sets), modifier = Modifier)
+
+                        Row(
+                            modifier = Modifier,
+                            horizontalArrangement = Arrangement.spacedBy(
+                                20.dp,
+                                Alignment.CenterHorizontally
+                            ),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+
+
+                            IconButton(onClick = {
+                                if (setsTotal > 0) {
+                                    onSetChange(setsTotal - 1)
+//                                    setsTotal--
+                                }
+                            }) {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.ic_remove),
+                                    contentDescription = null,
+                                    tint = holoGreen,
+                                    modifier = Modifier.size(25.dp)
+                                )
+                            }
+
+                            Title(text = setsTotal.toString())
+
+                            IconButton(
+                                onClick = {
+//                                    setsTotal++
+                                    onSetChange(setsTotal + 1) },
+                            )
+                            {
+                                Icon(
+                                    imageVector = Icons.Rounded.AddCircle,
+                                    contentDescription = null,
+                                    tint = holoGreen,
+                                    modifier = Modifier.size(25.dp)
+                                )
+                            }
+                        }
+                    }
+
+                    RegularButton(
+                        text = stringResource(id = R.string.add),
+                        modifier = Modifier.align(Alignment.CenterHorizontally),
+                        onClick = {
+//                            openDialog = false
+                            onDialogChange(false)
+
+                        }
+                    )
                 }
+
             }
         }
+    }
 
-        Surface(
-            modifier = Modifier
-                .fillMaxSize(),
-            color = darkBlue,
+    Surface(
+        modifier = Modifier
+            .fillMaxSize(),
+        color = darkBlue,
+    ) {
+
+        Column(
+            Modifier
+                .fillMaxWidth()
+                .fillMaxHeight()
+                .padding(top = 20.dp),
+            verticalArrangement = Arrangement.spacedBy(30.dp),
+            horizontalAlignment = Alignment.Start
         ) {
+            ExerciseItemsDisplay(
+                modifier = Modifier.height(500.dp),
+                exercises = Exercise.values().toList(),
+                onRemoveExercise = {}
+            )
 
-            Column(
-                Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight()
-                    .padding(top = 20.dp),
-                verticalArrangement = Arrangement.spacedBy(30.dp),
-                horizontalAlignment = Alignment.Start
-            ) {
-//                Heading(
-//                    text = workoutPlan?.name?.replaceFirstChar { it.uppercase() }.toString(),
-//                    modifier = Modifier.padding(horizontal = 10.dp)
-//                )
-//                WorkoutInfo(
-//                    duration = workoutPlan?.duration.toString(),
-//                    difficulty = Intermediate,
-//                    modifier = Modifier.padding(horizontal = 15.dp)
-//                )
-                ExerciseItemsDisplay(
-                    modifier = Modifier.height(500.dp),
-                    exercises = Exercise.values().toList(),
-                    onRemoveExercise = {}
-                )
-
-                FloatingAddButton(Modifier.align(Alignment.CenterHorizontally), onClick = {
-                    openDialog = true
-                })
-            }
+            FloatingAddButton(Modifier.align(Alignment.CenterHorizontally), onClick = {
+                onDialogChange(true)
+            })
         }
+    }
 }
 
 
 @Composable
 fun GoalCard(modifier: Modifier = Modifier, goal: Goal, onSelected: () -> Unit, selected: Boolean) {
-    val border = if(selected){
+    val border = if (selected) {
         BorderStroke(width = 1.dp, color = holoGreen)
-    }else{
+    } else {
         BorderStroke(0.dp, Color.Transparent)
     }
-    Surface(modifier = modifier
-        .height(150.dp)
-        .fillMaxWidth()
-        .padding(horizontal = 10.dp)
-        .customClickable { onSelected() },
+    Surface(
+        modifier = modifier
+            .height(150.dp)
+            .fillMaxWidth()
+            .padding(horizontal = 10.dp)
+            .customClickable { onSelected() },
         shape = RoundedCornerShape(20.dp),
         color = darkBlue,
         border = border,
-    elevation = 10.dp) {
-        Column(modifier = Modifier.padding(8.dp), verticalArrangement = Arrangement.spacedBy(10.dp), horizontalAlignment = Alignment.Start) {
-          Title(text = stringResource(id =goal.title), fontWeight = FontWeight.SemiBold)
-          Paragraph(text = stringResource(id = goal.description))
+        elevation = 10.dp
+    ) {
+        Column(
+            modifier = Modifier.padding(8.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp),
+            horizontalAlignment = Alignment.Start
+        ) {
+            Title(text = stringResource(id = goal.title), fontWeight = FontWeight.SemiBold)
+            Paragraph(text = stringResource(id = goal.description))
         }
     }
 }
