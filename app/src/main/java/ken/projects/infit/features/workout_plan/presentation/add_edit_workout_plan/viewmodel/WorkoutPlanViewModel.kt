@@ -7,8 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ken.projects.infit.R
-import ken.projects.infit.features.auth.presentation.register.events.user_input.SignUpUserInputEvent
-import ken.projects.infit.features.auth.presentation.register.events.validation.SignUpValidationEvent
 import ken.projects.infit.features.workout_plan.presentation.add_edit_workout_plan.events.button_click.WorkoutPlanClickEvent
 import ken.projects.infit.features.workout_plan.presentation.add_edit_workout_plan.events.dialog.WorkoutPlanDialogEvent
 import ken.projects.infit.features.workout_plan.presentation.add_edit_workout_plan.events.pager.WorkoutPlanPagerEvent
@@ -45,13 +43,7 @@ class WorkoutPlanViewModel @Inject constructor() : ViewModel() {
                 state.copy(duration = event.duration)
             }
             is WorkoutPlanUserInputEvent.EnteredWorkoutFrequency -> {
-                val days = mutableListOf<DayOfWeek>()
-                days.addAll(state.frequency)
-                if (event.checked) {
-                    days.add(event.day)
-                } else {
-                    days.remove(event.day)
-                }
+                val days = changeDaysSelection(event)
                 state.copy(frequency = days)
             }
             is WorkoutPlanUserInputEvent.EnteredWorkoutGoal -> {
@@ -60,59 +52,89 @@ class WorkoutPlanViewModel @Inject constructor() : ViewModel() {
             is WorkoutPlanUserInputEvent.EnteredWorkoutName -> {
                 state.copy(name = event.name)
             }
+            is WorkoutPlanUserInputEvent.SelectedEquipment -> {
+                state.copy(equipment = event.equipment)
+            }
+            is WorkoutPlanUserInputEvent.SelectedExercise -> {
+                state.copy(exercise = event.exercise)
+            }
+            is WorkoutPlanUserInputEvent.EnteredSetTotal -> {
+                state.copy(setsTotal = event.sets)
+            }
         }
     }
 
     fun onClickEvent(event: WorkoutPlanClickEvent) {
         viewModelScope.launch {
             when (event) {
-//                WorkoutPlanClickEvent.BackButtonClickEvent -> {
-////                    pagerEvent.send(event)
-//                }
-//                WorkoutPlanClickEvent.FinishButtonClickEvent -> {
-////                    pagerEvent.send(event)
-//                }
-//                WorkoutPlanClickEvent.NextButtonClickEvent -> {
-////                    pagerEvent.send(event)
-//                }
-//                is WorkoutPlanClickEvent.PagerNavClickEvent -> {
-//                    if(event.id == R.string.next){
-//                        pagerEvent.send(WorkoutPlanPagerEvent.NavigateForward)
-//                    }
-//                    if(event.id == R.string.finish){
-//
-//                    }
-//                    if(event.id == R.string.back){
-//                        pagerEvent.send(WorkoutPlanPagerEvent.NavigateBack)
-//                    }
-//
-//                }
-                WorkoutPlanClickEvent.AddExerciseButtonClickEvent -> TODO()
-                WorkoutPlanClickEvent.FinishButtonClickEvent -> TODO()
+                WorkoutPlanClickEvent.AddExerciseButtonClickEvent -> {}
+                WorkoutPlanClickEvent.FinishButtonClickEvent -> {}
+                WorkoutPlanClickEvent.SaveExerciseClickEvent -> {}
             }
         }
     }
 
-    fun onDialogEvent(event:WorkoutPlanDialogEvent){
-        when (event){
-            is WorkoutPlanDialogEvent.ExerciseDialogEvent -> TODO()
+    fun onDialogEvent(event: WorkoutPlanDialogEvent) {
+        state = when (event) {
+            is WorkoutPlanDialogEvent.ExerciseDialogEvent -> {
+                state.copy(openExerciseDialog = event.visible)
+            }
+            is WorkoutPlanDialogEvent.EquipmentMenuEvent -> {
+                state.copy(equipmentMenuExpanded = event.visible)
+            }
+            is WorkoutPlanDialogEvent.ExerciseMenuEvent -> {
+                state.copy(exerciseMenuExpanded = event.visible)
+            }
         }
     }
 
-    fun onPageChange(page:Int){
+    fun onPagerEvent(event: WorkoutPlanPagerEvent) {
+        when (event) {
+            is WorkoutPlanPagerEvent.NavigateBack -> {
+                viewModelScope.launch {
+                    onPageChange(event.currentPage - 1)
+                    pagerEvent.send(event)
+                }
+            }
+            is WorkoutPlanPagerEvent.NavigateForward -> {
+                viewModelScope.launch {
+                    onPageChange(event.currentPage + 1)
+                    pagerEvent.send(event)
+                }
+            }
+        }
+    }
+
+    fun onPageChange(page: Int) {
+        if (page > state.pagerPageCount || page < 0) {
+            return
+        }
         var text = R.string.next
         var backNavVisible = false
-        if(page >= 0){
+        if (page >= 0) {
             text = R.string.next
         }
-        if(page >=2){
-            text = R.string.finish
+        if (page > 0) {
             backNavVisible = true
+        }
+        if (page >= 2) {
+            text = R.string.finish
         }
         state = state.copy(
             pagerNavText = text,
             pagerBackNavVisible = backNavVisible
         )
+    }
 
+    private fun changeDaysSelection(event: WorkoutPlanUserInputEvent.EnteredWorkoutFrequency): List<DayOfWeek> {
+        val days = mutableListOf<DayOfWeek>()
+        days.addAll(state.frequency)
+        if (event.checked) {
+            days.add(event.day)
+        } else {
+            days.remove(event.day)
+        }
+
+        return days
     }
 }

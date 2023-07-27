@@ -24,5 +24,6 @@ data class WorkoutPlanState(
     val setsTotal: Int = 3,
     @StringRes
     val pagerNavText: Int = R.string.next,
-    val pagerBackNavVisible: Boolean = false
+    val pagerBackNavVisible: Boolean = false,
+    val pagerPageCount:Int = 3,
 )

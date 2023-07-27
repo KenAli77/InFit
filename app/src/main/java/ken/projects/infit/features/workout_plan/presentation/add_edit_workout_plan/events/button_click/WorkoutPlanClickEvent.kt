@@ -4,5 +4,5 @@ sealed class WorkoutPlanClickEvent {
 
     object FinishButtonClickEvent : WorkoutPlanClickEvent()
     object AddExerciseButtonClickEvent : WorkoutPlanClickEvent()
-
+    object SaveExerciseClickEvent: WorkoutPlanClickEvent()
 }

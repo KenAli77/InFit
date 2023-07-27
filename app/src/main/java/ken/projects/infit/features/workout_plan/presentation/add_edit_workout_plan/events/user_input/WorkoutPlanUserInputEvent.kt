@@ -16,4 +16,5 @@ sealed class WorkoutPlanUserInputEvent{
     data class EnteredWorkoutDuration(val duration:Int,): WorkoutPlanUserInputEvent()
     data class SelectedEquipment(val equipment: Equipment):WorkoutPlanUserInputEvent()
     data class SelectedExercise(val exercise: Exercise):WorkoutPlanUserInputEvent()
+    data class EnteredSetTotal(val sets:Int):WorkoutPlanUserInputEvent()
 }

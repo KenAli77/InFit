@@ -2,7 +2,7 @@ package ken.projects.infit.features.workout_plan.presentation.add_edit_workout_p
 
 sealed class WorkoutPlanPagerEvent {
 
-    object NavigateBack:WorkoutPlanPagerEvent()
-    object NavigateForward:WorkoutPlanPagerEvent()
+    data class NavigateBack(val currentPage:Int,):WorkoutPlanPagerEvent()
+    data class NavigateForward(val currentPage:Int,):WorkoutPlanPagerEvent()
 
 }

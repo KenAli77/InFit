@@ -2,17 +2,13 @@ package ken.projects.infit.features.workout_plan.presentation.add_edit_workout_p
 
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -22,30 +18,28 @@ import androidx.navigation.NavHostController
 import ken.projects.infit.R
 import ken.projects.infit.core.utils.customClickable
 import ken.projects.infit.ui.composables.home.Heading
-import ken.projects.infit.features.workout_plan.data.enums.Difficulty
-import ken.projects.infit.features.workout_plan.presentation.add_edit_workout_plan.events.button_click.WorkoutPlanClickEvent
+import ken.projects.infit.features.workout_plan.presentation.add_edit_workout_plan.events.dialog.WorkoutPlanDialogEvent
 import ken.projects.infit.features.workout_plan.presentation.add_edit_workout_plan.events.pager.WorkoutPlanPagerEvent
 import ken.projects.infit.features.workout_plan.presentation.add_edit_workout_plan.events.user_input.WorkoutPlanUserInputEvent
 import ken.projects.infit.features.workout_plan.presentation.add_edit_workout_plan.viewmodel.WorkoutPlanViewModel
 import ken.projects.infit.ui.composables.home.Title
 import ken.projects.infit.ui.theme.*
-import java.time.DayOfWeek
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun WorkoutPlanScreen(viewmodel: WorkoutPlanViewModel, navController: NavHostController) =
     with(viewmodel) {
-        val pagerState = rememberPagerState(pageCount = { 3 })
+        val pagerState = rememberPagerState(pageCount = { state.pagerPageCount })
 
         val context = LocalContext.current
 
         LaunchedEffect(key1 = context) {
             pagerEvents.collect { event ->
                 when (event) {
-                    WorkoutPlanPagerEvent.NavigateBack -> pagerState.animateScrollToPage(
+                is    WorkoutPlanPagerEvent.NavigateBack -> pagerState.animateScrollToPage(
                         pagerState.currentPage - 1
                     )
-                    WorkoutPlanPagerEvent.NavigateForward -> pagerState.animateScrollToPage(
+                is    WorkoutPlanPagerEvent.NavigateForward -> pagerState.animateScrollToPage(
                         pagerState.currentPage + 1
                     )
                 }
@@ -101,17 +95,17 @@ fun WorkoutPlanScreen(viewmodel: WorkoutPlanViewModel, navController: NavHostCon
                         WorkoutPlanSetUpPager3(
                             modifier = Modifier,
                             openDialog = state.openExerciseDialog,
-                            onDialogChange = {},
+                            onDialogChange = {onDialogEvent(WorkoutPlanDialogEvent.ExerciseDialogEvent(it))},
                             exerciseMenuExpanded = state.exerciseMenuExpanded,
-                            onExerciseMenuChange = {},
+                            onExerciseMenuChange = {onDialogEvent(WorkoutPlanDialogEvent.ExerciseMenuEvent(it))},
                             equipmentMenuExpanded = state.equipmentMenuExpanded,
-                            onEquipmentMenuChange = {},
+                            onEquipmentMenuChange = {onDialogEvent(WorkoutPlanDialogEvent.EquipmentMenuEvent(it))},
                             exercises = state.exercises,
                             exercise = state.exercise,
-                            onExerciseSelected = {},
+                            onExerciseSelected = {onUserInputEvent(WorkoutPlanUserInputEvent.SelectedExercise(it))},
                             equipments = state.equipments,
                             equipment = state.equipment,
-                            onEquipmentSelected = {},
+                            onEquipmentSelected = {onUserInputEvent(WorkoutPlanUserInputEvent.SelectedEquipment(it))},
                             setsTotal = state.setsTotal,
                             onSetChange = {},
                             onSave = {}
@@ -130,7 +124,7 @@ fun WorkoutPlanScreen(viewmodel: WorkoutPlanViewModel, navController: NavHostCon
                     if (state.pagerBackNavVisible) {
                         Title(text = stringResource(R.string.back).lowercase(), modifier = Modifier
                             .customClickable {
-                                onClickEvent(WorkoutPlanClickEvent.PagerNavClickEvent(R.string.back))
+                                onPagerEvent(WorkoutPlanPagerEvent.NavigateBack(pagerState.currentPage))
                             }
                             .align(Alignment.BottomStart),
                             fontWeight = FontWeight.Bold,
@@ -139,7 +133,7 @@ fun WorkoutPlanScreen(viewmodel: WorkoutPlanViewModel, navController: NavHostCon
                     Title(text = stringResource(state.pagerNavText).lowercase(),
                         modifier = Modifier
                             .customClickable {
-                                onClickEvent(WorkoutPlanClickEvent.PagerNavClickEvent(state.pagerNavText))
+                                onPagerEvent(WorkoutPlanPagerEvent.NavigateForward(pagerState.currentPage))
                             }
                             .align(Alignment.BottomEnd),
                         fontWeight = FontWeight.Bold,
