@@ -15,9 +15,10 @@ private val DarkColorPalette = darkColors(
 
 @SuppressLint("ConflictingOnColor")
 private val LightColorPalette = lightColors(
-    primary = darkBlue,
-    primaryVariant = lightBlue,
+    primary = holoGreen,
+    primaryVariant = darkBlue,
     secondary = holoGreen,
+    surface = darkBlue,
 
 
 )

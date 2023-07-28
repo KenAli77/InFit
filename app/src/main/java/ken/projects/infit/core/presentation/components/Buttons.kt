@@ -7,12 +7,11 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.CheckCircle
+import androidx.compose.material3.Button
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -39,27 +38,40 @@ fun RegularButton(
 ) {
 
 
-    Surface(
-        color = backgroundColor,
-        shape = RoundedCornerShape(10.dp),
-        modifier = modifier.customClickable { onClick() }.fillMaxWidth(),
-        elevation = 10.dp,
-
-        ) {
-
-        Row(
-            modifier = Modifier.padding(vertical = 10.dp, horizontal = 20.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center,
-        ) {
-            ButtonText(
-                text = text.lowercase(),
-                color = textColor,
-            )
-        }
-
-
+    Button(
+        onClick = onClick,
+        modifier = modifier.fillMaxWidth(),
+        colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.primary)
+    ) {
+        ButtonText(
+            text = text.lowercase(),
+            color = textColor,
+        )
     }
+
+//    Surface(
+//        color = backgroundColor,
+//        shape = RoundedCornerShape(10.dp),
+//        modifier = modifier
+//            .customClickable { onClick() }
+//            .fillMaxWidth(),
+//        elevation = 10.dp,
+//
+//        ) {
+//
+//        Row(
+//            modifier = Modifier.padding(vertical = 10.dp, horizontal = 20.dp),
+//            verticalAlignment = Alignment.CenterVertically,
+//            horizontalArrangement = Arrangement.Center,
+//        ) {
+//            ButtonText(
+//                text = text.lowercase(),
+//                color = textColor,
+//            )
+//        }
+//
+//
+//    }
 }
 
 @Composable

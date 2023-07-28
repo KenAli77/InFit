@@ -2,13 +2,16 @@ package ken.projects.infit.features.workout_plan.presentation.add_edit_workout_p
 
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -64,6 +67,7 @@ fun WorkoutPlanScreen(viewmodel: WorkoutPlanViewModel, navController: NavHostCon
                         .constrainAs(header) {
                             top.linkTo(parent.top)
                             start.linkTo(parent.start)
+                            end.linkTo(parent.end)
                         },
                     color = holoGreen
                 )
@@ -116,7 +120,7 @@ fun WorkoutPlanScreen(viewmodel: WorkoutPlanViewModel, navController: NavHostCon
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(10.dp)
+                        .padding(20.dp)
                         .constrainAs(nav) {
                             bottom.linkTo(parent.bottom)
                         },
@@ -130,12 +134,35 @@ fun WorkoutPlanScreen(viewmodel: WorkoutPlanViewModel, navController: NavHostCon
                             fontWeight = FontWeight.Bold,
                             color = holoGreen)
                     }
+
+                    Row(
+                        Modifier
+                            .align(Alignment.BottomCenter)
+                            .padding(bottom = 5.dp),
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        repeat(state.pagerPageCount) { iteration ->
+                            val color =
+                                if (pagerState.currentPage == iteration) holoGreen else holoGreen.copy(0.5f)
+                            Box(
+                                modifier = Modifier
+                                    .padding(2.dp)
+                                    .clip(CircleShape)
+                                    .background(color)
+                                    .size(8.dp)
+                            )
+                        }
+                    }
+
+
                     Title(text = stringResource(state.pagerNavText).lowercase(),
                         modifier = Modifier
                             .customClickable {
                                 onPagerEvent(WorkoutPlanPagerEvent.NavigateForward(pagerState.currentPage))
                             }
-                            .align(Alignment.BottomEnd),
+                            .align(Alignment.BottomEnd)
+                        ,
                         fontWeight = FontWeight.Bold,
                         color = holoGreen)
                 }
