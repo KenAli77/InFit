@@ -1,5 +1,7 @@
 package ken.projects.infit.features.workout_plan.presentation.add_edit_workout_plan.components
 
+import ExerciseItem
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -61,6 +63,8 @@ fun WorkoutPlanSetUpPager1(
                     )
                 )
             },
+            placeholder = stringResource(R.string.enter_name),
+            modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(10.dp))
         SubHeading(
@@ -169,9 +173,9 @@ fun WorkoutPlanSetUpPager3(
     modifier: Modifier = Modifier,
     openDialog: Boolean = false,
     onDialogChange:(Boolean)->Unit,
-    exerciseMenuExpanded: Boolean = false,
+    exerciseMenuExpanded: Boolean,
     onExerciseMenuChange:(Boolean)->Unit = {},
-    equipmentMenuExpanded: Boolean = false,
+    equipmentMenuExpanded: Boolean,
     onEquipmentMenuChange:(Boolean)->Unit = {},
     exercises: List<Exercise> = Exercise.values().toList(),
     exercise: Exercise,
@@ -181,16 +185,10 @@ fun WorkoutPlanSetUpPager3(
     onEquipmentSelected:(Equipment)->Unit = {},
     setsTotal:Int,
     onSetChange:(Int)->Unit,
+    onRemoveExercise:(ExerciseItem,Int)->Unit,
     onSave:()->Unit = {},
+    exerciseList:List<ExerciseItem>,
 ) {
-
-//    var openDialog by remember { mutableStateOf(false) }
-//    var exerciseMenuExpanded by remember { mutableStateOf(false) }
-//    var exercise by remember { mutableStateOf(Exercise.BenchPress) }
-//    val equipments = Equipment.values()
-//    var equipmentMenuExpanded by remember { mutableStateOf(false) }
-//    var equipment by remember { mutableStateOf(Equipment.Barbell) }
-//    var setsTotal by remember { mutableStateOf(1) }
 
     if (openDialog) {
         Dialog(
@@ -221,15 +219,13 @@ fun WorkoutPlanSetUpPager3(
                     ExposedDropdownMenuBox(
                         expanded = exerciseMenuExpanded,
                         onExpandedChange = {
-//                            exerciseMenuExpanded = !exerciseMenuExpanded
-                            onExerciseMenuChange(it)
+                            onExerciseMenuChange(!exerciseMenuExpanded)
                         }
                     ) {
                         TextField(
                             readOnly = true,
                             value = stringResource(id = exercise.label),
                             onValueChange = { value ->
-//                                exercise = Exercise.values().first { it.name == value }
                             },
                             label = {
                                 Text(
@@ -243,31 +239,21 @@ fun WorkoutPlanSetUpPager3(
 
                                     )
                             },
-                            colors = ExposedDropdownMenuDefaults.textFieldColors(
-                                trailingIconColor = holoGreen,
-                                focusedTrailingIconColor = holoGreen,
-                                disabledTrailingIconColor = holoGreen
-                            ),
-                            textStyle = TextStyle(fontSize = 20.sp)
-
                         )
                         ExposedDropdownMenu(
                             expanded = exerciseMenuExpanded,
                             onDismissRequest = {
-//                                exerciseMenuExpanded = false
                                 onExerciseMenuChange(false)
                             }
                         ) {
-                            Exercise.values().forEach { selectionOption ->
+                            exercises.forEach { selectionOption ->
                                 DropdownMenuItem(
                                     onClick = {
-//                                        exercise = selectionOption
                                         onExerciseSelected(selectionOption)
                                         onExerciseMenuChange(false)
-//                                        exerciseMenuExpanded = false
                                     }
                                 ) {
-                                    Text(text = stringResource(exercise.label))
+                                    Text(text = stringResource(selectionOption.label))
                                 }
                             }
                         }
@@ -276,8 +262,7 @@ fun WorkoutPlanSetUpPager3(
                     ExposedDropdownMenuBox(
                         expanded = equipmentMenuExpanded,
                         onExpandedChange = {
-//                            equipmentMenuExpanded = !equipmentMenuExpanded
-                            onEquipmentMenuChange(it)
+                            onEquipmentMenuChange(!it)
                         }
                     ) {
                         TextField(
@@ -297,30 +282,21 @@ fun WorkoutPlanSetUpPager3(
                                     expanded = equipmentMenuExpanded,
                                     )
                             },
-                            colors = ExposedDropdownMenuDefaults.textFieldColors(
-                                trailingIconColor = holoGreen,
-                                focusedTrailingIconColor = holoGreen,
-                                disabledTrailingIconColor = holoGreen
-                            ),
-                            textStyle = TextStyle(fontSize = 20.sp)
-                        )
+                       )
                         ExposedDropdownMenu(
                             expanded = equipmentMenuExpanded,
                             onDismissRequest = {
                                 onEquipmentMenuChange(false)
-//                                equipmentMenuExpanded = false
                             }
                         ) {
                             equipments.forEach { selectionOption ->
                                 DropdownMenuItem(
                                     onClick = {
-//                                        equipment = selectionOption
-//                                        equipmentMenuExpanded = false
                                         onEquipmentSelected(selectionOption)
                                         onEquipmentMenuChange(false)
                                     }
                                 ) {
-                                    Text(text = selectionOption.name)
+                                    Text(text = stringResource(id =selectionOption.label))
                                 }
                             }
                         }
@@ -347,7 +323,6 @@ fun WorkoutPlanSetUpPager3(
                             IconButton(onClick = {
                                 if (setsTotal > 0) {
                                     onSetChange(setsTotal - 1)
-//                                    setsTotal--
                                 }
                             }) {
                                 Icon(
@@ -362,7 +337,6 @@ fun WorkoutPlanSetUpPager3(
 
                             IconButton(
                                 onClick = {
-//                                    setsTotal++
                                     onSetChange(setsTotal + 1) },
                             )
                             {
@@ -380,8 +354,8 @@ fun WorkoutPlanSetUpPager3(
                         text = stringResource(id = R.string.add),
                         modifier = Modifier.align(Alignment.CenterHorizontally),
                         onClick = {
-//                            openDialog = false
                             onDialogChange(false)
+                            onSave()
 
                         }
                     )
@@ -407,8 +381,8 @@ fun WorkoutPlanSetUpPager3(
         ) {
             ExerciseItemsDisplay(
                 modifier = Modifier.height(500.dp),
-                exercises = Exercise.values().toList(),
-                onRemoveExercise = {}
+                exercises = exerciseList,
+                onRemoveExercise = {item,index -> onRemoveExercise(item,index)}
             )
 
             FloatingAddButton(Modifier.align(Alignment.CenterHorizontally), onClick = {

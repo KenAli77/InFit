@@ -1,14 +1,10 @@
-package ken.projects.infit.features.workout_plan.data.models
-
-import ken.projects.infit.R
 import ken.projects.infit.features.workout_plan.data.enums.Equipment
-import ken.projects.infit.features.workout_plan.data.enums.Muscle
+import ken.projects.infit.features.workout_plan.data.enums.Exercise
+import ken.projects.infit.features.workout_plan.data.models.ExerciseVolume
 
 data class ExerciseItem(
     val exercise: Exercise? = null,
-    val name: String? = null,
-    val targetMuscles: ArrayList<Muscle>? = null,
-    val equipments: Equipment? = null,
+    val equipment: Equipment? = null,
     val volume: ArrayList<ExerciseVolume>? = null,
     val sets: Int? = volume?.count()
 )

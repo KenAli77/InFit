@@ -105,4 +105,5 @@
     <string name="squat">Squat</string>
     <string name="squat_description">"Squat "</string>
     <string name="bench_press">Bench Press</string>
+    <string name="enter_name">enter a name</string>
 </resources>

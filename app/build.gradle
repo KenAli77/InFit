@@ -75,7 +75,7 @@ dependencies {
     implementation "com.google.accompanist:accompanist-systemuicontroller:0.31.5-beta"
 
     //M3
-    implementation "androidx.compose.material3:material3:1.1.1"
+//    implementation "androidx.compose.material3:material3:1.1.1"
 
     //Coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'

@@ -20,6 +20,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
 import ken.projects.infit.R
 import ken.projects.infit.core.utils.customClickable
+import ken.projects.infit.features.workout_plan.presentation.add_edit_workout_plan.events.button_click.WorkoutPlanClickEvent
 import ken.projects.infit.ui.composables.home.Heading
 import ken.projects.infit.features.workout_plan.presentation.add_edit_workout_plan.events.dialog.WorkoutPlanDialogEvent
 import ken.projects.infit.features.workout_plan.presentation.add_edit_workout_plan.events.pager.WorkoutPlanPagerEvent
@@ -56,7 +57,7 @@ fun WorkoutPlanScreen(viewmodel: WorkoutPlanViewModel, navController: NavHostCon
             ConstraintLayout(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(10.dp)
+                    .padding(vertical = 10.dp)
             ) {
                 val (header, pager, nav) = createRefs()
 
@@ -78,12 +79,13 @@ fun WorkoutPlanScreen(viewmodel: WorkoutPlanViewModel, navController: NavHostCon
                         .constrainAs(pager) {
                             top.linkTo(header.bottom, 20.dp)
                         }
-                        .padding(vertical = 10.dp, horizontal = 5.dp)
+                        .padding(vertical = 10.dp)
                 ) { index ->
                     if (index == 0) {
                         WorkoutPlanSetUpPager1(
                             state = state,
-                            onUserInputEvent = { onUserInputEvent(it) })
+                            onUserInputEvent = { onUserInputEvent(it) },
+                        modifier = Modifier.padding(horizontal=10.dp))
                     }
                     if (index == 1) {
                         WorkoutPlanSetUpPager2(
@@ -92,7 +94,8 @@ fun WorkoutPlanScreen(viewmodel: WorkoutPlanViewModel, navController: NavHostCon
                                 onUserInputEvent(
                                     WorkoutPlanUserInputEvent.EnteredWorkoutGoal(it)
                                 )
-                            })
+                            },
+                            modifier = Modifier.padding(horizontal=10.dp))
                     }
 
                     if (index == 2) {
@@ -111,8 +114,11 @@ fun WorkoutPlanScreen(viewmodel: WorkoutPlanViewModel, navController: NavHostCon
                             equipment = state.equipment,
                             onEquipmentSelected = {onUserInputEvent(WorkoutPlanUserInputEvent.SelectedEquipment(it))},
                             setsTotal = state.setsTotal,
-                            onSetChange = {},
-                            onSave = {}
+                            onSetChange = {onUserInputEvent(WorkoutPlanUserInputEvent.EnteredSetTotal(it))},
+                            onSave = {onClickEvent(WorkoutPlanClickEvent.SaveExerciseClickEvent)},
+                            exerciseList = state.exerciseItems,
+                            onRemoveExercise = {item,itemIndex -> onClickEvent(WorkoutPlanClickEvent.RemoveExerciseClickEvent(index = itemIndex,item = item))}
+
                         )
                     }
                 }

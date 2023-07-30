@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ken.projects.infit.ui.theme.Typography
 import ken.projects.infit.ui.theme.outfit
 import ken.projects.infit.ui.theme.white
 
@@ -16,7 +17,7 @@ fun Heading(text: String, modifier: Modifier = Modifier, color: Color = white) {
     Text(
         text = text,
         fontWeight = FontWeight.Bold,
-        fontSize = 30.sp,
+        fontSize = Typography.h1.fontSize,
         fontFamily = outfit,
         modifier = modifier.paddingFromBaseline(top = 16.dp),
         color = color
@@ -28,7 +29,7 @@ fun SubHeading(text: String, modifier: Modifier = Modifier, color: Color = white
     Text(
         text = text,
         fontWeight = FontWeight.SemiBold,
-        fontSize = 28.sp,
+        fontSize = Typography.h2.fontSize,
         fontFamily = outfit,
         modifier = modifier.paddingFromBaseline(top = 16.dp),
         color = color
@@ -41,7 +42,7 @@ fun Title(text: String, modifier: Modifier = Modifier, color: Color = white, fon
         text = text,
         fontWeight = fontWeight,
         fontFamily = outfit,
-        fontSize = 25.sp,
+        fontSize = Typography.h3.fontSize,
         color = color,
         modifier = modifier
     )
@@ -53,7 +54,7 @@ fun Paragraph(text: String, modifier: Modifier = Modifier, color: Color = white,
         text = text,
         fontWeight = fontWeight,
         fontFamily = outfit,
-        fontSize = 20.sp,
+        fontSize = Typography.body1.fontSize,
         color = color,
         modifier = modifier
     )

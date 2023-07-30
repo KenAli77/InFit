@@ -6,12 +6,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.CheckCircle
-import androidx.compose.material3.Button
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -79,7 +77,6 @@ fun FloatingAddButton(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
     Box(
         modifier = modifier
             .clip(CircleShape)
-            .size(70.dp)
             .background(holoGreen)
             .customClickable { onClick() },
         contentAlignment = Alignment.Center
@@ -88,7 +85,7 @@ fun FloatingAddButton(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
             imageVector = Icons.Rounded.Add,
             contentDescription = null,
             tint = darkBlue,
-            modifier = Modifier.size(40.dp)
+            modifier = Modifier.padding(10.dp)
         )
     }
 

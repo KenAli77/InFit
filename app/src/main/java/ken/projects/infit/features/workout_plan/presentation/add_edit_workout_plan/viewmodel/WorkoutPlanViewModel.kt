@@ -1,5 +1,7 @@
 package ken.projects.infit.features.workout_plan.presentation.add_edit_workout_plan.viewmodel
 
+import ExerciseItem
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -59,6 +61,7 @@ class WorkoutPlanViewModel @Inject constructor() : ViewModel() {
                 state.copy(exercise = event.exercise)
             }
             is WorkoutPlanUserInputEvent.EnteredSetTotal -> {
+                Log.e("sets total","${event.sets}")
                 state.copy(setsTotal = event.sets)
             }
         }
@@ -69,7 +72,24 @@ class WorkoutPlanViewModel @Inject constructor() : ViewModel() {
             when (event) {
                 WorkoutPlanClickEvent.AddExerciseButtonClickEvent -> {}
                 WorkoutPlanClickEvent.FinishButtonClickEvent -> {}
-                WorkoutPlanClickEvent.SaveExerciseClickEvent -> {}
+                WorkoutPlanClickEvent.SaveExerciseClickEvent -> {
+                    val exerciseItem = ExerciseItem(
+                        exercise = state.exercise,
+                        equipment = state.equipment,
+                        sets = state.setsTotal
+                    )
+                    val exercises = state.exerciseItems.toMutableList()
+                    exercises.add(exerciseItem)
+                    state = state.copy(exerciseItems = exercises )
+                }
+                is WorkoutPlanClickEvent.RemoveExerciseClickEvent -> {
+                    Log.e("exercise","index: ${event.index}")
+                    Log.e("exercise","size: ${state.exerciseItems.size}")
+                    val exercises = state.exerciseItems.toMutableList()
+                    if(event.index >= 0 && event.index < exercises.size)
+                    exercises.removeAt(event.index)
+                    state = state.copy(exerciseItems = exercises)
+                }
             }
         }
     }
@@ -80,10 +100,11 @@ class WorkoutPlanViewModel @Inject constructor() : ViewModel() {
                 state.copy(openExerciseDialog = event.visible)
             }
             is WorkoutPlanDialogEvent.EquipmentMenuEvent -> {
-                state.copy(equipmentMenuExpanded = event.visible)
+                Log.e("equipment","is visible is ${event.visible}")
+                state.copy(equipmentMenuExpanded = !state.equipmentMenuExpanded)
             }
             is WorkoutPlanDialogEvent.ExerciseMenuEvent -> {
-                state.copy(exerciseMenuExpanded = event.visible)
+                state.copy(exerciseMenuExpanded = !state.exerciseMenuExpanded)
             }
         }
     }

@@ -2,14 +2,15 @@ package ken.projects.infit.core.presentation.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
-import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Email
-import androidx.compose.runtime.Composable
+import androidx.compose.material.icons.rounded.Visibility
+import androidx.compose.material.icons.rounded.VisibilityOff
+import androidx.compose.material.Icon
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusState
 import androidx.compose.ui.focus.onFocusChanged
@@ -22,10 +23,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.sp
-import ken.projects.infit.core.utils.TestTags
-import ken.projects.infit.features.workout_plan.presentation.add_edit_workout_plan.events.user_input.WorkoutPlanUserInputEvent
+import ken.projects.infit.core.utils.customClickable
 import ken.projects.infit.ui.theme.holoGreen
-import ken.projects.infit.ui.theme.white
 
 @Composable
 fun InputField(
@@ -39,12 +38,11 @@ fun InputField(
     onFocusChanged: (FocusState) -> Unit = {},
     isInvalid: Boolean = false,
     errorMessage: String? = null,
-    tag: String = ""
+    tag: String = "",
 ) {
-
+    var isPassVisible by remember { mutableStateOf(false) }
     Column(modifier = modifier) {
-
-        TextField(
+        OutlinedTextField(
             value = input,
             onValueChange = onValueChange,
             leadingIcon = {
@@ -53,12 +51,7 @@ fun InputField(
                     contentDescription = null,
 
                     )
-
             },
-            colors = TextFieldDefaults.textFieldColors(
-                backgroundColor = white,
-                textColor = Color.Black
-            ),
             label = { Text(text = placeholder) },
             modifier = Modifier
                 .fillMaxWidth()
@@ -69,12 +62,28 @@ fun InputField(
                 keyboardType = type,
                 imeAction = ImeAction.Done
             ),
-            visualTransformation = if (password) PasswordVisualTransformation() else {
+            visualTransformation = if (password && !isPassVisible) {
+                PasswordVisualTransformation()
+            } else {
                 VisualTransformation.None
             },
             isError = isInvalid,
+            trailingIcon = {
+                if (password) {
+                    Icon(
+                        imageVector = if (isPassVisible) {
+                            Icons.Rounded.VisibilityOff
+                        } else {
+                            Icons.Rounded.Visibility
+                        },
+                        contentDescription = null,
+                        modifier = Modifier.customClickable {
+                            isPassVisible = !isPassVisible
+                        }
+                    )
+                }
+            },
         )
-
         errorMessage?.let {
             Text(text = it, color = Color.Red)
         }
@@ -85,15 +94,23 @@ fun InputField(
 fun InputText(
     value: String = "",
     onValueChange: (String) -> Unit = {},
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    placeholder: String = ""
 ) {
-    TextField(
+    OutlinedTextField(
         modifier = modifier,
         value = value,
         onValueChange = {
             onValueChange(it)
         },
         textStyle = TextStyle(fontSize = 18.sp),
-        colors = TextFieldDefaults.textFieldColors(cursorColor = holoGreen)
-    )
+        colors = TextFieldDefaults.textFieldColors(cursorColor = holoGreen),
+        placeholder = { Text(text = placeholder) },
+        maxLines = 1,
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Text,
+            imeAction = ImeAction.Done
+        ),
+
+        )
 }
