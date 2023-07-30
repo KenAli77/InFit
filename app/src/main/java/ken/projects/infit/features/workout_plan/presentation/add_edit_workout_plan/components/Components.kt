@@ -3,10 +3,12 @@ package ken.projects.infit.features.workout_plan.presentation.add_edit_workout_p
 import ExerciseItem
 import android.util.Log
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AddCircle
@@ -19,6 +21,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -239,6 +242,9 @@ fun WorkoutPlanSetUpPager3(
 
                                     )
                             },
+                            enabled = false,
+                            colors = TextFieldDefaults.textFieldColors(disabledTextColor = MaterialTheme.colors.onBackground)
+
                         )
                         ExposedDropdownMenu(
                             expanded = exerciseMenuExpanded,
@@ -269,7 +275,6 @@ fun WorkoutPlanSetUpPager3(
                             readOnly = true,
                             value = stringResource(id =equipment.label),
                             onValueChange = {
-//                                            onEquipmentSelected()
                             },
                             label = {
                                 Text(
@@ -282,6 +287,8 @@ fun WorkoutPlanSetUpPager3(
                                     expanded = equipmentMenuExpanded,
                                     )
                             },
+                            enabled = false,
+                            colors = TextFieldDefaults.textFieldColors(disabledTextColor = MaterialTheme.colors.onBackground)
                        )
                         ExposedDropdownMenu(
                             expanded = equipmentMenuExpanded,

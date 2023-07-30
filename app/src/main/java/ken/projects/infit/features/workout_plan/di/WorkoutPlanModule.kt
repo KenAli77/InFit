@@ -1,21 +1,17 @@
 package ken.projects.infit.features.workout_plan.di
 
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.ktx.Firebase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import ken.projects.infit.features.auth.data.remote.repositories.AuthRepositoryImpl
-import ken.projects.infit.features.auth.data.validators.AndroidEmailPatternValidator
-import ken.projects.infit.features.auth.domain.repostitories.AuthRepository
-import ken.projects.infit.features.auth.domain.use_case.AuthUseCases
-import ken.projects.infit.features.auth.domain.use_case.auth.CreateNewUser
-import ken.projects.infit.features.auth.domain.use_case.auth.LoginUserWithEmailAndPassword
 import ken.projects.infit.features.auth.domain.use_case.validation.*
 import ken.projects.infit.features.workout_plan.data.remote.api.WorkoutPlanApi
 import ken.projects.infit.features.workout_plan.data.remote.repositories.WorkoutPlanRepositoryImpl
 import ken.projects.infit.features.workout_plan.domain.repositories.WorkoutPlanRepository
+import ken.projects.infit.features.workout_plan.domain.use_case.CreateWorkoutPlan
+import ken.projects.infit.features.workout_plan.domain.use_case.DeleteWorkoutPlan
+import ken.projects.infit.features.workout_plan.domain.use_case.EditWorkoutPlan
+import ken.projects.infit.features.workout_plan.domain.use_case.WorkoutPlanUseCases
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.create
@@ -40,5 +36,15 @@ object WorkoutPlanModule {
     @Singleton
     fun provideWorkoutPlanRepository(api:WorkoutPlanApi):WorkoutPlanRepository {
         return WorkoutPlanRepositoryImpl(api)
+    }
+
+    @Provides
+    @Singleton
+    fun provideWorkoutPlanUseCases(repo:WorkoutPlanRepository):WorkoutPlanUseCases{
+        return WorkoutPlanUseCases(
+            createWorkoutPlan = CreateWorkoutPlan(repo),
+            editWorkoutPlan = EditWorkoutPlan(repo),
+            deleteWorkoutPlan = DeleteWorkoutPlan(repo)
+        )
     }
 }

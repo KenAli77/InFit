@@ -1,21 +1,19 @@
 package ken.projects.infit.features.workout_plan.data.models
 
+import ken.projects.infit.features.workout_plan.data.enums.Difficulty
+import ken.projects.infit.features.workout_plan.data.enums.Goal
 import ken.projects.infit.features.workout_plan.data.remote.request.CreateWorkoutRequest
-import ken.projects.infit.util.DifficultyLevels
 import java.time.DayOfWeek
 
 
 data class WorkoutPlan (
-    val name:String? = null,
-    val frequency:List<DayOfWeek>? = null,
-    val difficulty: DifficultyLevels.Difficulty?  = null,
-    val goal:String?=null,
-    val duration:Long? = null,
+    val name:String,
+    val frequency:List<DayOfWeek>,
+    val difficulty: Difficulty,
+    val goal:Goal,
+    val duration:Long,
 ) {
-    fun toWorkoutRequest():CreateWorkoutRequest?{
-        if(name == null || frequency == null || difficulty == null || goal == null || duration == null){
-            return null
-        }
+    fun toWorkoutRequest():CreateWorkoutRequest{
         return CreateWorkoutRequest(
             name = name,
             frequency = frequency,

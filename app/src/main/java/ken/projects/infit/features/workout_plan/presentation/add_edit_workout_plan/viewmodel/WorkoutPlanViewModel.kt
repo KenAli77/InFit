@@ -118,10 +118,15 @@ class WorkoutPlanViewModel @Inject constructor() : ViewModel() {
                 }
             }
             is WorkoutPlanPagerEvent.NavigateForward -> {
-                viewModelScope.launch {
-                    onPageChange(event.currentPage + 1)
-                    pagerEvent.send(event)
+                if(event.currentPage != state.pagerPageCount){
+                    viewModelScope.launch {
+                        onPageChange(event.currentPage + 1)
+                        pagerEvent.send(event)
+                    }
+                } else {
+
                 }
+
             }
         }
     }

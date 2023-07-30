@@ -137,7 +137,6 @@ fun WorkoutPlanScreen(viewmodel: WorkoutPlanViewModel, navController: NavHostCon
                                 onPagerEvent(WorkoutPlanPagerEvent.NavigateBack(pagerState.currentPage))
                             }
                             .align(Alignment.BottomStart),
-                            fontWeight = FontWeight.Bold,
                             color = holoGreen)
                     }
 
@@ -150,7 +149,7 @@ fun WorkoutPlanScreen(viewmodel: WorkoutPlanViewModel, navController: NavHostCon
                     ) {
                         repeat(state.pagerPageCount) { iteration ->
                             val color =
-                                if (pagerState.currentPage == iteration) holoGreen else holoGreen.copy(0.5f)
+                                if (pagerState.currentPage == iteration) holoGreen else blueWhite.copy(0.5f)
                             Box(
                                 modifier = Modifier
                                     .padding(2.dp)
@@ -169,7 +168,6 @@ fun WorkoutPlanScreen(viewmodel: WorkoutPlanViewModel, navController: NavHostCon
                             }
                             .align(Alignment.BottomEnd)
                         ,
-                        fontWeight = FontWeight.Bold,
                         color = holoGreen)
                 }
 
