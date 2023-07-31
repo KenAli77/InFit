@@ -1,6 +1,6 @@
 package ken.projects.infit.ui.composables.workout
 
-import ExerciseItem
+import ken.projects.infit.features.workout_plan.data.models.ExerciseItem
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -20,7 +20,7 @@ import ken.projects.infit.ui.composables.home.Title
 fun ExerciseItemsDisplay(
     modifier: Modifier = Modifier,
     exercises: List<ExerciseItem>,
-    onRemoveExercise:(ExerciseItem,Int)->Unit
+    onRemoveExercise:(ExerciseItem, Int)->Unit
 ) {
     LazyColumn(modifier = modifier) {
         exercises.let { exercises ->

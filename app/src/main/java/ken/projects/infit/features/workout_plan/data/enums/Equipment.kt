@@ -13,5 +13,4 @@ enum class Equipment(@StringRes val label:Int) {
     SmithMachine (label = R.string.smithMachine),
     Rope (label = R.string.rope),
     Cable(label = R.string.cable),
-
 }

@@ -1,14 +1,11 @@
 package ken.projects.infit.features.workout_plan.presentation.add_edit_workout_plan.components
 
-import ExerciseItem
-import android.util.Log
+import ken.projects.infit.features.workout_plan.data.models.ExerciseItem
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AddCircle
@@ -21,9 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.chargemap.compose.numberpicker.NumberPicker
@@ -188,7 +183,7 @@ fun WorkoutPlanSetUpPager3(
     onEquipmentSelected:(Equipment)->Unit = {},
     setsTotal:Int,
     onSetChange:(Int)->Unit,
-    onRemoveExercise:(ExerciseItem,Int)->Unit,
+    onRemoveExercise:(ExerciseItem, Int)->Unit,
     onSave:()->Unit = {},
     exerciseList:List<ExerciseItem>,
 ) {

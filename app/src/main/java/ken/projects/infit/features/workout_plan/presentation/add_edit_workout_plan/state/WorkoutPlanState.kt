@@ -1,6 +1,6 @@
 package ken.projects.infit.features.workout_plan.presentation.add_edit_workout_plan.state
 
-import ExerciseItem
+import ken.projects.infit.features.workout_plan.data.models.ExerciseItem
 import androidx.annotation.StringRes
 import ken.projects.infit.R
 import ken.projects.infit.features.workout_plan.data.enums.Difficulty

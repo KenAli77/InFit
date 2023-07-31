@@ -9,9 +9,10 @@ import java.time.DayOfWeek
 data class WorkoutPlan (
     val name:String,
     val frequency:List<DayOfWeek>,
-    val difficulty: Difficulty,
+    val difficulty:Difficulty,
     val goal:Goal,
     val duration:Long,
+    val workouts:List<Workout>
 ) {
     fun toWorkoutRequest():CreateWorkoutRequest{
         return CreateWorkoutRequest(
@@ -19,7 +20,8 @@ data class WorkoutPlan (
             frequency = frequency,
             difficulty = difficulty,
             goal = goal,
-            duration = duration
+            duration = duration,
+            workouts = workouts
         )
     }
 }

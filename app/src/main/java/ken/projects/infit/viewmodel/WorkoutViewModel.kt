@@ -415,7 +415,7 @@ class WorkoutViewModel @Inject constructor(
                 volume.add(ExerciseVolume(set = i))
             }
 //
-//            val exerciseItem = ExerciseItem(
+//            val exerciseItem = ken.projects.infit.features.workout_plan.data.models.ExerciseItem(
 //                exercise = userExercisesList.first { it.name == exerciseName },
 //                name = exerciseName,
 //                equipments = equipments,

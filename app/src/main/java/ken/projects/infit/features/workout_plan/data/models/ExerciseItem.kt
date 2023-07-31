@@ -1,6 +1,7 @@
+package ken.projects.infit.features.workout_plan.data.models
+
 import ken.projects.infit.features.workout_plan.data.enums.Equipment
 import ken.projects.infit.features.workout_plan.data.enums.Exercise
-import ken.projects.infit.features.workout_plan.data.models.ExerciseVolume
 
 data class ExerciseItem(
     val exercise: Exercise? = null,

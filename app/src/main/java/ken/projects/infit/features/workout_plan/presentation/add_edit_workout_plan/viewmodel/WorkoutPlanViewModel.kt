@@ -1,6 +1,6 @@
 package ken.projects.infit.features.workout_plan.presentation.add_edit_workout_plan.viewmodel
 
-import ExerciseItem
+import ken.projects.infit.features.workout_plan.data.models.ExerciseItem
 import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
