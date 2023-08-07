@@ -1,4 +1,4 @@
-package ken.projects.infit.features.workout_plan.domain.use_case
+package ken.projects.infit.features.workout_plan.domain.use_case.workout_plan
 
 import ken.projects.infit.core.domain.GenericResponse
 import ken.projects.infit.features.workout_plan.domain.repositories.WorkoutPlanRepository

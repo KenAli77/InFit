@@ -6,5 +6,4 @@ data class EditWorkoutRequest(
     val frequency:String,
     val goal:String,
     val duration:Long
-
 )

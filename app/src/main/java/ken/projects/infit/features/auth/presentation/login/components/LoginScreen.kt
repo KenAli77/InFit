@@ -85,21 +85,21 @@ fun LoginScreen(
 
     }
 
-    LaunchedEffect(key1 = context) {
-        validationEvents.collect { event ->
-            when (event) {
-                LoginValidationEvent.Success -> {
-//                    scaffoldState.snackbarHostState.showSnackbar(
-//                        "validation success",
-//                        null,
-//                        SnackbarDuration.Short
-//                    )
-//                     navController.navigate(MAIN_ROUTE)
-                }
-            }
-        }
-
-    }
+//    LaunchedEffect(key1 = context) {
+//        validationEvents.collect { event ->
+//            when (event) {
+//                LoginValidationEvent.Success -> {
+////                    scaffoldState.snackbarHostState.showSnackbar(
+////                        "validation success",
+////                        null,
+////                        SnackbarDuration.Short
+////                    )
+////                     navController.navigate(MAIN_ROUTE)
+//                }
+//            }
+//        }
+//
+//    }
 
 
     Surface(

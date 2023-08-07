@@ -106,7 +106,7 @@ fun NavGraphBuilder.mainNavGraph(
 
         composable(route = Screens.WorkoutPlanSetUp.route) {
             val viewModel = hiltViewModel<WorkoutPlanViewModel>(it)
-            WorkoutPlanScreen(viewmodel = viewModel,navController)
+            WorkoutPlanScreen(viewmodel = viewModel,navController,scaffoldState = scaffoldState)
         }
 
 

@@ -6,9 +6,9 @@ import ken.projects.infit.features.workout_plan.data.enums.Exercise
 data class ExerciseItem(
     val exercise: Exercise? = null,
     val equipment: Equipment? = null,
-    val volume: ArrayList<ExerciseVolume>? = null,
+    val volume: List<ExerciseVolume>? = null,
     val sets: Int? = volume?.count()
-)
+): java.io.Serializable
 
 
 

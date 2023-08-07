@@ -31,7 +31,7 @@ import ken.projects.infit.ui.theme.*
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun WorkoutPlanScreen(viewmodel: WorkoutPlanViewModel, navController: NavHostController) =
+fun WorkoutPlanScreen(viewmodel: WorkoutPlanViewModel, navController: NavHostController,scaffoldState: ScaffoldState) =
     with(viewmodel) {
         val pagerState = rememberPagerState(pageCount = { state.pagerPageCount })
 
@@ -51,6 +51,12 @@ fun WorkoutPlanScreen(viewmodel: WorkoutPlanViewModel, navController: NavHostCon
         }
         LaunchedEffect(key1 = pagerState.currentPage) {
             onPageChange(pagerState.currentPage)
+        }
+
+        LaunchedEffect(key1 = state.error){
+            state.error?.let{
+                scaffoldState.snackbarHostState.showSnackbar(it.getString(context))
+            }
         }
         Surface(modifier = Modifier.fillMaxSize(), color = darkBlue) {
 
@@ -98,29 +104,29 @@ fun WorkoutPlanScreen(viewmodel: WorkoutPlanViewModel, navController: NavHostCon
                             modifier = Modifier.padding(horizontal=10.dp))
                     }
 
-                    if (index == 2) {
-                        WorkoutPlanSetUpPager3(
-                            modifier = Modifier,
-                            openDialog = state.openExerciseDialog,
-                            onDialogChange = {onDialogEvent(WorkoutPlanDialogEvent.ExerciseDialogEvent(it))},
-                            exerciseMenuExpanded = state.exerciseMenuExpanded,
-                            onExerciseMenuChange = {onDialogEvent(WorkoutPlanDialogEvent.ExerciseMenuEvent(it))},
-                            equipmentMenuExpanded = state.equipmentMenuExpanded,
-                            onEquipmentMenuChange = {onDialogEvent(WorkoutPlanDialogEvent.EquipmentMenuEvent(it))},
-                            exercises = state.exercises,
-                            exercise = state.exercise,
-                            onExerciseSelected = {onUserInputEvent(WorkoutPlanUserInputEvent.SelectedExercise(it))},
-                            equipments = state.equipments,
-                            equipment = state.equipment,
-                            onEquipmentSelected = {onUserInputEvent(WorkoutPlanUserInputEvent.SelectedEquipment(it))},
-                            setsTotal = state.setsTotal,
-                            onSetChange = {onUserInputEvent(WorkoutPlanUserInputEvent.EnteredSetTotal(it))},
-                            onSave = {onClickEvent(WorkoutPlanClickEvent.SaveExerciseClickEvent)},
-                            exerciseList = state.exerciseItems,
-                            onRemoveExercise = {item,itemIndex -> onClickEvent(WorkoutPlanClickEvent.RemoveExerciseClickEvent(index = itemIndex,item = item))}
-
-                        )
-                    }
+//                    if (index == 2) {
+//                        WorkoutPlanSetUpPager3(
+//                            modifier = Modifier,
+//                            openDialog = state.openExerciseDialog,
+//                            onDialogChange = {onDialogEvent(WorkoutPlanDialogEvent.ExerciseDialogEvent(it))},
+//                            exerciseMenuExpanded = state.exerciseMenuExpanded,
+//                            onExerciseMenuChange = {onDialogEvent(WorkoutPlanDialogEvent.ExerciseMenuEvent(it))},
+//                            equipmentMenuExpanded = state.equipmentMenuExpanded,
+//                            onEquipmentMenuChange = {onDialogEvent(WorkoutPlanDialogEvent.EquipmentMenuEvent(it))},
+//                            exercises = state.exercises,
+//                            exercise = state.exercise,
+//                            onExerciseSelected = {onUserInputEvent(WorkoutPlanUserInputEvent.SelectedExercise(it))},
+//                            equipments = state.equipments,
+//                            equipment = state.equipment,
+//                            onEquipmentSelected = {onUserInputEvent(WorkoutPlanUserInputEvent.SelectedEquipment(it))},
+//                            setsTotal = state.setsTotal,
+//                            onSetChange = {onUserInputEvent(WorkoutPlanUserInputEvent.EnteredSetTotal(it))},
+//                            onSave = {onClickEvent(WorkoutPlanClickEvent.SaveExerciseClickEvent)},
+//                            exerciseList = state.exerciseItems,
+//                            onRemoveExercise = {item,itemIndex -> onClickEvent(WorkoutPlanClickEvent.RemoveExerciseClickEvent(index = itemIndex,item = item))}
+//
+//                        )
+//                    }
                 }
 
                 Box(

@@ -15,6 +15,7 @@ import ken.projects.infit.features.auth.domain.use_case.AuthUseCases
 import ken.projects.infit.features.auth.domain.use_case.auth.CreateNewUser
 import ken.projects.infit.features.auth.domain.use_case.auth.LoginUserWithEmailAndPassword
 import ken.projects.infit.features.auth.domain.use_case.validation.*
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.create
@@ -33,10 +34,11 @@ object AuthModule {
 
     @Provides
     @Singleton
-    fun provideAuthApi(): AuthApi {
+    fun provideAuthApi(client: OkHttpClient): AuthApi {
         return Retrofit.Builder()
             .addConverterFactory(MoshiConverterFactory.create())
-            .baseUrl("http://192.168.1.5:8080/")
+            .client(client)
+            .baseUrl("http://192.168.1.7:8080/")
             .build()
             .create()
     }

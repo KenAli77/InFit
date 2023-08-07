@@ -8,11 +8,13 @@ import ken.projects.infit.features.auth.domain.use_case.validation.*
 import ken.projects.infit.features.workout_plan.data.remote.api.WorkoutPlanApi
 import ken.projects.infit.features.workout_plan.data.remote.repositories.WorkoutPlanRepositoryImpl
 import ken.projects.infit.features.workout_plan.domain.repositories.WorkoutPlanRepository
-import ken.projects.infit.features.workout_plan.domain.use_case.CreateWorkoutPlan
-import ken.projects.infit.features.workout_plan.domain.use_case.DeleteWorkoutPlan
-import ken.projects.infit.features.workout_plan.domain.use_case.EditWorkoutPlan
-import ken.projects.infit.features.workout_plan.domain.use_case.WorkoutPlanUseCases
+import ken.projects.infit.features.workout_plan.domain.use_case.workout_plan.CreateWorkoutPlan
+import ken.projects.infit.features.workout_plan.domain.use_case.workout_plan.DeleteWorkoutPlan
+import ken.projects.infit.features.workout_plan.domain.use_case.workout_plan.EditWorkoutPlan
+import ken.projects.infit.features.workout_plan.domain.use_case.workout_plan.WorkoutPlanUseCases
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.create
 import javax.inject.Singleton
@@ -23,10 +25,12 @@ object WorkoutPlanModule {
 
     @Provides
     @Singleton
-    fun provideWorkoutPlanApi(): WorkoutPlanApi {
+    fun provideWorkoutPlanApi(client:OkHttpClient): WorkoutPlanApi {
         return Retrofit.Builder()
             .addConverterFactory(MoshiConverterFactory.create())
-            .baseUrl("http://192.168.1.5:8080/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(client)
+            .baseUrl("http://192.168.1.7:8080/")
             .build()
             .create()
     }
@@ -40,7 +44,7 @@ object WorkoutPlanModule {
 
     @Provides
     @Singleton
-    fun provideWorkoutPlanUseCases(repo:WorkoutPlanRepository):WorkoutPlanUseCases{
+    fun provideWorkoutPlanUseCases(repo:WorkoutPlanRepository): WorkoutPlanUseCases {
         return WorkoutPlanUseCases(
             createWorkoutPlan = CreateWorkoutPlan(repo),
             editWorkoutPlan = EditWorkoutPlan(repo),

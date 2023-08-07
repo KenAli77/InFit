@@ -1,15 +1,12 @@
 package ken.projects.infit.features.workout_plan.data.remote.repositories
 
-import com.google.firebase.firestore.QuerySnapshot
-import com.google.firebase.ktx.Firebase
 import ken.projects.infit.R
-import ken.projects.infit.data.models.Workout
 import ken.projects.infit.features.workout_plan.domain.repositories.WorkoutPlanRepository
 import ken.projects.infit.core.utils.Resource
 import ken.projects.infit.core.utils.UiText
 import ken.projects.infit.features.workout_plan.data.models.WorkoutPlan
 import ken.projects.infit.features.workout_plan.data.remote.api.WorkoutPlanApi
-import ken.projects.infit.features.workout_plan.data.remote.request.CreateWorkoutRequest
+import ken.projects.infit.features.workout_plan.data.utils.toWorkoutPlan
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okio.IOException
@@ -20,7 +17,21 @@ class WorkoutPlanRepositoryImpl @Inject constructor(private val api: WorkoutPlan
     WorkoutPlanRepository {
 
     override suspend fun getWorkoutPlan(workoutPlanId: String): Resource<WorkoutPlan> {
-        TODO("Not yet implemented")
+        return withContext(Dispatchers.IO){
+            try {
+                val data = api.getWorkoutPlanById(workoutPlanId)
+
+                val workoutPlan = data.toWorkoutPlan()
+                workoutPlan?.let {
+                    Resource.Success(it)
+                } ?: Resource.Error(UiText.StringResource(R.string.error_couldnt_reach_server))
+
+            } catch (e: IOException) {
+                Resource.Error(message = UiText.StringResource(R.string.error_couldnt_reach_server))
+            } catch (e: HttpException) {
+                Resource.Error(message = UiText.StringResource(R.string.oops_something_went_wrong))
+            }
+        }
     }
 
     override suspend fun deleteWorkoutPlan(workoutPlanId: String): Resource<Unit> {
@@ -76,7 +87,7 @@ class WorkoutPlanRepositoryImpl @Inject constructor(private val api: WorkoutPlan
                 }
 
 
-                val result = api.createWorkout(request!!)
+                val result = api.createWorkout(request)
 
                 if (result.success) {
                     Resource.Success(Unit)

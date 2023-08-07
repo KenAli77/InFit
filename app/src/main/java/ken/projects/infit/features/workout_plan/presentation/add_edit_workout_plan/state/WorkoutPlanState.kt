@@ -3,6 +3,7 @@ package ken.projects.infit.features.workout_plan.presentation.add_edit_workout_p
 import ken.projects.infit.features.workout_plan.data.models.ExerciseItem
 import androidx.annotation.StringRes
 import ken.projects.infit.R
+import ken.projects.infit.core.utils.UiText
 import ken.projects.infit.features.workout_plan.data.enums.Difficulty
 import ken.projects.infit.features.workout_plan.data.enums.Equipment
 import ken.projects.infit.features.workout_plan.data.enums.Exercise
@@ -26,6 +27,7 @@ data class WorkoutPlanState(
     @StringRes
     val pagerNavText: Int = R.string.next,
     val pagerBackNavVisible: Boolean = false,
-    val pagerPageCount:Int = 3,
-    val exerciseItems:List<ExerciseItem> = listOf()
+    val pagerPageCount:Int = 2,
+    val exerciseItems:List<ExerciseItem> = listOf(),
+    val error:UiText? = null
 )

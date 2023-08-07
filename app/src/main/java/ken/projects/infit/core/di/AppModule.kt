@@ -8,6 +8,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import ken.projects.infit.core.utils.Constants
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import javax.inject.Singleton
 
 @Module
@@ -21,6 +23,25 @@ object AppModule {
             Constants.SHARED_PREF_NAME,
             MODE_PRIVATE
         )
+    }
+
+    @Provides
+    @Singleton
+    fun provideOkHttpClient(sharedPreferences: SharedPreferences): OkHttpClient {
+        return OkHttpClient.Builder()
+            .addInterceptor {
+                val token = sharedPreferences.getString(Constants.KEY_JWT_TOKEN, "")
+                val modifiedRequest = it.request().newBuilder()
+                    .addHeader("Authorization", "Bearer $token")
+                    .build()
+                it.proceed(modifiedRequest)
+            }
+            .addInterceptor(
+                HttpLoggingInterceptor().apply {
+                    level = HttpLoggingInterceptor.Level.BODY
+                }
+            )
+            .build()
     }
 
 }

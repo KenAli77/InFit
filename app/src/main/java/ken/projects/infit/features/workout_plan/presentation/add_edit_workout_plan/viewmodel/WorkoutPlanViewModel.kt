@@ -9,12 +9,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ken.projects.infit.R
+import ken.projects.infit.features.workout_plan.data.models.Workout
+import ken.projects.infit.features.workout_plan.domain.repositories.WorkoutPlanRepository
+import ken.projects.infit.features.workout_plan.domain.use_case.workout_plan.WorkoutPlanUseCases
 import ken.projects.infit.features.workout_plan.presentation.add_edit_workout_plan.events.button_click.WorkoutPlanClickEvent
 import ken.projects.infit.features.workout_plan.presentation.add_edit_workout_plan.events.dialog.WorkoutPlanDialogEvent
 import ken.projects.infit.features.workout_plan.presentation.add_edit_workout_plan.events.pager.WorkoutPlanPagerEvent
 import ken.projects.infit.features.workout_plan.presentation.add_edit_workout_plan.events.user_input.WorkoutPlanUserInputEvent
 import ken.projects.infit.features.workout_plan.presentation.add_edit_workout_plan.events.validation.WorkoutPlanValidationEvent
 import ken.projects.infit.features.workout_plan.presentation.add_edit_workout_plan.state.WorkoutPlanState
+import ken.projects.infit.features.workout_plan.presentation.add_edit_workout_plan.utils.toWorkoutPlan
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
@@ -22,7 +26,7 @@ import java.time.DayOfWeek
 import javax.inject.Inject
 
 @HiltViewModel
-class WorkoutPlanViewModel @Inject constructor() : ViewModel() {
+class WorkoutPlanViewModel @Inject constructor(val useCases:WorkoutPlanUseCases) : ViewModel() {
 
     var state by mutableStateOf(WorkoutPlanState())
         private set
@@ -118,13 +122,18 @@ class WorkoutPlanViewModel @Inject constructor() : ViewModel() {
                 }
             }
             is WorkoutPlanPagerEvent.NavigateForward -> {
-                if(event.currentPage != state.pagerPageCount){
+                Log.e("pagerEvent","page: ${event.currentPage}")
+                Log.e("pagerEvent","pageCount: ${state.pagerPageCount -1}")
+
+                if(event.currentPage != state.pagerPageCount -1){
                     viewModelScope.launch {
                         onPageChange(event.currentPage + 1)
                         pagerEvent.send(event)
                     }
-                } else {
-
+                }
+                if (event.currentPage == state.pagerPageCount -1) {
+                    Log.e("pagerEvent","submitting worktouplan")
+                    submitWorkoutPlan()
                 }
 
             }
@@ -143,7 +152,7 @@ class WorkoutPlanViewModel @Inject constructor() : ViewModel() {
         if (page > 0) {
             backNavVisible = true
         }
-        if (page >= 2) {
+        if (page >= 1) {
             text = R.string.finish
         }
         state = state.copy(
@@ -163,4 +172,19 @@ class WorkoutPlanViewModel @Inject constructor() : ViewModel() {
 
         return days
     }
+
+    private fun submitWorkoutPlan(){
+
+        viewModelScope.launch {
+            val workoutPLan = state.toWorkoutPlan()
+            val result = useCases.createWorkoutPlan.invoke(workoutPLan)
+            if(!result.success){
+               state = state.copy(error = result.errorMessage)
+            } else {
+                Log.e("submitWorkoutPlan","success!")
+            }
+        }
+
+    }
+
 }
