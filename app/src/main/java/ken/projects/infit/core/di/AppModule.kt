@@ -32,7 +32,7 @@ object AppModule {
             .addInterceptor {
                 val token = sharedPreferences.getString(Constants.KEY_JWT_TOKEN, "")
                 val modifiedRequest = it.request().newBuilder()
-                    .addHeader("Authorization", "Bearer $token")
+                    .addHeader("Cookie", "authToken=$token")
                     .build()
                 it.proceed(modifiedRequest)
             }

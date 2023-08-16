@@ -9,14 +9,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ken.projects.infit.R
-import ken.projects.infit.features.workout_plan.data.models.Workout
-import ken.projects.infit.features.workout_plan.domain.repositories.WorkoutPlanRepository
+import ken.projects.infit.core.navigation.Screens
 import ken.projects.infit.features.workout_plan.domain.use_case.workout_plan.WorkoutPlanUseCases
 import ken.projects.infit.features.workout_plan.presentation.add_edit_workout_plan.events.button_click.WorkoutPlanClickEvent
 import ken.projects.infit.features.workout_plan.presentation.add_edit_workout_plan.events.dialog.WorkoutPlanDialogEvent
 import ken.projects.infit.features.workout_plan.presentation.add_edit_workout_plan.events.pager.WorkoutPlanPagerEvent
 import ken.projects.infit.features.workout_plan.presentation.add_edit_workout_plan.events.user_input.WorkoutPlanUserInputEvent
-import ken.projects.infit.features.workout_plan.presentation.add_edit_workout_plan.events.validation.WorkoutPlanValidationEvent
+import ken.projects.infit.features.workout_plan.presentation.add_edit_workout_plan.events.navigation.WorkoutPlanNavigationEvent
 import ken.projects.infit.features.workout_plan.presentation.add_edit_workout_plan.state.WorkoutPlanState
 import ken.projects.infit.features.workout_plan.presentation.add_edit_workout_plan.utils.toWorkoutPlan
 import kotlinx.coroutines.channels.Channel
@@ -32,8 +31,8 @@ class WorkoutPlanViewModel @Inject constructor(val useCases:WorkoutPlanUseCases)
         private set
 
 
-    private val validationEventChannel = Channel<WorkoutPlanValidationEvent>()
-    val validationEvents = validationEventChannel.receiveAsFlow()
+    private val navigationEventChannel = Channel<WorkoutPlanNavigationEvent>()
+    val navigationEvent = navigationEventChannel.receiveAsFlow()
 
     private val pagerEvent = Channel<WorkoutPlanPagerEvent>()
     val pagerEvents = pagerEvent.receiveAsFlow()
@@ -181,6 +180,7 @@ class WorkoutPlanViewModel @Inject constructor(val useCases:WorkoutPlanUseCases)
             if(!result.success){
                state = state.copy(error = result.errorMessage)
             } else {
+                navigationEventChannel.send(WorkoutPlanNavigationEvent.Navigate(Screens.Workout.route))
                 Log.e("submitWorkoutPlan","success!")
             }
         }

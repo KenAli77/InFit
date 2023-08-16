@@ -8,5 +8,5 @@ data class AuthResponse(
     @SerializedName("id")
     val id:String? = null,
     @SerializedName("authToken")
-    val token: String? = null,
+    val authToken: String? = null,
 ) : java.io.Serializable

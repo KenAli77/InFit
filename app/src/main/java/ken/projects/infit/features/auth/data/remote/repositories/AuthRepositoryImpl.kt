@@ -59,7 +59,7 @@ class AuthRepositoryImpl @Inject constructor(
                     Resource.Error(UiText.StringResource(R.string.error_unknown),null)
                 }
                 Log.e("RESPONSE",response.toString())
-                response.token?.let { token->
+                response.authToken?.let { token->
                     Log.e("TOKEN","overriding token with ${token}")
                     sharedPref.edit()
                         .putString(Constants.KEY_JWT_TOKEN, token)

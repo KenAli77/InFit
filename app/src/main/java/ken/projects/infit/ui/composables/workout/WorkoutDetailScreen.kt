@@ -23,7 +23,7 @@ import ken.projects.infit.R
 import ken.projects.infit.data.models.equipments
 import ken.projects.infit.core.presentation.components.FloatingAddButton
 import ken.projects.infit.core.presentation.components.RegularButton
-import ken.projects.infit.ui.composables.WorkoutInfo
+import ken.projects.infit.ui.composables.home.WorkoutInfo
 import ken.projects.infit.ui.composables.home.Heading
 import ken.projects.infit.ui.composables.home.SubHeading
 import ken.projects.infit.ui.composables.home.Title

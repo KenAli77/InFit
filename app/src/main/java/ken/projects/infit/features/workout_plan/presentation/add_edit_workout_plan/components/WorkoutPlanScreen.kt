@@ -23,6 +23,7 @@ import ken.projects.infit.core.utils.customClickable
 import ken.projects.infit.features.workout_plan.presentation.add_edit_workout_plan.events.button_click.WorkoutPlanClickEvent
 import ken.projects.infit.ui.composables.home.Heading
 import ken.projects.infit.features.workout_plan.presentation.add_edit_workout_plan.events.dialog.WorkoutPlanDialogEvent
+import ken.projects.infit.features.workout_plan.presentation.add_edit_workout_plan.events.navigation.WorkoutPlanNavigationEvent
 import ken.projects.infit.features.workout_plan.presentation.add_edit_workout_plan.events.pager.WorkoutPlanPagerEvent
 import ken.projects.infit.features.workout_plan.presentation.add_edit_workout_plan.events.user_input.WorkoutPlanUserInputEvent
 import ken.projects.infit.features.workout_plan.presentation.add_edit_workout_plan.viewmodel.WorkoutPlanViewModel
@@ -31,7 +32,11 @@ import ken.projects.infit.ui.theme.*
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun WorkoutPlanScreen(viewmodel: WorkoutPlanViewModel, navController: NavHostController,scaffoldState: ScaffoldState) =
+fun WorkoutPlanScreen(
+    viewmodel: WorkoutPlanViewModel,
+    navController: NavHostController,
+    scaffoldState: ScaffoldState
+) =
     with(viewmodel) {
         val pagerState = rememberPagerState(pageCount = { state.pagerPageCount })
 
@@ -40,12 +45,18 @@ fun WorkoutPlanScreen(viewmodel: WorkoutPlanViewModel, navController: NavHostCon
         LaunchedEffect(key1 = context) {
             pagerEvents.collect { event ->
                 when (event) {
-                is    WorkoutPlanPagerEvent.NavigateBack -> pagerState.animateScrollToPage(
+                    is WorkoutPlanPagerEvent.NavigateBack -> pagerState.animateScrollToPage(
                         pagerState.currentPage - 1
                     )
-                is    WorkoutPlanPagerEvent.NavigateForward -> pagerState.animateScrollToPage(
+                    is WorkoutPlanPagerEvent.NavigateForward -> pagerState.animateScrollToPage(
                         pagerState.currentPage + 1
                     )
+                }
+            }
+
+            navigationEvent.collect { event ->
+                when (event) {
+                    is WorkoutPlanNavigationEvent.Navigate -> navController.navigate(event.route)
                 }
             }
         }
@@ -53,8 +64,8 @@ fun WorkoutPlanScreen(viewmodel: WorkoutPlanViewModel, navController: NavHostCon
             onPageChange(pagerState.currentPage)
         }
 
-        LaunchedEffect(key1 = state.error){
-            state.error?.let{
+        LaunchedEffect(key1 = state.error) {
+            state.error?.let {
                 scaffoldState.snackbarHostState.showSnackbar(it.getString(context))
             }
         }
@@ -91,7 +102,8 @@ fun WorkoutPlanScreen(viewmodel: WorkoutPlanViewModel, navController: NavHostCon
                         WorkoutPlanSetUpPager1(
                             state = state,
                             onUserInputEvent = { onUserInputEvent(it) },
-                        modifier = Modifier.padding(horizontal=10.dp))
+                            modifier = Modifier.padding(horizontal = 10.dp)
+                        )
                     }
                     if (index == 1) {
                         WorkoutPlanSetUpPager2(
@@ -101,7 +113,8 @@ fun WorkoutPlanScreen(viewmodel: WorkoutPlanViewModel, navController: NavHostCon
                                     WorkoutPlanUserInputEvent.EnteredWorkoutGoal(it)
                                 )
                             },
-                            modifier = Modifier.padding(horizontal=10.dp))
+                            modifier = Modifier.padding(horizontal = 10.dp)
+                        )
                     }
 
 //                    if (index == 2) {
@@ -155,7 +168,9 @@ fun WorkoutPlanScreen(viewmodel: WorkoutPlanViewModel, navController: NavHostCon
                     ) {
                         repeat(state.pagerPageCount) { iteration ->
                             val color =
-                                if (pagerState.currentPage == iteration) holoGreen else blueWhite.copy(0.5f)
+                                if (pagerState.currentPage == iteration) holoGreen else blueWhite.copy(
+                                    0.5f
+                                )
                             Box(
                                 modifier = Modifier
                                     .padding(2.dp)
@@ -172,8 +187,7 @@ fun WorkoutPlanScreen(viewmodel: WorkoutPlanViewModel, navController: NavHostCon
                             .customClickable {
                                 onPagerEvent(WorkoutPlanPagerEvent.NavigateForward(pagerState.currentPage))
                             }
-                            .align(Alignment.BottomEnd)
-                        ,
+                            .align(Alignment.BottomEnd),
                         color = holoGreen)
                 }
 

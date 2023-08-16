@@ -1,4 +1,4 @@
-package ken.projects.infit.ui.composables.home
+package ken.projects.infit.features.dashboard.presentation.dashboard.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
