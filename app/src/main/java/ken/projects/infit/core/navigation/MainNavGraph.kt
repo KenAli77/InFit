@@ -24,22 +24,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import ken.projects.infit.ui.composables.exercises.ExerciseDetailScreen
-import ken.projects.infit.ui.composables.exercises.ExercisesScreen
-import ken.projects.infit.ui.composables.home.HomeScreen
-import ken.projects.infit.ui.composables.profile.ProfileScreen
-import ken.projects.infit.ui.composables.stats.StatsDetailScreen
-import ken.projects.infit.ui.composables.stats.StatsScreen
-import ken.projects.infit.ui.composables.workout.WorkoutDetailScreen
-import ken.projects.infit.ui.composables.workout.WorkoutScreen
 import ken.projects.infit.ui.theme.holoGreen
 import ken.projects.infit.ui.theme.veryDarkBlue
-import ken.projects.infit.features.auth.presentation.login.viewmodel.LoginViewModel
 import ken.projects.infit.features.workout_plan.presentation.add_edit_workout_plan.components.WorkoutPlanScreen
 import ken.projects.infit.features.workout_plan.presentation.add_edit_workout_plan.viewmodel.WorkoutPlanViewModel
-import ken.projects.infit.ui.theme.darkBlue
-import ken.projects.infit.viewmodel.WorkoutViewModel
 
 fun NavGraphBuilder.mainNavGraph(
     navController: NavHostController,
@@ -49,7 +37,7 @@ fun NavGraphBuilder.mainNavGraph(
     navigation(startDestination = Screens.WorkoutPlanSetUp.route, route = MAIN_ROUTE)
     {
 //        composable(
-//            route = Screens.Home.route
+//            route = Screens.Dashboard.route
 //        ) {
 //
 //            HomeScreen(navController, loginViewModel, workoutViewModel, scaffoldState)
@@ -120,7 +108,7 @@ fun BottomNavBar(
     bottomBarState: MutableState<Boolean>
 ) {
     val screens = listOf(
-        Screens.Home,
+        Screens.Dashboard,
         Screens.Stats,
         Screens.Profile,
         Screens.Exercises

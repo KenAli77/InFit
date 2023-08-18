@@ -1,5 +1,6 @@
 package ken.projects.infit.core.navigation
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
@@ -28,6 +29,13 @@ fun RootNavGraph(
     val systemUiController = rememberSystemUiController()
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
+
+    BackHandler(true) {
+        if (navBackStackEntry?.destination?.route == Screens.Dashboard.route)
+//        openLogoutDialog = true
+            var x = 0
+        x = 9
+    }
 
     when (navBackStackEntry?.destination?.parent?.route) {
         AUTH_ROUTE -> {

@@ -17,7 +17,7 @@ sealed class Screens(
 ) {
 
 
-    object Home : Screens(route = "home_screen", title = R.string.home, icon = Icons.Rounded.Home)
+    object Dashboard : Screens(route = "home_screen", title = R.string.home, icon = Icons.Rounded.Home)
     object Login : Screens(route = "login_screen", title = R.string.login)
     object Signup : Screens(route = "signup_screen", title = R.string.signup)
     object Workout : Screens(route = "workout_screen", title = R.string.workout)

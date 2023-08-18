@@ -141,7 +141,7 @@ package ken.projects.infit.ui.composables.workout
 //                            duration = duration
 //                        )
 //                        addWorkoutPlan(workoutPlan)
-//                        navController.navigate(Screens.Home.route)
+//                        navController.navigate(Screens.Dashboard.route)
 //                    }
 //                }
 //            }
